@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/coltonbearden/awakened/schemas/plugin.schema.json",
+  "title": "Awakened Plugin Manifest",
+  "description": "Validates plugins/<plugin-name>/.claude-plugin/plugin.json for every Awakened plugin. Enforces N-3 kebab-case naming with the marketplace name prohibited as a plugin name (N-4), MIT-only licensing (D-08), the D-15 hook budget, and the HR-2 MCP allowlist. The $id is an identifier only and is never fetched at runtime (HR-6).",
+  "$comment": "R-4: the official Claude Code plugin manifest field set is open-ended and is re-verified at Phase 2 (SPEC section 0), so additionalProperties stays true and only policy-constrained fields are declared. Prohibitions are grounded, not invented: lspServers (HR-3), dependencies (P-1 independent installability and B-8 satellites never becoming core dependencies), experimental (nothing ships behind an unaudited flag under E-1/E-2), and the custom component-path fields skills/commands/agents/workflows (SPEC section 3 fixes the per-plugin layout, so redirecting component discovery elsewhere would put components outside the tree the validator walks). mcpServers accepts only the inline object restricted to the two sanctioned servers - the path-string form is rejected because a referenced file is outside this schema's reach and would let arbitrary servers in behind an HR-2 gate that never opens.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["name", "version", "description", "license"],
+  "properties": {
+    "$schema": { "type": "string", "description": "Optional self-reference to this schema." },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64,
+      "not": { "const": "awakened" },
+      "description": "Lowercase kebab-case plugin name (N-3). Must equal the plugin directory name; that cross-check is enforced by scripts/validate. The marketplace name is prohibited as a plugin name because it would be the catch-all N-4 forbids. The nine-name Tier-1 set is enforced by the validator rather than pinned here, so the schema does not drift from ADR-014 and template slots stay validatable."
+    },
+    "displayName": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(?:\\+[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*)?$",
+      "description": "Semantic version, declared explicitly so a release is never identified by a bare commit SHA."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 512,
+      "description": "One-paragraph statement of the plugin's responsibility and its boundary (B-1…B-8)."
+    },
+    "author": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" },
+        "url": { "type": "string", "pattern": "^https://" }
+      }
+    },
+    "homepage": { "type": "string", "pattern": "^https://" },
+    "repository": {
+      "const": "https://github.com/coltonbearden/awakened",
+      "description": "Canonical home (D-03). Distribution is this repository only (D-02)."
+    },
+    "license": {
+      "const": "MIT",
+      "description": "Awakened is MIT end to end (D-08)."
+    },
+    "keywords": {
+      "type": "array",
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
+    },
+    "metadata": { "type": "object" },
+    "hooks": {
+      "type": "string",
+      "pattern": "^\\./hooks/[a-z0-9]+(-[a-z0-9]+)*\\.json$",
+      "description": "Path to the plugin's single hook configuration file, kebab-case per N-3. D-15 caps the budget at one hook per plugin, load-bearing only; the per-plugin count and the owning-plugin restriction are enforced by scripts/validate and by the allOf rule below."
+    },
+    "outputStyles": {
+      "type": "string",
+      "pattern": "^\\./output-styles/?$",
+      "description": "Output-style directory. SPEC section 4 assigns output styles to aura alone; the allOf rule below enforces that."
+    },
+    "skills": false,
+    "commands": false,
+    "agents": false,
+    "workflows": false,
+    "lspServers": false,
+    "experimental": false,
+    "dependencies": false,
+    "mcpServers": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 2,
+      "propertyNames": { "enum": ["obsidian", "context7"] },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["command"],
+        "additionalProperties": true,
+        "properties": {
+          "command": { "type": "string", "minLength": 1 },
+          "args": { "type": "array", "items": { "type": "string" } },
+          "env": { "type": "object", "additionalProperties": { "type": "string" } }
+        }
+      },
+      "description": "Inline MCP server map, restricted to the two servers P-5 and HR-2 permit. The path-string form is deliberately not accepted: a referenced file cannot be constrained here, so it would bypass the allowlist entirely."
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "D-15 hook budget: only super-saiyan and rinnegan are pre-authorized to declare a hook.",
+      "if": { "required": ["hooks"] },
+      "then": { "properties": { "name": { "enum": ["super-saiyan", "rinnegan"] } } }
+    },
+    {
+      "$comment": "SPEC section 4: aura owns output styles.",
+      "if": { "required": ["outputStyles"] },
+      "then": { "properties": { "name": { "const": "aura" } } }
+    }
+  ]
+}

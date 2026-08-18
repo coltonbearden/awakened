@@ -1,0 +1,76 @@
+{
+  "version": "2.1",
+  "axes": [
+    {
+      "id": "value",
+      "name": "Value",
+      "question": "Does it solve a real, recurring problem for general users?",
+      "anchors": {
+        "1": "Niche/one-off; useful in a single project type",
+        "3": "Useful in some common workflows",
+        "5": "Recurring problem for nearly all users and stacks"
+      }
+    },
+    {
+      "id": "bloat",
+      "name": "Bloat",
+      "question": "Token/context overhead vs. payoff; instruction-file size discipline",
+      "anchors": {
+        "1": "Large always-loaded instruction files; heavy context tax",
+        "3": "Moderate footprint, loaded on demand",
+        "5": "Minimal tokens; tight instructions; pay-for-use"
+      }
+    },
+    {
+      "id": "risk",
+      "name": "Risk",
+      "question": "Policy check against §6",
+      "anchors": {
+        "1": "Conditional-category behavior failing ≥1 check",
+        "3": "Conditional behaviors passing all C-1…C-3 checks",
+        "5": "Pure skills/commands; read-only; no shell side effects"
+      }
+    },
+    {
+      "id": "dependencies",
+      "name": "Dependencies",
+      "question": "Zero-dependency preferred; allowed exceptions only",
+      "anchors": {
+        "1": "Requires anything outside P-5 exceptions",
+        "3": "Uses an allowed exception (Obsidian/Context7)",
+        "5": "Zero dependencies beyond Claude Code"
+      }
+    },
+    {
+      "id": "user_scope_fit",
+      "name": "User-scope fit",
+      "question": "Useful across any project, language, and stack?",
+      "anchors": {
+        "1": "Project- or language-specific",
+        "3": "Broad but with stack assumptions",
+        "5": "Universal"
+      }
+    }
+  ],
+  "thresholds": {
+    "min_axis": 3,
+    "hard_reject_overrides": true,
+    "single_owner_required": true
+  },
+  "verdicts": [
+    "shortlist",
+    "reject",
+    "merge",
+    "defer"
+  ],
+  "hard_rejects": [
+    "HR-1",
+    "HR-2",
+    "HR-3",
+    "HR-4",
+    "HR-5",
+    "HR-6",
+    "HR-7",
+    "HR-8"
+  ]
+}

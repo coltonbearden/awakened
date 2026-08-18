@@ -1,0 +1,2 @@
+id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale
+# example: superpowers/brainstorming,obra/superpowers,skills/brainstorming/SKILL.md,skill,super-saiyan,5,4,5,5,5,,shortlist,"Recurring planning problem across all stacks; pure prompt, zero deps (P-2, C-1 n/a)."

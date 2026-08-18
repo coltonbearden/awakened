@@ -1,0 +1,25 @@
+# Awakened line-ending and diff policy.
+# SPEC.md Section 3 requires LF for *.sh, *.ps1, *.json, *.md.
+# Build rule R-5 requires LF everywhere; CLAUDE.md Section 3.4 states the same rule
+# for contributors. This file is the mechanism that makes those statements true on
+# Windows 11, where Git defaults to core.autocrlf=true.
+
+# Default: normalize text on commit, check out LF on every platform.
+* text=auto eol=lf
+
+# Explicit LF for the four extensions SPEC.md Section 3 names, so the rule survives
+# any future change to the global default.
+*.sh   text eol=lf
+*.ps1  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+
+# Extensions used by repo tooling and CI, held to the same rule.
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.csv  text eol=lf
+*.py   text eol=lf
+
+# Files with no extension that must stay LF.
+LICENSE text eol=lf
+NOTICE  text eol=lf

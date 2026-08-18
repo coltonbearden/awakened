@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/coltonbearden/awakened/schemas/marketplace.schema.json",
+  "title": "Awakened Marketplace Manifest",
+  "description": "Validates .claude-plugin/marketplace.json, the catalog of the Awakened Claude Code plugin marketplace. Enforces the fixed marketplace name and owner (D-03, SPEC section 2), N-3 kebab-case plugin naming with the marketplace name prohibited as a plugin name (N-4), in-repo plugin sources under ./plugins/ (D-01, D-02), and MIT-only licensing (D-08). The $id is an identifier only and is never fetched at runtime (HR-6).",
+  "$comment": "R-4: the official marketplace field set is open-ended and is re-verified at Phase 2 (SPEC section 0), so additionalProperties stays true and only policy-constrained fields are declared. owner.name is pinned because SPEC section 2 fixes the account and expressly excludes another one; leaving it a free string is how the wrong owner would ship. plugins is fixed at exactly nine (SPEC section 4 lineup, ROADMAP V6.3); the converse check - a plugins/<dir> on disk that is absent from this catalog - is a cross-field rule enforced by scripts/validate, as is name-equals-source-basename. The external source object stays open (additionalProperties true) so a commit pin required by D-10 can be expressed; the exact pin field name is unverified and is checked at Phase 2.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["name", "owner", "plugins"],
+  "properties": {
+    "$schema": { "type": "string", "description": "Optional self-reference to this schema." },
+    "name": {
+      "const": "awakened",
+      "description": "Marketplace name, fixed by D-03."
+    },
+    "description": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "owner": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "const": "coltonbearden",
+          "description": "GitHub owner, fixed by SPEC section 2. The spec names one account and expressly excludes another, so this is a const rather than a free string."
+        },
+        "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" },
+        "url": { "const": "https://github.com/coltonbearden" }
+      }
+    },
+    "metadata": { "type": "object" },
+    "plugins": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "description": "Catalog entries, exactly nine — the SPEC section 4 Tier-1 lineup.",
+      "items": { "$ref": "#/$defs/pluginEntry" }
+    }
+  },
+  "$defs": {
+    "author": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" },
+        "url": { "type": "string", "pattern": "^https://" }
+      }
+    },
+    "pluginEntry": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name", "source", "description"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "maxLength": 64,
+          "not": { "const": "awakened" },
+          "description": "Lowercase kebab-case plugin name (N-3). The marketplace name is prohibited: a plugin named after the marketplace would be the catch-all N-4 forbids."
+        },
+        "source": {
+          "description": "Plugin source: a ./plugins/<name> path inside this monorepo (D-01), or an external source object. The in-repo form's final path segment must equal the entry name; that cross-field check is enforced by scripts/validate.",
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\./plugins/[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true,
+              "required": ["source", "repo"],
+              "properties": {
+                "source": { "enum": ["github", "git"] },
+                "repo": { "type": "string", "minLength": 3, "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" }
+              }
+            }
+          ]
+        },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "description": { "type": "string", "minLength": 40, "maxLength": 512 },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "category": { "enum": ["core", "satellite"] },
+        "author": { "$ref": "#/$defs/author" },
+        "homepage": { "type": "string", "pattern": "^https://" },
+        "repository": { "const": "https://github.com/coltonbearden/awakened" },
+        "license": { "const": "MIT" },
+        "keywords": {
+          "type": "array",
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
+        },
+        "strict": { "type": "boolean" },
+        "defaultEnabled": { "type": "boolean" }
+      }
+    }
+  }
+}

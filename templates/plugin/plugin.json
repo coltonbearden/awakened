@@ -1,0 +1,18 @@
+{
+  "$schema": "../../schemas/plugin.schema.json",
+  "name": "example-plugin",
+  "displayName": "Example Plugin",
+  "version": "0.1.0",
+  "description": "A small, independently installable example demonstrating one focused Claude Code workflow with no external dependencies.",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "workflow",
+    "claude-code",
+    "example"
+  ]
+}

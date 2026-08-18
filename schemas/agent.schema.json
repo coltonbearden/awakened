@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/coltonbearden/awakened/schemas/agent.schema.json",
+  "title": "Awakened Subagent Frontmatter",
+  "description": "Validates the parsed YAML frontmatter object of an Awakened subagent (plugins/bankai/agents/<name>.md). This schema is the mechanism SPEC C-2 names: it rejects bare and unrestricted tool grants mechanically rather than by review. The $id is an identifier only and is never fetched at runtime (HR-6).",
+  "$comment": "R-4: the official Claude Code agent frontmatter field set is open-ended and is re-verified against the live docs at Phase 2 (SPEC section 0). This schema therefore declares only the fields Awakened policy constrains and leaves additionalProperties true, so a legitimate official field never becomes a merge-blocking validation error. Prohibitions are policy, not guesses: hooks (D-15 budget lives in plugin.json), mcpServers (HR-2), and permissionMode: bypassPermissions (C-2 - an agent that can bypass permission prompts has an unrestricted allowlist by another route). Whether permissionMode is even supported for plugin-shipped agents is an open assumption; the guard is written so it holds either way.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["name", "description", "tools"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64,
+      "description": "Lowercase kebab-case agent name (N-3). Must equal the agent file's basename; that cross-check is enforced by scripts/validate."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 1024,
+      "description": "What the agent does and when it should be dispatched. Trigger-bearing, not a label (N-2)."
+    },
+    "tools": {
+      "description": "Restricted tool allowlist. MANDATORY (C-2): an agent that omits it inherits the full tool set, which is a bare allowlist by another name. Accepts the comma-separated string form or the list form; both are checked against the same prohibition. Bare or wildcard-equivalent grants are rejected: *, Bash, Write, Edit, MultiEdit, NotebookEdit, and any parenthesised form whose argument is only asterisks, colons, dots, or whitespace - Bash(*), Bash(*:*), Bash(:*), Bash( * ), Bash(). Case variants and surrounding quotes are rejected too. Scoped grants such as Bash(git status:*) and Write(docs/notes.md) are accepted.",
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "not": {
+            "pattern": "(?:^|,)\\s*[\"']?\\s*(?:\\*|(?:[Bb][Aa][Ss][Hh]|[Ww][Rr][Ii][Tt][Ee]|[Ee][Dd][Ii][Tt]|[Mm][Uu][Ll][Tt][Ii][Ee][Dd][Ii][Tt]|[Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk][Ee][Dd][Ii][Tt])\\s*(?:\\(\\s*[*:.\\s]*\\s*\\))?)\\s*[\"']?\\s*(?:,|$)"
+          }
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "not": {
+              "pattern": "^\\s*[\"']?\\s*(?:\\*|(?:[Bb][Aa][Ss][Hh]|[Ww][Rr][Ii][Tt][Ee]|[Ee][Dd][Ii][Tt]|[Mm][Uu][Ll][Tt][Ii][Ee][Dd][Ii][Tt]|[Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk][Ee][Dd][Ii][Tt])\\s*(?:\\(\\s*[*:.\\s]*\\s*\\))?)\\s*[\"']?\\s*$"
+            }
+          }
+        }
+      ]
+    },
+    "disallowedTools": {
+      "description": "Optional tool denylist. Belt and braces alongside the allowlist; it never substitutes for it.",
+      "anyOf": [
+        { "type": "string", "minLength": 1, "maxLength": 512 },
+        { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "string", "minLength": 1 } }
+      ]
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Model override for the subagent."
+    },
+    "maxTurns": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Maximum agentic turns before the subagent must return. Optional, but budgeting it is recommended so a runaway agent is bounded."
+    },
+    "permissionMode": {
+      "not": { "const": "bypassPermissions" },
+      "description": "If present, bypassPermissions is rejected: it would defeat the C-2 allowlist by removing the confirmation surface. Support for this field on plugin-shipped agents is unverified and is re-checked at Phase 2."
+    },
+    "skills": {
+      "description": "Skills preloaded into the subagent context, as a single name or a list of names.",
+      "anyOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      ]
+    },
+    "hooks": false,
+    "mcpServers": false
+  }
+}

@@ -1,0 +1,58 @@
+Awakened NOTICE
+Copyright (c) 2026 Colton Bearden
+
+This distribution is licensed under the MIT License (see LICENSE). This NOTICE
+records upstream lineage and notices for concepts or patterns evaluated during
+the construction of Awakened. Awakened components are independently authored,
+dependency-free Markdown or JSON components unless an item is expressly
+identified otherwise in SOURCES.md.
+
+License facts below are those recorded in SPEC.md section 8, which is the
+authority for them. They are re-verified against the live repositories at each
+pin (D-10); a discrepancy is corrected by a spec PR under D-16, never by an
+entry in this file overriding a section 8 cell.
+
+Apache-2.0 lineage
+
+1. anthropics/skills
+   Source: https://github.com/anthropics/skills
+   License: Apache License, Version 2.0
+   Use in Awakened: informs the official Claude Code skill authoring patterns
+   and the skill-creator lineage assigned to the instinct plugin. No upstream
+   source file is vendored by this notice alone.
+
+2. thedotmack/claude-mem
+   Source: https://github.com/thedotmack/claude-mem
+   License: Apache License, Version 2.0
+   Use in Awakened: informs the conceptual goals of session memory, searchable
+   history, and recall assigned to the rinnegan plugin. Awakened explicitly
+   excludes the upstream runtime architecture, including workers, databases,
+   SQLite, cloud synchronization, Docker, and external services (HR-4, HR-5).
+
+Apache License, Version 2.0 notice
+
+The source repositories named above are made available under the Apache
+License, Version 2.0. A copy of that license is available at
+https://www.apache.org/licenses/LICENSE-2.0
+
+To the extent a future Awakened contribution incorporates, modifies, or
+redistributes any copyrightable Apache-2.0 material rather than merely using
+ideas or patterns, the contributor must preserve all applicable copyright,
+patent, trademark, and attribution notices; identify modified files as
+changed; include the required Apache-2.0 license text; and update this NOTICE
+and SOURCES.md in the same change. This file does not grant trademark rights
+in the names of upstream projects or their contributors.
+
+MIT lineage
+
+The remaining source repositories recorded in SPEC.md section 8 are
+MIT-licensed. Their attribution lives in SOURCES.md, which is the complete
+provenance ledger (D-12: one attribution file, no per-file headers). The one
+near-verbatim adaptation permitted anywhere in the project is EXC-1:
+kepano/obsidian-skills into the poneglyph plugin, recorded in SOURCES.md.
+
+Trademarks
+
+No franchise artwork or logos are distributed by Awakened. Anime-inspired
+names are used as thematic identifiers only, per the standard fan-project
+convention recorded in SPEC.md section 7.

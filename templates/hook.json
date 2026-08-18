@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "timeout": 5,
+            "prompt": "At session start, prefer the smallest safe workflow surface: reach for a skill or command before proposing automation; read the repository's own instructions before changing files; keep every action scoped to what the user asked for; and report verification limits honestly rather than declaring work complete. Do not execute commands, write files, reach the network, install dependencies, or request credentials as part of this hook."
+          }
+        ]
+      }
+    ]
+  }
+}

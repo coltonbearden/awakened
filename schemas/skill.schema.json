@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/coltonbearden/awakened/schemas/skill.schema.json",
+  "title": "Awakened Skill Frontmatter",
+  "description": "Validates the parsed YAML frontmatter object of an Awakened skill (plugins/<plugin>/skills/<skill-name>/SKILL.md). The description field is the auto-invocation trigger surface: skills fire on description matching, not on name recognition (N-2), so its floor is enforced here rather than left to review. The $id is an identifier only and is never fetched at runtime (HR-6).",
+  "$comment": "R-4: the official Claude Code skill frontmatter field set is open-ended and is re-verified against the live docs at Phase 2 (SPEC section 0). Only the fields Awakened policy constrains are declared; additionalProperties stays true so a legitimate official field never blocks a merge. The tool-list delimiter for the string form (space vs comma) is an open assumption recorded in the synthesis ASSUMPTIONS register - templates use the list form, which is unambiguous either way, and this schema asserts no delimiter. 'hooks' is prohibited in skill frontmatter because a skill-level hook would sit outside the D-15 per-plugin budget, which is declared in plugin.json.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64,
+      "description": "Lowercase kebab-case skill name (N-3). Must equal the skill directory name; that cross-check is enforced by scripts/validate."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 1024,
+      "description": "What the skill does and when it should trigger, in concrete situational terms. This is the auto-invocation surface (N-2): a name-length label with no trigger and no observable outcome is exactly the skill that never fires, which is why the floor is 40 characters."
+    },
+    "allowed-tools": {
+      "description": "Tool allowlist. Prefer the list form; the string form's delimiter is verified against official docs at Phase 2.",
+      "anyOf": [
+        { "type": "string", "minLength": 1, "maxLength": 512 },
+        { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "string", "minLength": 1 } }
+      ]
+    },
+    "disallowed-tools": {
+      "description": "Tool denylist. Same delimiter caveat as allowed-tools.",
+      "anyOf": [
+        { "type": "string", "minLength": 1, "maxLength": 512 },
+        { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "string", "minLength": 1 } }
+      ]
+    },
+    "disable-model-invocation": {
+      "type": "boolean",
+      "description": "When true the skill is invoked explicitly only, never auto-invoked by description matching."
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Model override for the skill."
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "description": "SPDX identifier. Awakened components are MIT (D-08); the field exists for adapted upstream material carrying its own terms."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Free-form metadata bag for downstream tooling."
+    },
+    "hooks": false
+  }
+}
