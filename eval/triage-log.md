@@ -4,7 +4,7 @@
 
 **Relationship to `eval/matrix.csv`.** The matrix records **effective state**: one row per component `id`, replaced in place on re-audit. This log is **append-only history**: entries are never edited or deleted, and a re-audit adds a new entry recording what changed and why. Together they answer "what is the current disposition" and "how did it get there" without either file having to do both jobs.
 
-**This file ships empty of entries by design.** No component has been audited yet — Phase 2 has not begun (`ROADMAP.md` §1). Any entry appearing here before a phase has run is a fabrication, not a record. The first real entries are written during Phase 2.
+**Phase 2 (Tier-1 deep audit) ran 2026-08-18.** The entries in §3 are its rejection record. Every `verdict = reject` row in `eval/matrix.csv` has exactly one entry here, written at the time the row was written.
 
 ---
 
@@ -49,7 +49,188 @@ Copy this block verbatim for each entry. Heading level is `###`, IDs are sequent
 
 ## 3. Entries
 
-*None. Phase 2 has not begun.*
+**Phase 2 — Tier-1 deep audit, 2026-08-18.** All four §10 Phase-2 sources read at their `upstream.json` pinned SHAs (`obra/superpowers` `b36e0829c6d0`, `mattpocock/skills` `9c9f36ccd399`, `kepano/obsidian-skills` `a1dc48e68138`, `vercel-labs/skills` `c6f69c631292`); each clone's `git rev-parse HEAD` was compared to the pin before reading. Coverage is 55 `SKILL.md` files — 14 / 35 / 5 / 1 — one `eval/matrix.csv` row each, and 22 of them rejected.
+
+Two coverage notes, so the per-repo counts are checkable rather than surprising:
+
+- `vercel-labs/skills` contributes **one** row. At the pinned SHA the repository is a TypeScript CLI (`src/providers/`, `tests/*.test.ts`, 116 blobs) with a single `SKILL.md`, `skills/find-skills/SKILL.md`. `SPEC.md` §8 classes it a meta-skill *concept* donor, which matches what is there.
+- `mattpocock/skills` carries a `skills/deprecated/` directory holding no `SKILL.md`, so it contributes no row. Its six `skills/in-progress/` skills **are** audited and scored, since `ROADMAP.md` V2.2 admits no unrepresented skill file; upstream WIP status is not a `defer` ground under D-21, which requires a named blocking check.
+
+### T-001 — brainstorming
+
+- **Source:** obra/superpowers
+- **Path:** skills/brainstorming/SKILL.md
+- **HR/axis trigger IDs:** `HR-4`
+- **Rationale:** Ships scripts/start-server.sh which nohup/disowns a node server.cjs with a PID file, watchdog and idle timeout (HR-4); the design-dialogue and approval-gate concept is re-donated to super-saiyan for synthesis without the visual companion.
+- **Date:** 2026-08-18
+
+### T-002 — ask-matt
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/ask-matt/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** A router over this repository's own skill set; axis:user_scope_fit=1 - it encodes one author's catalogue, not a portable capability.
+- **Date:** 2026-08-18
+
+### T-003 — improve-codebase-architecture
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/improve-codebase-architecture/SKILL.md
+- **HR/axis trigger IDs:** `HR-6`
+- **Rationale:** The HTML report template loads cdn.tailwindcss.com and cdn.jsdelivr.net at render time (HR-6); the deepening-opportunity scan concept survives for sharingan, the CDN-backed report does not.
+- **Date:** 2026-08-18
+
+### T-004 — setup-matt-pocock-skills
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/setup-matt-pocock-skills/SKILL.md
+- **HR/axis trigger IDs:** `HR-1,axis:user_scope_fit=1`
+- **Rationale:** Configures a repository against an external issue tracker (GitHub, Linear or Jira) requiring an account (HR-1), and installs one author's skill set; axis:user_scope_fit=1.
+- **Date:** 2026-08-18
+
+### T-005 — to-spec
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/to-spec/SKILL.md
+- **HR/axis trigger IDs:** `HR-1,axis:user_scope_fit=2`
+- **Rationale:** Publishes the synthesized spec to an external project issue tracker requiring an account (HR-1); axis:user_scope_fit=2 - the workflow presumes a specific tracker.
+- **Date:** 2026-08-18
+
+### T-006 — to-tickets
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/to-tickets/SKILL.md
+- **HR/axis trigger IDs:** `HR-1,axis:dependencies=2`
+- **Rationale:** Creates tracer-bullet tickets on an external issue tracker requiring an account (HR-1); the ticket-decomposition concept survives for kaioken without the tracker coupling.
+- **Date:** 2026-08-18
+
+### T-007 — triage
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/triage/SKILL.md
+- **HR/axis trigger IDs:** `HR-1,axis:dependencies=2`
+- **Rationale:** Moves issues and PRs through a state machine on an external tracker via gh and Linear (HR-1); axis:dependencies=2.
+- **Date:** 2026-08-18
+
+### T-008 — wayfinder
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/wayfinder/SKILL.md
+- **HR/axis trigger IDs:** `HR-1,axis:dependencies=2`
+- **Rationale:** Plans large work as decision tickets on an external issue tracker requiring an account (HR-1); 12KB, axis:dependencies=2.
+- **Date:** 2026-08-18
+
+### T-009 — wizard
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/wizard/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2`
+- **Rationale:** Generates interactive bash wizards for provisioning; axis:user_scope_fit=2 - bash-only output fails C-1's Windows 11 PowerShell 7 clause, which synthesis cannot fix without changing what the skill produces.
+- **Date:** 2026-08-18
+
+### T-010 — loop-me
+
+- **Source:** mattpocock/skills
+- **Path:** skills/in-progress/loop-me/SKILL.md
+- **HR/axis trigger IDs:** `axis:value=2,axis:user_scope_fit=2`
+- **Rationale:** Scoped to grilling specs for workflows built within one author's workspace; axis:user_scope_fit=2 and axis:value=2 under P-2.
+- **Date:** 2026-08-18
+
+### T-011 — setup-ts-deep-modules
+
+- **Source:** mattpocock/skills
+- **Path:** skills/in-progress/setup-ts-deep-modules/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** Wires dependency-cruiser into a TypeScript repository; axis:user_scope_fit=1 - language-specific at user scope, which P-2 and HR-3's intent both bar. No install command is issued in the skill, so no HR-7.
+- **Date:** 2026-08-18
+
+### T-012 — writing-beats
+
+- **Source:** mattpocock/skills
+- **Path:** skills/in-progress/writing-beats/SKILL.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** Prose-craft technique with no owning plugin under B-1 to B-8; SPEC 4 requires exactly one owner, and none of the nine covers long-form writing.
+- **Date:** 2026-08-18
+
+### T-013 — writing-fragments
+
+- **Source:** mattpocock/skills
+- **Path:** skills/in-progress/writing-fragments/SKILL.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** Prose-craft technique with no owning plugin under B-1 to B-8; same ownership gap as mattpocock/writing-beats.
+- **Date:** 2026-08-18
+
+### T-014 — writing-shape
+
+- **Source:** mattpocock/skills
+- **Path:** skills/in-progress/writing-shape/SKILL.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** Prose-craft technique with no owning plugin under B-1 to B-8; same ownership gap as mattpocock/writing-beats.
+- **Date:** 2026-08-18
+
+### T-015 — git-guardrails-claude-code
+
+- **Source:** mattpocock/skills
+- **Path:** skills/misc/git-guardrails-claude-code/SKILL.md
+- **HR/axis trigger IDs:** `D-15,D-24`
+- **Rationale:** Installs a bash PreToolUse hook into .claude/settings.json. D-15 budgets hooks only to super-saiyan and rinnegan, and D-24 bars command-handler hooks outright, so no owning plugin can carry it as shipped; it asks before writing, so C-3 holds and no HR fires.
+- **Date:** 2026-08-18
+
+### T-016 — migrate-to-shoehorn
+
+- **Source:** mattpocock/skills
+- **Path:** skills/misc/migrate-to-shoehorn/SKILL.md
+- **HR/axis trigger IDs:** `HR-7,axis:dependencies=1,axis:user_scope_fit=1`
+- **Rationale:** Instructs npm i @total-typescript/shoehorn as step one (HR-7) and is TypeScript-only; axis:user_scope_fit=1, axis:dependencies=1.
+- **Date:** 2026-08-18
+
+### T-017 — scaffold-exercises
+
+- **Source:** mattpocock/skills
+- **Path:** skills/misc/scaffold-exercises/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** Creates course-exercise directory structures; axis:user_scope_fit=1 - a single content-authoring workflow, not a general capability under P-2.
+- **Date:** 2026-08-18
+
+### T-018 — setup-pre-commit
+
+- **Source:** mattpocock/skills
+- **Path:** skills/misc/setup-pre-commit/SKILL.md
+- **HR/axis trigger IDs:** `HR-7,axis:user_scope_fit=2`
+- **Rationale:** Runs npx husky init, fetching and executing a package at runtime (HR-7); Node-ecosystem-only, axis:user_scope_fit=2.
+- **Date:** 2026-08-18
+
+### T-019 — teach
+
+- **Source:** mattpocock/skills
+- **Path:** skills/productivity/teach/SKILL.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** Teaching workflow with no owning plugin under B-1 to B-8; 9.5KB plus five siblings. The example URLs are illustrative, not fetched, so no HR-6.
+- **Date:** 2026-08-18
+
+### T-020 — to-questionnaire
+
+- **Source:** mattpocock/skills
+- **Path:** skills/productivity/to-questionnaire/SKILL.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** Turns an unanswerable decision into a questionnaire; no owning plugin under B-1 to B-8 - it is neither session momentum (B-5) nor structural context (B-4).
+- **Date:** 2026-08-18
+
+### T-021 — wait-what
+
+- **Source:** mattpocock/skills
+- **Path:** skills/productivity/wait-what/SKILL.md
+- **HR/axis trigger IDs:** `axis:value=2,B-1..B-8`
+- **Rationale:** A 325-byte re-pitch prompt; axis:value=2 - a one-line corrective with no recurring workflow behind it, and no owner under B-1 to B-8.
+- **Date:** 2026-08-18
+
+### T-022 — defuddle
+
+- **Source:** kepano/obsidian-skills
+- **Path:** skills/defuddle/SKILL.md
+- **HR/axis trigger IDs:** `HR-6,HR-7`
+- **Rationale:** Runs defuddle parse <url> to fetch and strip web pages (HR-6) after npm install -g defuddle (HR-7); the only kepano skill EXC-1 cannot adopt.
+- **Date:** 2026-08-18
 
 ---
 
@@ -59,11 +240,13 @@ Recomputed by hand at each gate from the entries in §3, so the table can be che
 
 | Metric | Count |
 |---|---|
-| Total entries | 0 |
-| Hard-reject entries | 0 |
-| Axis-floor entries | 0 |
+| Total entries | 22 |
+| Hard-reject entries | 10 |
+| Axis-floor entries | 6 |
 | Bulk-reject classes | 0 |
 | Gap-scan entries | 0 |
 | Re-audit / re-pin entries | 0 |
+
+The six entries not counted in the hard-reject or axis-floor rows are rejections on a rule other than an HR trigger or an axis floor: five on `B-1..B-8` (no owning plugin exists for the component, so `SPEC.md` §4 forbids shortlisting it) and one on `D-15,D-24` (a hook whose dispatch and budget no plugin can carry). Their trigger IDs carry those rule IDs, which is what the §10 Phase-2 exit criterion checks.
 
 The verdict vocabulary is `SPEC.md` §9 rule 3 — `shortlist`, `reject`, `merge`, `defer`. This log carries entries for `reject` (mandatory) and may carry them for `merge` and `defer` where the reasoning is worth preserving; `shortlist` rows need no entry.
