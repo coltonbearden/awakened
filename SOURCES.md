@@ -24,7 +24,7 @@ One row per Tier-1 plugin — nine rows, matching `SPEC.md` §4.
 | `kaioken` | Save and resume, handoffs, focused execution plans, rapid iteration | `affaan-m/ECC` | `mattpocock/skills` | MIT-informed synthesis. B-5: session momentum only — it duplicates no planning, debugging, or review system. |
 | `bankai` | General-purpose research, implementation, debugging, review, planning, and synthesis agents | `wshobson/agents` | `affaan-m/ECC`, `obra/superpowers` | MIT-informed synthesis. B-6: every agent carries a restricted allowlist — no bare or wildcard `Bash`, `Write`, `Edit`, `MultiEdit`, or `NotebookEdit` grant (C-2, enforced by `schemas/agent.schema.json`). |
 | `domain` | Project maps, architecture context, conventions, rules, CLAUDE.md scaffolding, domain modeling | `mattpocock/skills` | `affaan-m/ECC`, `wshobson/agents` | MIT-informed synthesis. B-4: structural context only. Generates project-scoped artifacts on user invocation; it stores no history. |
-| `instinct` | Skill creation, component auditing, validation, upstream evaluation, release checks | `anthropics/skills` | `obra/superpowers`, `vercel-labs/skills` | Apache-2.0 skill-pattern lineage recorded in `NOTICE`; remaining lineage is MIT-informed. B-7: marketplace maintenance, not user workflow execution. |
+| `instinct` | Skill creation, component auditing, validation, upstream evaluation, release checks | `anthropics/skills` | `obra/superpowers`, `vercel-labs/skills` | Apache-2.0 skill-pattern lineage recorded in `NOTICE` — upstream licenses per skill (no root license, §8/D-24); `skill-creator`, the named lineage, is Apache-2.0 and the four proprietary skills are excluded. Remaining lineage is MIT-informed. B-7: marketplace maintenance, not user workflow execution. |
 | `poneglyph` | Obsidian Markdown, CLI, Bases, JSON Canvas, and Defuddle support | `kepano/obsidian-skills` | None | MIT. **EXC-1** — the sole permitted near-verbatim adaptation in the entire project, formalized under P-6 in `SPEC.md` §7 on the grounds that upstream is already minimal, high quality, MIT-licensed, and scoped exactly to this plugin's purpose. Applicable upstream attribution and license requirements are preserved. B-8: optional satellite, never a core dependency. |
 | `aura` | Palettes, statusline presets (`power-level`, `transformation`, `barrier`), output styles, `/aura:equip` | Original Awakened work | None | No upstream component lineage planned — `SPEC.md` §4 records this plugin's lineage as original work. The `barrier` preset is the D-17 rename of the colliding `domain` preset (N-5, ADR-017). B-8: optional satellite, never a core dependency. |
 
@@ -32,7 +32,7 @@ One row per Tier-1 plugin — nine rows, matching `SPEC.md` §4.
 
 | Source | Permitted role | Excluded material |
 |---|---|---|
-| `hesreallyhim/awesome-claude-code` | Gap scanning and catalog discovery (§8, §10 Phase 4) | Supplies no merge material. Individual candidates it surfaces are audited at their actual source, under that source's own license. |
+| `hesreallyhim/awesome-claude-code` | Gap scanning and catalog discovery (§8, §10 Phase 4) | Discovery-only; the audited-at-source rule is stated normatively in `SPEC.md` §8. |
 | `davila7/claude-code-templates` | Candidate patterns from its `components` directory only (§8) | The npm CLI, analytics, and package-installation behaviour are hard rejects (HR-6, HR-7), as is anything outside `components`. |
 
 ## Component Entry Format

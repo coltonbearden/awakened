@@ -3,7 +3,7 @@
   "$id": "https://github.com/coltonbearden/awakened/schemas/marketplace.schema.json",
   "title": "Awakened Marketplace Manifest",
   "description": "Validates .claude-plugin/marketplace.json, the catalog of the Awakened Claude Code plugin marketplace. Enforces the fixed marketplace name and owner (D-03, SPEC section 2), N-3 kebab-case plugin naming with the marketplace name prohibited as a plugin name (N-4), in-repo plugin sources under ./plugins/ (D-01, D-02), and MIT-only licensing (D-08). The $id is an identifier only and is never fetched at runtime (HR-6).",
-  "$comment": "R-4: the official marketplace field set is open-ended and is re-verified at Phase 2 (SPEC section 0), so additionalProperties stays true and only policy-constrained fields are declared. owner.name is pinned because SPEC section 2 fixes the account and expressly excludes another one; leaving it a free string is how the wrong owner would ship. plugins is fixed at exactly nine (SPEC section 4 lineup, ROADMAP V6.3); the converse check - a plugins/<dir> on disk that is absent from this catalog - is a cross-field rule enforced by scripts/validate, as is name-equals-source-basename. The external source object stays open (additionalProperties true) so a commit pin required by D-10 can be expressed; the exact pin field name is unverified and is checked at Phase 2.",
+  "$comment": "R-4: the official marketplace field set is open-ended and is re-verified at Phase 2 (SPEC section 0), so additionalProperties stays true and only policy-constrained fields are declared. owner.name is pinned because SPEC section 2 fixes the account and expressly excludes another one; leaving it a free string is how the wrong owner would ship. plugins is fixed at exactly nine (SPEC section 4 lineup, ROADMAP V6.3); the converse check - a plugins/<dir> on disk that is absent from this catalog - is a cross-field rule enforced by scripts/validate, as is name-equals-source-basename. The external source object stays open (additionalProperties true); the pin field was verified at Phase 2 (D-24): for git-based sources the official field is sha (40-hex commit), with ref selecting a branch or tag and sha the effective pin when both are set. Both are declared below so the D-10 pin is expressible and checkable.",
   "type": "object",
   "additionalProperties": true,
   "required": ["name", "owner", "plugins"],
@@ -73,7 +73,9 @@
               "required": ["source", "repo"],
               "properties": {
                 "source": { "enum": ["github", "git"] },
-                "repo": { "type": "string", "minLength": 3, "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" }
+                "repo": { "type": "string", "minLength": 3, "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+                "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$", "description": "Exact commit pin for a git-based source (D-10, D-24). When both ref and sha are set, sha is the effective pin." },
+                "ref": { "type": "string", "minLength": 1, "description": "Branch or tag reference; superseded by sha when both are present (D-24)." }
               }
             }
           ]

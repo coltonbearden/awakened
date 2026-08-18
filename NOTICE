@@ -16,7 +16,12 @@ Apache-2.0 lineage
 
 1. anthropics/skills
    Source: https://github.com/anthropics/skills
-   License: Apache License, Version 2.0
+   License: per-skill LICENSE.txt files; the repository declares no root
+   license (SPEC.md section 8, D-24). The material in Awakened's lineage
+   path - skill-creator and the official skill authoring patterns - is
+   Apache License, Version 2.0. Four skills in that repository (pdf, pptx,
+   xlsx, docx) are proprietary ("(c) 2025 Anthropic, PBC. All rights
+   reserved") and are excluded from any Awakened lineage.
    Use in Awakened: informs the official Claude Code skill authoring patterns
    and the skill-creator lineage assigned to the instinct plugin. No upstream
    source file is vendored by this notice alone.

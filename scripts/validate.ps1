@@ -37,7 +37,7 @@
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
-#   D2  DECISIONS.md has exactly 23 ADR headings covering D-01..D-23, no dupes
+#   D2  DECISIONS.md has exactly 24 ADR headings covering D-01..D-24, no dupes
 #   N1  Plugin directory names are drawn from the nine Tier-1 names
 #   N3  Machine-facing names match ^[a-z0-9]+(-[a-z0-9]+)*$ (case-sensitive)
 #   N4  No plugin, and no command namespace, named for the marketplace
@@ -79,7 +79,7 @@ $NinePlugins = @('super-saiyan', 'sharingan', 'rinnegan', 'kaioken', 'bankai',
 $HookPlugins = @('super-saiyan', 'rinnegan')
 $MarketplaceName = 'awakened'
 $Kebab = '^[a-z0-9]+(-[a-z0-9]+)*$'
-$SpecVersionLine = '**Version:** 2.2'
+$SpecVersionLine = '**Version:** 2.3'
 $MatrixHeader = 'id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 function Write-Usage {
@@ -249,15 +249,15 @@ if (Test-Path -LiteralPath 'DECISIONS.md' -PathType Leaf) {
     $decisions = Get-Content -LiteralPath 'DECISIONS.md' -Raw -Encoding utf8
     $heads = @([regex]::Matches($decisions, '(?m)^## ADR-(\d{3})\b') | ForEach-Object { $_.Groups[1].Value })
     $refs  = @([regex]::Matches($decisions, '(?m)^\|\s*Spec ref\s*\|\s*(D-\d{2})\s*\|') | ForEach-Object { $_.Groups[1].Value })
-    $expectedAdr = @(1..23 | ForEach-Object { '{0:d3}' -f $_ })
-    $expectedRef = @(1..23 | ForEach-Object { 'D-{0:d2}' -f $_ })
+    $expectedAdr = @(1..24 | ForEach-Object { '{0:d3}' -f $_ })
+    $expectedRef = @(1..24 | ForEach-Object { 'D-{0:d2}' -f $_ })
     $d2Bad = $false
-    if ($heads.Count -ne 23) {
-        Add-Err 'D2' ("DECISIONS.md has " + $heads.Count + " ADR headings, expected exactly 23 (D-16)")
+    if ($heads.Count -ne 24) {
+        Add-Err 'D2' ("DECISIONS.md has " + $heads.Count + " ADR headings, expected exactly 24 (D-16)")
         $d2Bad = $true
     }
     if ((($heads | Sort-Object) -join ',') -cne ($expectedAdr -join ',')) {
-        Add-Err 'D2' 'ADR headings are not exactly ADR-001..ADR-023'
+        Add-Err 'D2' 'ADR headings are not exactly ADR-001..ADR-024'
         $d2Bad = $true
     }
     if ((($refs | Sort-Object) -join ',') -cne ($expectedRef -join ',')) {
@@ -266,11 +266,11 @@ if (Test-Path -LiteralPath 'DECISIONS.md' -PathType Leaf) {
         if ($missing.Count -gt 0) { Add-Err 'D2' ("Spec ref fields do not cover: " + ($missing -join ', ')) }
         if ($dupes.Count -gt 0) { Add-Err 'D2' ("Spec ref fields are duplicated: " + ($dupes -join ', ')) }
         if ($missing.Count -eq 0 -and $dupes.Count -eq 0) {
-            Add-Err 'D2' 'Spec ref fields do not map 1:1 onto D-01..D-23'
+            Add-Err 'D2' 'Spec ref fields do not map 1:1 onto D-01..D-24'
         }
         $d2Bad = $true
     }
-    if (-not $d2Bad) { Add-Ok 'D2' '23 ADRs mapping 1:1 onto D-01..D-23' }
+    if (-not $d2Bad) { Add-Ok 'D2' '24 ADRs mapping 1:1 onto D-01..D-24' }
 }
 
 # -----------------------------------------------------------------------------

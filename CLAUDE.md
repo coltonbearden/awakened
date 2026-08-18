@@ -1,7 +1,7 @@
 # CLAUDE.md — Operating Rules for Claude Code Sessions in `awakened`
 
 **Scope:** every Claude Code session working inside this repository.
-**Governing document:** `SPEC.md` v2.2. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
+**Governing document:** `SPEC.md` v2.3. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
 **Repository:** `coltonbearden/awakened` — curated Claude Code plugin marketplace monorepo.
 
 This file is **operational**. It does not restate `SPEC.md`'s normative content; it references it by rule ID (D-16). Where you need the rule itself, read `SPEC.md`.
@@ -26,8 +26,8 @@ This file is **operational**. It does not restate `SPEC.md`'s normative content;
 
 Precedence on conflict (highest first):
 
-1. `SPEC.md` — normative specification (v2.2)
-2. `DECISIONS.md` — ADR-001…ADR-023; rationale and enforcement, mirroring SPEC §12 one-to-one
+1. `SPEC.md` — normative specification (v2.3)
+2. `DECISIONS.md` — ADR-001…ADR-024; rationale and enforcement, mirroring SPEC §12 one-to-one
 3. `CLAUDE.md` — this file; operational rules for sessions
 4. `ROADMAP.md` — phase plan, verification criteria, approval gates
 5. `CONTEXT.md` — descriptive orientation
