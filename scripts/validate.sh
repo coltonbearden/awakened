@@ -799,20 +799,34 @@ else:
 
 # P3 - hook write targets. Permitted prefixes are the D-18 scope: the project
 # directory and the owning plugin's own data directory.
-ALLOWED = (r'\$\{?CLAUDE_PROJECT_DIR\}?', r'\$\{?CLAUDE_PLUGIN_DATA_DIR\}?',
-           r'\$\{?CLAUDE_PLUGIN_ROOT\}?', r'\./', r'^[A-Za-z0-9_.-]+/')
+# Every pattern is anchored: the allow-list gates a PREFIX, never a substring.
+# The PowerShell twin holds this same array verbatim, where the anchors are
+# load-bearing because -cmatch searches anywhere in the string.
+ALLOWED = (r'^\$\{?CLAUDE_PROJECT_DIR\}?', r'^\$\{?CLAUDE_PLUGIN_DATA_DIR\}?',
+           r'^\$\{?CLAUDE_PLUGIN_ROOT\}?', r'^\./', r'^[A-Za-z0-9_.-]+/')
+# A prefix allow-list alone cannot hold HR-8: '.' is inside the character class
+# above, so '../' matches it, and 'logs/../../etc/passwd' matches even anchored.
+# Any '..' path segment is therefore denied outright, before the allow-list runs.
+TRAVERSAL = re.compile(r'(^|[/\\])\.\.([/\\]|$)')
 WRITE = re.compile(r'(?:>>?|tee\s+|Out-File\s+|Set-Content\s+|cp\s+\S+\s+|mv\s+\S+\s+)\s*([^\s;|&\"]+)')
 p3 = 0
 hookfiles = sorted(glob.glob('plugins/*/hooks/*.json'))
 for h in hookfiles:
+    # Both twins scan the same compact JSON round-trip, never the raw file text.
+    # An unparseable hook file fails closed: a security lint may not skip silently.
     try:
         cfg = json.load(open(h, encoding='utf-8'))
     except Exception:
+        print(f"ERROR\tP3\t{h} is not parseable JSON; the HR-8 write-scope scan cannot run")
+        p3 += 1
         continue
-    blob = json.dumps(cfg)
+    blob = json.dumps(cfg, separators=(',', ':'))
     for m in WRITE.finditer(blob):
         target = m.group(1).strip('"\\')
-        if not any(re.match(a, target) for a in ALLOWED):
+        if TRAVERSAL.search(target):
+            print(f"ERROR\tP3\t{h} writes to a target containing a '..' path segment: {target!r} (HR-8)")
+            p3 += 1
+        elif not any(re.match(a, target) for a in ALLOWED):
             print(f"ERROR\tP3\t{h} writes to a target outside the D-18 scope: {target!r} (HR-8)")
             p3 += 1
 if not hookfiles:
