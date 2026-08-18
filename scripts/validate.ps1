@@ -806,16 +806,38 @@ if ($components.Count -eq 0) {
 
 # P3 - hook write targets. Permitted prefixes are the D-18 scope: the project
 # directory and the owning plugin's own data directory.
-$allowedTargets = @('\$\{?CLAUDE_PROJECT_DIR\}?', '\$\{?CLAUDE_PLUGIN_DATA_DIR\}?',
-                    '\$\{?CLAUDE_PLUGIN_ROOT\}?', '\./', '^[A-Za-z0-9_.-]+/')
+# Every pattern is anchored: the allow-list gates a PREFIX, never a substring.
+# The anchors are load-bearing here because -cmatch searches anywhere in the
+# string; the bash twin holds this same array verbatim.
+$allowedTargets = @('^\$\{?CLAUDE_PROJECT_DIR\}?', '^\$\{?CLAUDE_PLUGIN_DATA_DIR\}?',
+                    '^\$\{?CLAUDE_PLUGIN_ROOT\}?', '^\./', '^[A-Za-z0-9_.-]+/')
+# A prefix allow-list alone cannot hold HR-8: '.' is inside the character class
+# above, so '../' matches it, and 'logs/../../etc/passwd' matches even anchored.
+# Any '..' path segment is therefore denied outright, before the allow-list runs.
+$traversalRe = '(^|[/\\])\.\.([/\\]|$)'
 $writeRe = '(?:>>?|tee\s+|Out-File\s+|Set-Content\s+|cp\s+\S+\s+|mv\s+\S+\s+)\s*([^\s;|&"]+)'
 $p3 = 0
 foreach ($h in $hookFiles) {
     $rel = [System.IO.Path]::GetRelativePath($Root, $h.FullName) -replace '\\', '/'
+    # Both twins scan the same compact JSON round-trip, never the raw file text.
+    # -Depth is load-bearing: the default of 2 stringifies the nested hooks[]
+    # level and the scan would silently find nothing. Parse failure fails closed.
     $blob = ''
-    try { $blob = Get-Content -LiteralPath $h.FullName -Raw -Encoding utf8 } catch { continue }
+    try {
+        $cfg = Get-Content -LiteralPath $h.FullName -Raw -Encoding utf8 | ConvertFrom-Json
+        $blob = $cfg | ConvertTo-Json -Depth 100 -Compress
+    } catch {
+        Add-Err 'P3' ($rel + " is not parseable JSON; the HR-8 write-scope scan cannot run")
+        $p3++
+        continue
+    }
     foreach ($m in [regex]::Matches($blob, $writeRe)) {
         $target = $m.Groups[1].Value.Trim('"', '\')
+        if ($target -cmatch $traversalRe) {
+            Add-Err 'P3' ($rel + " writes to a target containing a '..' path segment: '" + $target + "' (HR-8)")
+            $p3++
+            continue
+        }
         $okTarget = $false
         foreach ($a in $allowedTargets) { if ($target -cmatch $a) { $okTarget = $true } }
         if (-not $okTarget) {
