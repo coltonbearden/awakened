@@ -1,6 +1,6 @@
 # CONTEXT.md — Awakened System Overview
 
-**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.2 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
+**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.3 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
 
 ---
 
@@ -87,10 +87,10 @@ Awakened is deliberately **not**:
 
 ## 9. Current State
 
-- **Spec:** v2.2 governing (`SPEC.md`), dated 2026-08-16. It ships verbatim at repository root and is never regenerated (D-16).
+- **Spec:** v2.3 governing (`SPEC.md`), dated 2026-08-18. It ships verbatim at repository root and is never regenerated (D-16).
 - **Phase 1 (structural inventory):** complete per `SPEC.md` §10 — all ten source repos crawled, structure, counts, and licenses mapped into §8.
 - **Foundation suite:** governance, evaluation harness, schemas, validation scripts, templates, and legal framework are committed. See `ROADMAP.md` §2.
-- **Blocking next step:** `upstream.json` commit SHAs are `null` by policy (§8) and must be resolved by `scripts/pin-upstream.*` before Phase 2 opens.
+- **Upstream pins:** resolved 2026-08-18 by `scripts/pin-upstream.sh` — ten non-null commits, non-null `pinned_at` (§8).
 - **Next milestone:** Phase 2 — Tier-1 deep audit of `obra/superpowers`, `mattpocock/skills`, `kepano/obsidian-skills`, and `vercel-labs/skills`, scored against the §9 rubric.
 
 ## 10. Reading Order
@@ -99,4 +99,4 @@ Awakened is deliberately **not**:
 2. `SPEC.md` — the governing specification (§0–§14).
 3. `CLAUDE.md` — operating rules for sessions working in this repo.
 4. `ROADMAP.md` — current phase, deliverables, verification gates.
-5. `DECISIONS.md` — ADR-001…ADR-023 when rationale or enforcement detail is needed.
+5. `DECISIONS.md` — ADR-001…ADR-024 when rationale or enforcement detail is needed.

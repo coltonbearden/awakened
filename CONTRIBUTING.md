@@ -69,7 +69,7 @@ Set `git config core.autocrlf false` before cloning on Windows. `.gitattributes`
    Expected: final line `VALIDATE: PASS`, exit 0. The contract is **0 clean, 1 violations, 2 environment error**; each failure line names its check ID. Invoke with the interpreter named explicitly rather than relying on the executable bit, which does not survive every checkout.
 3. **For agents**, `tools` is mandatory and restricted. Parameterise every shell grant — `"Bash(git status:*)"` — because bare `Bash`, bare `Write`, `Bash(*)`, `Bash(*:*)` and `*` are all rejected by `schemas/agent.schema.json` and by validator check C2 (C-2).
 4. **For skills**, the `description` is the entire auto-invocation surface and has a 40-character floor. Write the triggering situation, not a slogan (N-2).
-5. **Tool lists use the list form** in templates. The string form's delimiter is verified against the official documentation at Phase 2, so nothing in this repository depends on it yet.
+5. **Tool lists use the list form** in templates. The string form's delimiter was verified at Phase 2 (D-24): space- or comma-separated for skills' `allowed-tools`, comma-separated for agents' `tools`. The list form stays the repo standard because it is delimiter-unambiguous — but note SPEC-GAP-001 (ADR-024): the sub-agents reference does not explicitly document the list form for agents, and that residue is resolved at G2.
 
 ### JSON template authoring rules
 
@@ -88,7 +88,7 @@ Set `git config core.autocrlf false` before cloning on Windows. `.gitattributes`
 **`templates/hook.json`** — the shipped file is the `super-saiyan` session-start pattern.
 
 - `timeout` is **mandatory on every hook entry**, and the repository standard is 1–10 seconds (C-1, validator check H3).
-- The worked example uses a `prompt` handler deliberately. **PROVISIONAL (B-GAP-002):** a `command` handler naming a single script path cannot satisfy C-1's cross-platform requirement on both Windows 11 and WSL2, and `SPEC.md` specifies no dual-shell dispatch mechanism. That gap is escalated for human resolution; until it is resolved, prefer a handler that needs no shell.
+- The worked example uses a `prompt` handler deliberately. **Ratified — SPEC v2.3, D-24 (formerly open as B-GAP-002):** hooks satisfy C-1's cross-platform clause shell-free — `prompt` or `agent` handler types. A `command` handler requires a superseding decision, and then only the exec form with a P-5-sanctioned interpreter available on both platforms; none is sanctioned today. See `SPEC.md` §6 Hook Dispatch (ADR-024).
 - A hook writes only within the D-18 scope: the active project directory, or the owning plugin's own data directory. Validator check P3 scans the whole serialized configuration for write targets, so a target hidden in an unusual field is still caught.
 - A failing hook logs and never blocks the session.
 

@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.2
-**Date:** 2026-08-16
-**Status:** Governing spec — supersedes SPEC.md v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Version:** 2.3
+**Date:** 2026-08-18
+**Status:** Governing spec — supersedes SPEC.md v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -11,7 +11,7 @@
 
 - The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** are to be interpreted as in RFC 2119.
 - Every normative rule carries a stable ID (`P-*` principles, `HR-*` hard rejects, `C-*` conditionals, `E-*` universal requirements, `N-*` naming rules, `B-*` boundaries, `D-*` decisions, `EXC-*` exceptions). Audits and ADRs **MUST** cite rule IDs, not prose.
-- External standard of record: the official Claude Code plugin documentation at `https://docs.claude.com/en/docs/claude-code/plugins` and the plugin-marketplace reference adjacent to it. URLs **MUST** be re-verified against live docs during Phase 2; any conflict between this spec's structural assumptions and current official docs is a `SPEC-GAP` requiring human resolution.
+- External standard of record: the official Claude Code plugin documentation at `https://code.claude.com/docs/en/plugins` and the plugin-marketplace reference adjacent to it. Host verified 2026-08-18: `docs.claude.com/en/docs/claude-code/*` returns `301 Moved Permanently` to `code.claude.com/docs/en/*`, which is canonical for Claude Code documentation. URLs **MUST** be re-verified against live docs at every subsequent phase gate; any conflict between this spec's structural assumptions and current official docs is a `SPEC-GAP` requiring human resolution.
 
 ---
 
@@ -46,7 +46,7 @@ Core promise: **curated, lightweight, safe, modular upgrades for Claude Code.**
 | Plugin philosophy | Independently installable, user-scope friendly, dependency-minimal modules |
 | License | MIT (see §7) |
 | Name availability | Verified clear on GitHub as of 2026-08-15 — no colliding Claude marketplace/plugin repos |
-| Plugin spec of record | Official Claude Code plugin docs (§0) — re-verify URL at Phase 2 |
+| Plugin spec of record | Official Claude Code plugin docs (§0) — URL verified at the 2026-08-18 Phase-2 pass; canonical host `code.claude.com` |
 
 ---
 
@@ -98,7 +98,7 @@ awakened/
 ├── .gitattributes                # LF line endings enforced for *.sh, *.ps1, *.json, *.md
 ├── CLAUDE.md                     # Repo-session execution rules for Claude Code
 ├── CONTEXT.md                    # System overview, non-goals, user profile
-├── DECISIONS.md                  # ADR-001…ADR-023, 1:1 with §12
+├── DECISIONS.md                  # ADR-001…ADR-024, 1:1 with §12
 ├── ROADMAP.md                    # Phases 1–6 with exit criteria (§10)
 ├── SPEC.md                       # THIS FILE — canonical, shipped verbatim
 ├── upstream.json                 # Source repo registry; SHAs pinned via scripts/pin-upstream.*
@@ -249,7 +249,7 @@ Name new plugins only after scope and boundaries are defined. Preferred sources:
 
 | ID | Conditional requirement |
 |---|---|
-| C-1 | Every hook, regardless of handler type (shell, prompt, or other), **MUST** be idempotent, read-only by default, and timeout-bounded — a populated `timeout` field is mandatory on every hook entry (D-22). Hooks executing shell commands **MUST** additionally be cross-platform (Windows 11 PowerShell 7 + WSL2 bash). |
+| C-1 | Every hook, regardless of handler type (shell, prompt, or other), **MUST** be idempotent, read-only by default, and timeout-bounded — a populated `timeout` field is mandatory on every hook entry (D-22). Hooks executing shell commands **MUST** additionally be cross-platform (Windows 11 PowerShell 7 + WSL2 bash) — dispatch constrained by D-24, §6 Hook Dispatch. |
 | C-2 | Subagents **MUST** declare restricted tool allowlists; bare `Bash(*)` or unrestricted `Write(*)` are prohibited. `schemas/agent.schema.json` enforces this mechanically. |
 | C-3 | File writes are permitted only inside the project directory, the owning plugin's data directory (HR-8), or explicit user-approved locations. |
 
@@ -268,6 +268,15 @@ Maximum one hook per plugin, only where load-bearing (D-15):
 - `rinnegan`: optional memory-capture hook, rebuilt lightweight — no workers, no daemons; writes only per HR-8
 
 Everything else is skills and commands.
+
+### Hook Dispatch (D-24)
+
+Verified against the live official hooks reference at Phase 2 (§0): Claude Code documents five hook handler types (`command`, `http`, `mcp_tool`, `prompt`, `agent`), a per-hook `shell` selector for shell-form command strings, an exec form (`command` plus an `args` array, executed without shell interpretation), and `${CLAUDE_PLUGIN_ROOT}` / `${CLAUDE_PLUGIN_DATA}` path expansion.
+
+- Awakened hooks satisfy C-1's cross-platform clause **shell-free**: budgeted hooks **MUST** use the `prompt` or `agent` handler types, which execute no shell on either platform. (`http` handlers are barred by HR-6. `mcp_tool` handlers are barred not by HR-2 — which permits three servers — but because the §6 Hooks Budget under D-15 allocates hooks only to the core plugins `super-saiyan` and `rinnegan`, and B-8 bars a core plugin from depending on the optional satellites that carry MCP.) An `agent`-type hook's prompt **MUST** state its write targets explicitly, so E-1 static review can lint them against HR-8. (The official docs mark `agent` hooks experimental — re-verify at Phase 3 before `rinnegan`'s hook is designed; ADR-024.)
+- A `command` handler **MAY** be adopted only through a superseding decision, and then only in exec form with `${CLAUDE_PLUGIN_ROOT}`-anchored paths and a **guaranteed** interpreter — one the `CONTRIBUTING.md` environment matrix *requires* on both Windows 11 and WSL2. None qualifies today: that matrix scopes `python3` to WSL2 only, and P-5 sanctions no third-party interpreter. Command-handler hooks are therefore prohibited today. Shell-form command strings and the `shell` field **MUST NOT** appear in shipped hooks.
+
+Resolves B-GAP-002 (HD-5).
 
 ---
 
@@ -291,10 +300,10 @@ Everything else is skills and commands.
 | [affaan-m/ECC](https://github.com/affaan-m/ECC) | **Idea donor** | MIT | ~95 cmds / ~70 agents / ~270 skills. Mine: sessions, plan/prp family, build-fix, code-review, hookify, security-scan, project-init. Reject: 22 language packs, 41KB hooks.json, dashboards, domain niche skills |
 | [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) | **Concept donor** — memory | Apache-2.0 | Take the concept (session memory, searchable history). Rebuild file-based; reject sqlite/bun/workers/docker/cloud-sync |
 | [wshobson/agents](https://github.com/wshobson/agents) | **Agent donor** | MIT | 95 plugins; ~12–15 general-purpose categories worth mining |
-| [anthropics/skills](https://github.com/anthropics/skills) | **Reference implementations** | Apache-2.0 | Official skill patterns; skill-creator lineage for instinct |
+| [anthropics/skills](https://github.com/anthropics/skills) | **Reference implementations** | No root license — per-skill `LICENSE.txt`: Apache-2.0 (12, incl. skill-creator) / proprietary (4: pdf, pptx, xlsx, docx), as verified at the 2026-08-18 pin | Official skill patterns; skill-creator lineage for instinct. Only Apache-2.0 components are lineage-eligible; the four proprietary skills are excluded (D-24) |
 | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | **Obsidian source** | MIT | 5 skills, near-verbatim into poneglyph (EXC-1) |
 | [vercel-labs/skills](https://github.com/vercel-labs/skills) | **Meta-skill concept** | MIT | find-skills discovery concept feeds instinct |
-| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | **Discovery source** | CC0 | Catalog for gap-scanning, not merge material |
+| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | **Discovery source** | CC-BY-NC-ND-4.0 | Catalog for gap-scanning, not merge material. Candidates it surfaces are audited at their actual source under that source's own license (D-24) |
 | [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | **Template mining** | MIT | Caution: heavy npm CLI + analytics. Mine components dir only |
 
 `upstream.json` **MUST** contain exactly these 10 repositories. Commit SHAs are runtime data: they are recorded as `null` at scaffold time and resolved by `scripts/pin-upstream.*` before Phase 2 begins. No SHA may ever be typed from memory.
@@ -379,6 +388,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | D-21 | Blocked-check verdict | §9 enum frozen; `defer` requires a named blocking check + resolution phase; Phase 5 sign-off enumerates open defers (resolves A-GAP-003; Set A's `hold` not adopted) |
 | D-22 | C-1 scope | C-1 binds every hook regardless of handler type; `timeout` mandatory on all hook entries (resolves A-GAP-005) |
 | D-23 | aura statuslines | `plugins/aura/statuslines/` added to the per-plugin layout, scoped to `aura` only; preset scripts ship as `.sh`/`.ps1` twin pairs (resolves A-GAP-006) |
+| D-24 | Phase-2 §0 verification | §8 licenses corrected at the first pin (HD-10); hook dispatch decided — shell-free `prompt`/`agent` handlers, command handlers barred pending a P-5-sanctioned dual-platform interpreter (HD-5, resolves B-GAP-002); five HD-9 assumptions adjudicated against the live official docs — outcomes in ADR-024 |
 
 ---
 
@@ -430,3 +440,15 @@ The spec is versioned `MAJOR.MINOR`: MINOR for clarifications and additive decis
 | 7 | §12 decisions extended D-19…D-23; §3 comment updated to ADR-001…ADR-023 | Additive |
 
 Open items intentionally **not** resolved in v2.2: HD-5 (cross-platform hook dispatch mechanism) and HD-9's assumptions — both gated on Phase 2 §0 verification; HD-7, HD-8, HD-11, HD-12 remain advisory in `03-synthesis/SYNTHESIS_LOG.md`.
+
+### v2.2 → v2.3 (2026-08-18) — Phase-2 §0 verification: licenses at first pin (HD-10), hook dispatch (HD-5), assumption adjudication (HD-9)
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §8: `anthropics/skills` license cell corrected — no root license; per-skill `LICENSE.txt`: 12 Apache-2.0 (incl. skill-creator, the named `instinct` lineage) / 4 proprietary (pdf, pptx, xlsx, docx). `hesreallyhim/awesome-claude-code` corrected CC0 → CC-BY-NC-ND-4.0. Verified at the first pin via the GitHub API and, where the API reports no license or `NOASSERTION`, the repository's LICENSE file (HD-10); `upstream.json`, `NOTICE`, `SOURCES.md` aligned in the same PR | Semantic → D-24 |
+| 2 | §6: Hook Dispatch subsection added — hooks satisfy C-1 shell-free (`prompt`/`agent` handlers); command handlers only by superseding decision, exec form, with a P-5-sanctioned dual-platform interpreter (none today). Resolves B-GAP-002 (HD-5) | Semantic → D-24 |
+| 3 | HD-9's five `UNVERIFIED-EXTERNAL` assumptions adjudicated against the live official docs; conclusive outcomes tightened into `schemas/agent.schema.json` (`permissionMode` rejected — unsupported for plugin-shipped agents) and `schemas/marketplace.schema.json` (git-source pin fields `sha`/`ref` declared); full outcomes and SPEC-GAP-001 in ADR-024 | Clarifying → D-24 |
+| 4 | §12 decisions extended D-24; §3 comment updated to ADR-001…ADR-024 | Additive |
+| 5 | §0/§2: external standard-of-record URL corrected to `https://code.claude.com/docs/en/plugins` — `docs.claude.com/en/docs/claude-code/*` now `301`-redirects to `code.claude.com/docs/en/*`. §2's "re-verify URL at Phase 2" note discharged; §0's re-verify rule re-bound to every subsequent phase gate | Clarifying → D-24 |
+
+Open items after v2.3: HD-7, HD-8, HD-11, HD-12 remain advisory in `03-synthesis/SYNTHESIS_LOG.md`. SPEC-GAP-001 (ADR-024): the official sub-agents reference documents agents' `tools` as a comma-separated string and does not explicitly document the YAML list form the templates standardize — resolve during the Phase-2 audit, before any agent ships.

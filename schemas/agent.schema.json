@@ -3,7 +3,7 @@
   "$id": "https://github.com/coltonbearden/awakened/schemas/agent.schema.json",
   "title": "Awakened Subagent Frontmatter",
   "description": "Validates the parsed YAML frontmatter object of an Awakened subagent (plugins/bankai/agents/<name>.md). This schema is the mechanism SPEC C-2 names: it rejects bare and unrestricted tool grants mechanically rather than by review. The $id is an identifier only and is never fetched at runtime (HR-6).",
-  "$comment": "R-4: the official Claude Code agent frontmatter field set is open-ended and is re-verified against the live docs at Phase 2 (SPEC section 0). This schema therefore declares only the fields Awakened policy constrains and leaves additionalProperties true, so a legitimate official field never becomes a merge-blocking validation error. Prohibitions are policy, not guesses: hooks (D-15 budget lives in plugin.json), mcpServers (HR-2), and permissionMode: bypassPermissions (C-2 - an agent that can bypass permission prompts has an unrestricted allowlist by another route). Whether permissionMode is even supported for plugin-shipped agents is an open assumption; the guard is written so it holds either way.",
+  "$comment": "R-4: the official Claude Code agent frontmatter field set is open-ended and is re-verified against the live docs at Phase 2 (SPEC section 0). This schema therefore declares only the fields Awakened policy constrains and leaves additionalProperties true, so a legitimate official field never becomes a merge-blocking validation error. Prohibitions are policy, not guesses: hooks (D-15 budget lives in plugin.json), mcpServers (HR-2), and permissionMode (verified at Phase 2, D-24: the official plugins reference states hooks, mcpServers, and permissionMode are not supported for plugin-shipped agents for security reasons, so the field is rejected outright rather than guarded value-by-value).",
   "type": "object",
   "additionalProperties": true,
   "required": ["name", "description", "tools"],
@@ -64,8 +64,8 @@
       "description": "Maximum agentic turns before the subagent must return. Optional, but budgeting it is recommended so a runaway agent is bounded."
     },
     "permissionMode": {
-      "not": { "const": "bypassPermissions" },
-      "description": "If present, bypassPermissions is rejected: it would defeat the C-2 allowlist by removing the confirmation surface. Support for this field on plugin-shipped agents is unverified and is re-checked at Phase 2."
+      "not": {},
+      "description": "Rejected with any value. Verified at Phase 2 (D-24): the official plugins reference states permissionMode is not supported for plugin-shipped agents, so a present field is dead configuration at best and, if support ever arrives, an unreviewed permission change at worst."
     },
     "skills": {
       "description": "Skills preloaded into the subagent context, as a single name or a list of names.",

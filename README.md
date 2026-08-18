@@ -57,7 +57,7 @@ The one sanctioned network use in the whole repository is maintenance tooling th
 
 ## Status
 
-**Foundation complete, plugin content not yet built.** Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates are committed. `upstream.json` ships with every commit SHA `null` by policy (§8) — they are resolved by `scripts/pin-upstream.*` before the source audits begin.
+**Foundation complete, plugin content not yet built.** Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates are committed. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18, ahead of the source audits.
 
 Plugin content lands after those audits and after the mandatory human approval gate. The sequence, the verification criteria for each phase, and the gate log live in [`ROADMAP.md`](ROADMAP.md).
 
@@ -65,10 +65,10 @@ Plugin content lands after those audits and after the mandatory human approval g
 
 | Path | What it is |
 |---|---|
-| `SPEC.md` | The ratified specification (v2.2) — the authority, shipped verbatim |
+| `SPEC.md` | The ratified specification (v2.3) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
-| `DECISIONS.md` | ADR-001…ADR-023 — every resolved decision, mirroring `SPEC.md` §12 one to one |
+| `DECISIONS.md` | ADR-001…ADR-024 — every resolved decision, mirroring `SPEC.md` §12 one to one |
 | `ROADMAP.md` | Build phases, verification criteria, approval gates, gate log |
 | `upstream.json` | The ten source repositories: URL, license, role, and the commit pin |
 | `eval/` | Scoring rubric (Markdown and JSON), the evaluation matrix, the triage log |

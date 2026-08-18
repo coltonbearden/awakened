@@ -1,10 +1,10 @@
 # DECISIONS.md — Architecture Decision Records
 
-**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-023 formalize the twenty-three decisions ratified in `SPEC.md` §12 (D-01…D-23), mirroring that table 1:1 as D-16 requires.
+**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-024 formalize the twenty-four decisions ratified in `SPEC.md` §12 (D-01…D-24), mirroring that table 1:1 as D-16 requires.
 
 **Conventions**
 
-- **IDs** are sequential and never reused. Next available: **ADR-024**.
+- **IDs** are sequential and never reused. Next available: **ADR-025**.
 - **Statuses:** `Proposed` → `Accepted` → (`Superseded by ADR-0NN` | `Deprecated`). Accepted ADRs are **immutable** — to change course, write a new ADR that supersedes the old one.
 - **Format:** field table (Status, Date, Spec ref, Supersedes), Context, Decision, Alternatives Considered, Consequences, Enforcement.
 - **Spec ref** cites the `D-NN` rule ID from `SPEC.md` §12, so the 1:1 mapping is mechanically checkable.
@@ -37,6 +37,7 @@
 | 021 | Blocked-check verdict: §9 enum frozen; `defer` names a blocking check and a phase | Accepted | D-21 |
 | 022 | C-1 scope: binds every hook regardless of handler type; `timeout` mandatory | Accepted | D-22 |
 | 023 | `aura` statuslines: `plugins/aura/statuslines/`, `.sh`/`.ps1` twin pairs | Accepted | D-23 |
+| 024 | Phase-2 §0 verification: licenses at first pin, hook dispatch, assumption adjudication | Accepted | D-24 |
 
 ---
 
@@ -552,7 +553,7 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 - (+) ADR/decision parity is mechanically checkable — the validator counts ADRs and matches `Spec ref` fields against §12.
 - (−) Correcting an external fact, such as an upstream license, costs a spec PR rather than an ADR. Accepted: that cost is the control.
 
-**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
+**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* *(Amended 2026-08-18 by ADR-024 / SPEC v2.3 §14: check D2 now asserts exactly 24 ADR headings covering D-01…D-24.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
 
 ---
 
@@ -785,6 +786,56 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 - (−) Every preset costs two files instead of one, and a drifted pair is a defect the validators cannot fully detect from a static read.
 
 **Enforcement.** `SPEC.md` §3's per-plugin tree names `statuslines/` as aura-only, and §5's implementation note states the twin-pair requirement. `scripts/validate.*` check N5 reads Tier-2 statusline preset IDs from `plugins/aura/statuslines/` and fails at exit class 1 if any collides with a Tier-1 plugin name (N-5, D-17); check L1 holds LF and no-BOM over the script pairs. The `.sh`/`.ps1` pairing itself is enforced at review time under `CLAUDE.md` §3.2, exactly as for repo-root `scripts/`.
+
+---
+
+## ADR-024 — Phase-2 §0 Verification: Licenses at First Pin, Hook Dispatch, Assumption Adjudication
+
+| Field | Value |
+|---|---|
+| Status | Accepted |
+| Date | 2026-08-18 |
+| Spec ref | D-24 |
+| Supersedes | — |
+
+**Context.** SPEC v2.2 §10 gated three Phase-2 exit criteria on verification no offline session could perform: re-verify all ten §8 licenses at the first pin (HD-10), decide the cross-platform hook dispatch mechanism (HD-5, escalated **BLOCKING** as B-GAP-002), and adjudicate the five `UNVERIFIED-EXTERNAL` assumptions (HD-9). The first pin ran 2026-08-18 (`upstream.json` 10/10, non-null `pinned_at`). License verification — the GitHub API first, falling back to the repository's LICENSE file wherever the API reported no license or `NOASSERTION` (it reported `NONE` for `anthropics/skills` and `NOASSERTION` for `awesome-claude-code`, so both determinations rest on the files) — confirmed both upstream corrections HD-10 had provisionally rejected as unsourced: `hesreallyhim/awesome-claude-code` is CC-BY-NC-ND-4.0, not CC0, and `anthropics/skills` has no root license — sixteen per-skill `LICENSE.txt` files, twelve Apache-2.0 (including `skill-creator`, the named `instinct` lineage) and four proprietary (`pdf`, `pptx`, `xlsx`, `docx`). The live hooks reference now documents five handler types (`command`, `http`, `mcp_tool`, `prompt`, `agent`), a per-hook `shell` selector, an exec form executed without shell interpretation, and `${CLAUDE_PLUGIN_ROOT}` / `${CLAUDE_PLUGIN_DATA}` path expansion — none of which existed in the offline sources the assumptions were frozen from. The same pass settled the §0 standard-of-record URL: `docs.claude.com/en/docs/claude-code/*` returns `301 Moved Permanently` to `code.claude.com/docs/en/*`, so `code.claude.com` is canonical and §2's "re-verify URL at Phase 2" note is discharged.
+
+**Decision.** One consolidated v2.3 change:
+
+1. **Licenses (HD-10).** The two §8 cells are corrected, with `upstream.json`, `NOTICE`, and `SOURCES.md` aligned in the same PR. `awesome-claude-code` stays discovery-only — its NonCommercial/NoDerivatives terms bite nothing that ships, because it supplies no merge material. Only Apache-2.0 components of `anthropics/skills` are lineage-eligible; the four proprietary skills are excluded from every lineage path.
+2. **Hook dispatch (HD-5).** Awakened hooks satisfy C-1's cross-platform clause shell-free: `prompt` or `agent` handler types only. `http` handlers are barred by HR-6. `mcp_tool` handlers are barred not by HR-2 — which permits three servers — but because the §6 Hooks Budget under D-15 allocates hooks only to the core plugins `super-saiyan` and `rinnegan`, and B-8 bars a core plugin from depending on the optional satellites that carry MCP. An `agent`-type hook's prompt must state its write targets explicitly so E-1 static review can lint them against HR-8. A `command` handler requires a superseding decision, and then only the exec form (`command` + `args`, no shell interpretation) with `${CLAUDE_PLUGIN_ROOT}`-anchored paths and a *guaranteed* interpreter — one the `CONTRIBUTING.md` environment matrix requires on both Windows 11 and WSL2. None qualifies today: that matrix scopes `python3` to WSL2 only, and P-5 sanctions no third-party interpreter. Shell-form command strings and the `shell` field are prohibited in shipped hooks. Resolves B-GAP-002.
+3. **Assumptions (HD-9).** Adjudicated against the live official docs, each verdict independently re-verified:
+
+| Assumption | Outcome |
+|---|---|
+| ASSUMPTION-001 (field sets open) | CONFIRMED — `plugin.json` ignores unrecognized fields with warnings; skill frontmatter and marketplace plugin entries are documented extensible; schemas keep `additionalProperties: true`. (The claude-ai skill *upload* path enforces a closed six-field set; irrelevant to Claude Code plugins) |
+| ASSUMPTION-002 (`permissionMode`) | RESOLVED, STRONGER THAN FROZEN — the plugins reference states `hooks`, `mcpServers`, and `permissionMode` are not supported for plugin-shipped agents for security reasons; `schemas/agent.schema.json` now rejects the field with any value instead of guarding one value |
+| ASSUMPTION-003 (string delimiter) | RESOLVED — skills' `allowed-tools`: space- or comma-separated string, or YAML list; agents' `tools`: comma-separated string. The list form remains the repo standard; SPEC-GAP-001 below records the one residue |
+| ASSUMPTION-004 (pin field) | REFUTED AS FROZEN — the field exists and is named: `sha` for git-based sources, with `ref` selecting a branch or tag and `sha` the effective pin when both are set; `schemas/marketplace.schema.json` now declares both |
+| ASSUMPTION-005 (hook dispatch) | Subsumed by HD-5 — see decision 2 |
+
+**SPEC-GAP-001 (open — human resolution at G2).** `templates/agent.md` and `CONTRIBUTING.md` standardize the YAML list form for agent `tools`; the official sub-agents reference documents a comma-separated string and does not explicitly show the list form. Templates are unchanged by this ADR; resolve during the Phase-2 audit, before any agent ships.
+
+**Alternatives Considered.**
+
+| Option | Verdict | Why |
+|---|---|---|
+| Three sequential spec PRs (licenses, dispatch, assumptions) | Rejected | Each PR pays the D1/D2 validator re-bound alone, and the two research items share one live-docs pass |
+| Correct licenses by ADR, or by editing `NOTICE`/`SOURCES.md` directly | Rejected | ADR-016 forbids an ADR superseding a §8 cell; HD-10 directed a spec PR, never a silent fix |
+| Command-handler dispatch via Node.js or Python exec form now | Rejected | Documented and viable in general, but P-5 sanctions no third-party interpreter and neither is guaranteed present on both target platforms; adopting one is a dependency-policy change needing its own decision |
+| Shell-form command hooks with the `shell` field | Rejected | Requires either Git Bash on Windows (not guaranteed) or divergent per-platform command strings — twin drift by construction |
+| Shell-free handlers now; command handlers barred pending a sanctioned interpreter | **Accepted** | Both budgeted hooks are expressible shell-free (`super-saiyan`: prompt; `rinnegan`: agent), no new dependency enters, and the bar fails closed rather than open |
+
+**Consequences.**
+
+- (+) Phase-2 exit criteria V2.8, V2.9, and V2.10 are dischargeable; the Tier-1 audit is no longer blocked on any of them.
+- (+) The repository no longer publishes a false CC0 claim about someone else's work, and the `anthropics/skills` notice is precise instead of imprecise.
+- (+) The hook budget is unblocked on both mandated platforms without adding any dependency.
+- (−) `rinnegan`'s memory-capture hook must be designed as an `agent`-type handler — which the docs mark experimental — or fall back to command-surface capture; Phase 3's `eval/claude-mem-rebuild.md` must address this explicitly.
+- (−) `awesome-claude-code`'s NC/ND terms now stand in §8, making the discovery-only rule (no merge material, audit candidates at their actual source) load-bearing rather than belt-and-braces.
+- (−) SPEC-GAP-001 stays open until G2; agent templates carry a form the official reference does not explicitly document.
+
+**Enforcement.** `SPEC.md` §8's corrected cells and §6's Hook Dispatch subsection are the normative statements. `scripts/validate.*` checks D1/D2 hold the v2.3 version line and the 24-ADR mapping — this PR re-bounds both twins and closes the bash D2 OK-branch divergence filed as item 1 of the backlog issue. `schemas/agent.schema.json` rejects `permissionMode` mechanically; `schemas/marketplace.schema.json` declares `sha`/`ref` so the D-10 pin is checkable. License facts re-verify at every pin (D-10); the next discrepancy is again a D-16 spec PR.
 
 ---
 

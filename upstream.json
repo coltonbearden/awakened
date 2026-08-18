@@ -45,7 +45,7 @@
     {
       "name": "anthropics/skills",
       "url": "https://github.com/anthropics/skills",
-      "license": "Apache-2.0",
+      "license": "No root license - per-skill: Apache-2.0 (12, incl. skill-creator) / proprietary (4)",
       "role": "Reference implementations",
       "commit": "0a64e398ec6bb34a494f0c347e8ccae53a862f8e",
       "notes": "Official skill patterns; skill-creator lineage for instinct. NOTICE coverage required for close adaptations."
@@ -69,7 +69,7 @@
     {
       "name": "hesreallyhim/awesome-claude-code",
       "url": "https://github.com/hesreallyhim/awesome-claude-code",
-      "license": "CC0",
+      "license": "CC-BY-NC-ND-4.0",
       "role": "Discovery source",
       "commit": "58cdbfde5058e175972f75624f65c009ab8b9180",
       "notes": "Catalog for gap-scanning, not merge material."
