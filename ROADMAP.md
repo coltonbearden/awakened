@@ -10,7 +10,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | Phase | Name | Status | Gate |
 |---|---|---|---|
 | 1 | Structural inventory | **Complete** (2026-08-15) | G1 — passed |
-| 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 29 shortlist / 22 reject / 4 merge | G2 — open |
+| 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 26 shortlist / 25 reject / 4 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | Not started (next) | G3 |
 | 4 | Remaining sources | Not started | G4 |
 | 5 | Evaluation matrix consolidation | Not started | **G5 — human approval gate** |
@@ -234,7 +234,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 | Gate | Date | Verdict | Record |
 |---|---|---|---|
 | G1 | 2026-08-15 | APPROVED | Structural inventory ratified via `SPEC.md` §8 and §10 |
-| G2 | 2026-08-18 | OPEN | Phase-2 audit complete: V2.1–V2.10 all discharged (V2.8–V2.10 by SPEC v2.3, PR #2). Matrix and triage log await review |
+| G2 | 2026-08-18 | APPROVED | Phase-2 audit complete: V2.1–V2.10 all discharged (V2.8–V2.10 by SPEC v2.3, PR #2). Reviewed and approved under standing delegation D11 (2026-08-18); review record: PR #4 |
 
 ## 12. Sequence Overview
 
