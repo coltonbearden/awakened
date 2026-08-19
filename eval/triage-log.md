@@ -258,6 +258,30 @@ Four candidates were screened as hard-reject hits and **cleared on the evidence*
 - **Rationale:** Drives the npx skills CLI - add, find, update, init - including npx skills add <pkg> -g -y, a global install with confirmations skipped (HR-7), and queries the skills.sh registry and leaderboard (HR-6). SPEC 4 names it instinct lineage; the discovery concept survives, this implementation does not.
 - **Date:** 2026-08-18
 
+### T-026 — code-review
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/code-review/SKILL.md
+- **HR/axis trigger IDs:** `n/a (re-audit)`
+- **Rationale:** Re-audit. Previous: `5,4,5,4,5`, `shortlist`, rationale claiming the tracker "degrades to asking the user, so the tracker is optional". That misdescribed the source: line 13 unconditionally tells the user to run `/setup-matt-pocock-skills` (itself an HR-1 reject, T-005) when `docs/agents/issue-tracker.md` is absent, and the steps 2.2–2.4 fallback covers the *spec source*, not the tracker. New: `5,4,5,3,5`, `shortlist` retained — HR-1 still does not fire because the tracker is not the substrate (Standards reads repo docs; the Spec axis degrades or skips) — with `dependencies` cut 4→3 and synthesis required to drop the line-13 coupling. Recorded as knowingly contested, to be re-examined at G5.
+- **Date:** 2026-08-18
+
+### T-027 — claude-handoff
+
+- **Source:** mattpocock/skills
+- **Path:** skills/in-progress/claude-handoff/SKILL.md
+- **HR/axis trigger IDs:** `n/a (re-audit)`
+- **Rationale:** Re-audit. Previous: `4,5,4,5,5`, `merge` into `mattpocock/handoff`. That absorber was itself moved to `reject` (T-020, C-3 — it writes to the OS temporary directory), leaving the merge pointing at a rejected row and the absorbed value unrecoverable. New: `shortlist`, `target_plugin = kaioken`, scores unchanged. It stands alone — it names no write location, so handoff's C-3 defect does not apply, and B-5 gives session handoff to kaioken.
+- **Date:** 2026-08-18
+
+### T-028 — diagnosing-bugs
+
+- **Source:** mattpocock/skills
+- **Path:** skills/engineering/diagnosing-bugs/SKILL.md
+- **HR/axis trigger IDs:** `axis:risk=4 (re-audit)`
+- **Rationale:** Re-audit. Previous: `risk = 5` on the "pure skills/commands; read-only; no shell side effects" anchor, with a rationale clearing `fetch(` hits — a clearance that belongs to `mattpocock/tdd`'s `mocking.md`, not this directory, which contains no `fetch(` at all. New: `risk = 4`; the skill ships `scripts/hitl-loop.template.sh`, a foreground human-in-the-loop prompter with no backgrounding or network, so the read-only anchor does not hold. `agents/openai.yaml` was checked and is display metadata only — no keys, no service calls, no HR-1. `shortlist` retained; no threshold crossed.
+- **Date:** 2026-08-18
+
 ---
 
 ## 4. Statistics
@@ -266,13 +290,15 @@ Recomputed by hand at each gate from the entries in §3, so the table can be che
 
 | Metric | Count |
 |---|---|
-| Total entries | 25 |
+| Total entries | 28 |
 | Hard-reject entries | 12 |
 | Axis-floor entries | 7 |
 | Bulk-reject classes | 0 |
 | Gap-scan entries | 0 |
-| Re-audit / re-pin entries | 0 |
+| Re-audit / re-pin entries | 3 |
 
 The six entries counted in neither the hard-reject nor the axis-floor row are rejections on a rule that is neither an HR trigger nor an axis floor: five on `B-1..B-8` (no owning plugin exists, so `SPEC.md` §4 forbids shortlisting) and one on `D-15,D-24` (a hook whose dispatch and budget no plugin can carry). Their trigger-ID fields carry those rule IDs, which is what the §10 Phase-2 exit criterion checks.
+
+The three re-audit entries (T-026…T-028) arose from the **G5 rehearsal review** of 2026-08-18: an independent reviewer, running the `eval/gate-review-protocol.md` standard against the artifacts and the pinned sources, returned `REJECTED` and named three defects the Phase-2 self-checks could not see, because all three were internally consistent and wrong about the source. None changed a verdict to `reject`, so the hard-reject and axis-floor counts are unchanged; T-027 moved a `merge` to `shortlist`, which is why the matrix now reads 27 / 25 / 3.
 
 The verdict vocabulary is `SPEC.md` §9 rule 3 — `shortlist`, `reject`, `merge`, `defer`. This log carries entries for `reject` (mandatory) and may carry them for `merge` and `defer` where the reasoning is worth preserving; `shortlist` rows need no entry.

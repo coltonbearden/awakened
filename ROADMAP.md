@@ -10,7 +10,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | Phase | Name | Status | Gate |
 |---|---|---|---|
 | 1 | Structural inventory | **Complete** (2026-08-15) | G1 — passed |
-| 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 26 shortlist / 25 reject / 4 merge | G2 — passed |
+| 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | Not started (next) | G3 |
 | 4 | Remaining sources | Not started | G4 |
 | 5 | Evaluation matrix consolidation | Not started | **G5 — human approval gate** |
