@@ -1,6 +1,6 @@
 # DECISIONS.md — Architecture Decision Records
 
-**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-024 formalize the twenty-four decisions ratified in `SPEC.md` §12 (D-01…D-24), mirroring that table 1:1 as D-16 requires.
+**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-025 formalize the twenty-five decisions ratified in `SPEC.md` §12 (D-01…D-25), mirroring that table 1:1 as D-16 requires.
 
 **Conventions**
 
@@ -553,7 +553,7 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 - (+) ADR/decision parity is mechanically checkable — the validator counts ADRs and matches `Spec ref` fields against §12.
 - (−) Correcting an external fact, such as an upstream license, costs a spec PR rather than an ADR. Accepted: that cost is the control.
 
-**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* *(Amended 2026-08-18 by ADR-024 / SPEC v2.3 §14: check D2 now asserts exactly 24 ADR headings covering D-01…D-24.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
+**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* *(Amended 2026-08-18 by ADR-024 / SPEC v2.3 §14: check D2 now asserts exactly 24 ADR headings covering D-01…D-24.)* *(Amended 2026-08-18 by ADR-025 / SPEC v2.4 §14: check D2 now asserts exactly 25 ADR headings covering D-01…D-25, and check D1 the v2.4 version line.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
 
 ---
 
@@ -836,6 +836,90 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 - (−) SPEC-GAP-001 stays open until G2; agent templates carry a form the official reference does not explicitly document.
 
 **Enforcement.** `SPEC.md` §8's corrected cells and §6's Hook Dispatch subsection are the normative statements. `scripts/validate.*` checks D1/D2 hold the v2.3 version line and the 24-ADR mapping — this PR re-bounds both twins and closes the bash D2 OK-branch divergence filed as item 1 of the backlog issue. `schemas/agent.schema.json` rejects `permissionMode` mechanically; `schemas/marketplace.schema.json` declares `sha`/`ref` so the D-10 pin is checkable. License facts re-verify at every pin (D-10); the next discrepancy is again a D-16 spec PR.
+
+---
+
+## ADR-025 — Gate G5 Adjudicated by an Independent Reviewer
+
+| Field | Value |
+|---|---|
+| Status | Accepted |
+| Date | 2026-08-18 |
+| Spec ref | D-25 |
+| Supersedes | — |
+
+**Context.** `SPEC.md` §10 Phase 5 and `ROADMAP.md` §7 made G5 a **mandatory human approval
+gate**: the project owner reviews the consolidated matrix, shortlist report and triage log,
+and the approval is recorded as an ADR before any building. `ROADMAP.md` §10 rule 2 named
+the project owner as reviewer for every gate.
+
+Two things pressed on that. First, the owner delegated commit, merge and decision authority
+in-session on 2026-08-18 (recorded as session decision D11), and G2 was disposed under that
+delegation. Second, the Phase-2 audit produced direct evidence that the selection step needs
+an adversarial second reader and not merely a second signature: of 29 shortlisted rows, two
+— `vercel/find-skills` and `superpowers/using-git-worktrees` — were hard-reject violations
+(HR-6, HR-7) that survived the first pass because the executing agent profiled the files
+rather than reading them, and then reported the coverage claim with confidence. They were
+caught only when a second reader returned to the sources.
+
+That is an argument for keeping G5 adversarial, not for keeping it manual. A reviewer whose
+value is catching the executor's blind spots must not inherit the executor's framing — which
+rules out the in-session `advisor`, since it reads the executor's full transcript.
+
+**Decision.** G5 is adjudicated by an **independent reviewer** running on a different model
+from the executing agent, against the versioned standard `eval/gate-review-protocol.md`.
+
+1. **Independence is the mechanism.** The reviewer receives the gate ID and artifact paths
+   only. It never receives the executing agent's reasoning, transcript, commit messages or
+   PR narrative, and the invocation may not assert that any criterion passes. Every V5.1–V5.7
+   value is re-derived by the reviewer from the artifacts.
+2. **A source spot-check is mandatory,** not discretionary: at least eight shortlisted rows
+   verified against upstream at the pinned SHA, selection weighted toward rows where a wrong
+   score is most costly. Internal consistency is not correctness; ADR-025's Context is the
+   worked example of the difference.
+3. **Uncertainty argues for REJECTED.** A finding the reviewer cannot resolve from the
+   artifacts is reported, not waived.
+4. **Escalation bounds the delegation.** A first `REJECTED` loops the phase. A second
+   `REJECTED` on the same gate escalates to the project owner with both review records
+   attached. The executor may not re-invoke the reviewer a third time in place of escalating,
+   and may not narrow the resubmission to the parts questioned.
+5. **Scope is G5 only.** G3, G4 and G6 remain review gates disposed under D11. G5 is the one
+   hard gate — the irreversible commitment before building — and the only one moved here.
+6. **Recording is unchanged.** G5's approval is still recorded as an ADR in `DECISIONS.md`,
+   which remains the authorization; the `ROADMAP.md` §11 gate-log row indexes it. A
+   `REJECTED` verdict is recorded too, so an auditor sees the loop and not only the approval.
+
+**Alternatives Considered.**
+
+| Option | Verdict | Why |
+|---|---|---|
+| Leave G5 with the owner | Rejected | The owner delegated decision authority explicitly; routing the gate back contradicts that grant. The reviewable defect was rigour, not authority, and rigour is what an independent reviewer supplies |
+| Extend D11 to cover G5 with no reviewer | Rejected | Reads a conversational grant about git mechanics as silently amending a normative SPEC exit criterion. D-16 exists to stop exactly that; if the rule changes it changes in the open, as this ADR does |
+| Use the in-session `advisor` as the G5 reviewer | Rejected | The advisor reads the executor's full transcript, so it inherits the framing the gate exists to challenge. It course-corrects well and adjudicates badly |
+| Independent reviewer on a different model, artifact-only, with escalation | **Accepted** | Preserves the adversarial property the Phase-2 evidence shows is load-bearing, honours the delegation, and bounds itself — two rounds and it reaches a human |
+
+**Consequences.**
+
+- (+) G5 keeps an adversarial reader without putting a routine approval on the owner's desk.
+- (+) The standard is versioned: an auditor answering "what standard was applied at G5" reads
+  `eval/gate-review-protocol.md` at the commit the gate was decided.
+- (+) The failure mode the Phase-2 audit demonstrated — a confident coverage claim over files
+  that were profiled rather than read — is now something a mandatory source spot-check tests
+  for directly.
+- (−) G5 now depends on a second model being available. If it is not, the gate has no
+  adjudicator and falls back to the owner; that fallback is deliberate, not a defect.
+- (−) The reviewer's own definition (`.claude/agents/gate-reviewer.md`) lives outside the
+  repository, at the project root, because `SPEC.md` §3 does not admit a `.claude/` entry and
+  check S4 would reject one. The **standard** is versioned in `eval/`; the loader that points
+  at it is not. An auditor reads the protocol, not the loader.
+- (−) Scope discipline now has a named owner at the gate: the reviewer checks that the build
+  plan proposes nothing the matrix did not shortlist.
+
+**Enforcement.** `eval/gate-review-protocol.md` is the review standard of record; `SPEC.md`
+§10 Phase 5 and `ROADMAP.md` §7/§10 carry the normative gate text. `scripts/validate.*`
+checks D1/D2 hold the v2.4 version line and the 25-ADR mapping onto D-01…D-25. Phase 6 work
+of any kind before a recorded G5 approval remains a process violation (`ROADMAP.md` §10
+rule 2), unchanged by who reviews.
 
 ---
 
