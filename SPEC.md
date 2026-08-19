@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.3
+**Version:** 2.4
 **Date:** 2026-08-18
-**Status:** Governing spec — supersedes SPEC.md v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -84,7 +84,8 @@ awakened/
 │   ├── rubric.md                 # Human-readable scoring guide (§9)
 │   ├── rubric.json               # Machine-readable rubric (§9)
 │   ├── matrix.csv                # Candidate scoring log (normative header: §9)
-│   └── triage-log.md             # Rejection log with rule-ID rationales
+│   ├── triage-log.md             # Rejection log with rule-ID rationales
+│   └── gate-review-protocol.md   # G5 independent-reviewer standard (§10, D-25)
 ├── templates/
 │   ├── plugin/plugin.json        # Base plugin manifest template
 │   ├── skill.md                  # Skill template (frontmatter + trigger-description rules)
@@ -347,7 +348,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | 2 — Tier-1 deep audit | Read every skill file in superpowers, mattpocock/skills, kepano/obsidian-skills, vercel-labs/skills | `upstream.json` SHAs pinned (no nulls); one `matrix.csv` row per skill file in all four repos; every `reject` has a triage-log entry citing rule IDs; §0 official-docs verification complete — the five `UNVERIFIED-EXTERNAL` assumptions (synthesis HD-9) adjudicated, the hook dispatch mechanism decided (HD-5) via a §14 changelog row, and all ten §8 licenses re-verified against the pinned commits (HD-10). |
 | 3 — ECC triage + claude-mem extraction | 270 ECC skills → shortlist → deep-read shortlist only; extract claude-mem memory concepts | ECC shortlist ≤ 40 rows deep-read (bulk rejects logged in aggregate); file-based rebuild design written to `eval/claude-mem-rebuild.md`. |
 | 4 — Remaining sources | wshobson shortlisted plugins (~12–15), anthropics/skills, davila7 components dir, awesome-claude-code gap scan | Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`. |
-| 5 — Evaluation matrix | Full scored matrix | Zero empty `verdict` cells; **human approval gate** — sign-off recorded as an ADR in `DECISIONS.md` before any building. |
+| 5 — Evaluation matrix | Full scored matrix | Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). |
 | 6 — Scaffold & synthesize | Repo structure, marketplace.json, synthesized components, validation + CI, docs | Tree matches §3 exactly; `scripts/validate.sh` and `validate.ps1` both exit 0; CI green; a `SOURCES.md` row exists for every shipped component. |
 
 ---
@@ -388,6 +389,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | D-21 | Blocked-check verdict | §9 enum frozen; `defer` requires a named blocking check + resolution phase; Phase 5 sign-off enumerates open defers (resolves A-GAP-003; Set A's `hold` not adopted) |
 | D-22 | C-1 scope | C-1 binds every hook regardless of handler type; `timeout` mandatory on all hook entries (resolves A-GAP-005) |
 | D-23 | aura statuslines | `plugins/aura/statuslines/` added to the per-plugin layout, scoped to `aura` only; preset scripts ship as `.sh`/`.ps1` twin pairs (resolves A-GAP-006) |
+| D-25 | G5 adjudication | Gate G5 is decided by an **independent reviewer** on a different model from the executing agent, artifact-only, against the versioned `eval/gate-review-protocol.md`; a mandatory source spot-check, uncertainty resolving to `REJECTED`, and escalation to the owner on a second `REJECTED`. Scope is G5 alone — G3, G4 and G6 remain review gates. Outcomes in ADR-025 |
 | D-24 | Phase-2 §0 verification | §8 licenses corrected at the first pin (HD-10); hook dispatch decided — shell-free `prompt`/`agent` handlers, command handlers barred pending a P-5-sanctioned dual-platform interpreter (HD-5, resolves B-GAP-002); five HD-9 assumptions adjudicated against the live official docs — outcomes in ADR-024 |
 
 ---
@@ -440,6 +442,18 @@ The spec is versioned `MAJOR.MINOR`: MINOR for clarifications and additive decis
 | 7 | §12 decisions extended D-19…D-23; §3 comment updated to ADR-001…ADR-023 | Additive |
 
 Open items intentionally **not** resolved in v2.2: HD-5 (cross-platform hook dispatch mechanism) and HD-9's assumptions — both gated on Phase 2 §0 verification; HD-7, HD-8, HD-11, HD-12 remain advisory in `03-synthesis/SYNTHESIS_LOG.md`.
+
+### v2.3 → v2.4 (2026-08-18) — G5 adjudicated by an independent reviewer (D-25)
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §10 Phase 5: "human approval gate" → **independent-reviewer approval gate**. G5 is adjudicated by a reviewer on a different model that receives the artifacts only — never the executing agent's reasoning, transcript or PR narrative — against the versioned standard `eval/gate-review-protocol.md`. Sign-off is still recorded as an ADR before any building | Semantic → D-25 |
+| 2 | §3: `eval/gate-review-protocol.md` added to the tree — the G5 review standard of record, versioned so an auditor can answer "what standard was applied" at the commit the gate was decided | Additive → D-25 |
+| 3 | Escalation bounds the delegation: a first `REJECTED` loops the phase, a second `REJECTED` **on the same gate** escalates to the project owner. The executor may not invoke a third review in place of escalating, nor narrow the resubmission to the questioned parts | Semantic → D-25 |
+| 4 | Scope is **G5 only**. G3, G4 and G6 remain review gates disposed by the executing agent under the owner's standing delegation; G5 is the one hard gate before building and the only one moved | Clarifying → D-25 |
+| 5 | §12 decisions extended D-25; §3 comment updated to ADR-001…ADR-025; validators re-bound to the v2.4 line and the 25-ADR mapping | Additive |
+
+Rationale of record: the Phase-2 audit shortlisted two components that violate hard rejects (`vercel/find-skills`, `superpowers/using-git-worktrees`, both HR-7) and they survived every internal consistency check, because those checks verify the matrix against itself rather than against the sources. A G5 rehearsal under this protocol then found three further defects the same self-checks had passed. The gate's value is adversarial reading; what changes is who reads, not how hard.
 
 ### v2.2 → v2.3 (2026-08-18) — Phase-2 §0 verification: licenses at first pin (HD-10), hook dispatch (HD-5), assumption adjudication (HD-9)
 

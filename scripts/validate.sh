@@ -40,7 +40,7 @@ set -euo pipefail
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
-#   D2  DECISIONS.md has exactly 24 ADR headings covering D-01..D-24, no dupes
+#   D2  DECISIONS.md has exactly 25 ADR headings covering D-01..D-25, no dupes
 #   N1  Plugin directory names are drawn from the nine Tier-1 names
 #   N3  Machine-facing names match ^[a-z0-9]+(-[a-z0-9]+)*$ (case-sensitive)
 #   N4  No plugin, and no command namespace, named for the marketplace
@@ -72,7 +72,7 @@ NINE_PLUGINS="super-saiyan sharingan rinnegan kaioken bankai domain instinct pon
 HOOK_PLUGINS="super-saiyan rinnegan"
 MARKETPLACE_NAME="awakened"
 KEBAB='^[a-z0-9]+(-[a-z0-9]+)*$'
-SPEC_VERSION_LINE='**Version:** 2.3'
+SPEC_VERSION_LINE='**Version:** 2.4'
 MATRIX_HEADER='id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 usage() {
@@ -231,12 +231,12 @@ import re, sys
 text = open(sys.argv[1], encoding='utf-8').read()
 heads = re.findall(r'^## ADR-(\d{3})\b', text, re.M)
 refs  = re.findall(r'^\|\s*Spec ref\s*\|\s*(D-\d{2})\s*\|', text, re.M)
-if len(heads) != 24:
-    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 24 (D-16)")
-expected_adr = [f"{n:03d}" for n in range(1, 25)]
+if len(heads) != 25:
+    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 25 (D-16)")
+expected_adr = [f"{n:03d}" for n in range(1, 26)]
 if sorted(heads) != expected_adr:
-    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-024")
-expected_ref = [f"D-{n:02d}" for n in range(1, 25)]
+    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-025")
+expected_ref = [f"D-{n:02d}" for n in range(1, 26)]
 if sorted(refs) != expected_ref:
     missing = sorted(set(expected_ref) - set(refs))
     dupes = sorted({r for r in refs if refs.count(r) > 1})
@@ -245,9 +245,9 @@ if sorted(refs) != expected_ref:
     if dupes:
         print("ERROR\tD2\tSpec ref fields are duplicated: " + ", ".join(dupes))
     if not missing and not dupes:
-        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-24")
-if len(heads) == 24 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
-    print("OK\tD2\t24 ADRs mapping 1:1 onto D-01..D-24")
+        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-25")
+if len(heads) == 25 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
+    print("OK\tD2\t25 ADRs mapping 1:1 onto D-01..D-25")
 PY
 )
 fi

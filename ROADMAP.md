@@ -147,11 +147,11 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 
 ---
 
-## 7. Phase 5 — Evaluation Matrix Consolidation → Human Approval Gate
+## 7. Phase 5 — Evaluation Matrix Consolidation → Independent-Reviewer Approval Gate
 
-**Objective.** Consolidate Phases 2–4 into the final scored matrix and shortlist; stop for explicit human approval before any building.
+**Objective.** Consolidate Phases 2–4 into the final scored matrix and shortlist; stop for an explicit, independently adjudicated approval before any building.
 
-> **Exit criteria (`SPEC.md` §10, verbatim):** Zero empty `verdict` cells; **human approval gate** — sign-off recorded as an ADR in `DECISIONS.md` before any building.
+> **Exit criteria (`SPEC.md` §10, verbatim):** Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25).
 
 **Deliverables.**
 
@@ -172,7 +172,7 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 | V5.6 | Hook budget preview | Shortlist implies ≤ 1 hook per plugin, hooks only in `super-saiyan` and `rinnegan` (D-15) |
 | V5.7 | Roster balance | Every core plugin has ≥ 1 shortlisted component or a recorded plan for original work (for example `aura`) |
 
-**Gate G5 — MANDATORY HUMAN APPROVAL.** No scaffolding, no synthesis, no component authoring until the owner reviews the matrix, shortlist report, and triage log, and the approval is **recorded as an ADR in `DECISIONS.md`**. That ADR is the authorization; the §11 gate-log row below is an index to it, not the record. Scope changes demanded at this gate become superseding ADRs before Phase 6 starts.
+**Gate G5 — MANDATORY INDEPENDENT APPROVAL (D-25).** No scaffolding, no synthesis, no component authoring until an **independent reviewer** — running on a different model from the executing agent, reading the matrix, shortlist report, triage log and the pinned sources, and receiving none of the executing agent's reasoning — returns `APPROVED` under `eval/gate-review-protocol.md`, and the approval is **recorded as an ADR in `DECISIONS.md`**. That ADR is the authorization; the §11 gate-log row below is an index to it, not the record. A first `REJECTED` loops the phase; a **second `REJECTED` on this gate escalates to the project owner**, who decides it. Scope changes demanded at this gate become superseding ADRs before Phase 6 starts.
 
 ---
 
@@ -225,7 +225,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 ## 10. Gate Protocol
 
 1. **Inputs:** the phase's deliverables plus its verification table, all criteria green, and the §10 exit criteria quoted in that phase satisfied.
-2. **Reviewer:** project owner. Gates G2–G4 and G6 are review gates; **G5 is a hard approval gate** — Phase 6 work of any kind before a recorded G5 approval is a process violation.
+2. **Reviewer:** the project owner, or the executing agent under the owner's standing delegation, for the review gates G2–G4 and G6. **G5 is a hard approval gate** and is adjudicated by an **independent reviewer** under `eval/gate-review-protocol.md` (D-25), escalating to the owner on a second `REJECTED`. Phase 6 work of any kind before a recorded G5 approval is a process violation.
 3. **Record:** G5's approval is recorded as an ADR in `DECISIONS.md`. All gates additionally get a Gate Log row (§11) with date and verdict for at-a-glance status. `APPROVED` opens the next phase; `REJECTED` loops the phase with noted remediations.
 4. **Scope changes at a gate:** become superseding ADRs in `DECISIONS.md` before the next phase begins. Changes that touch `SPEC.md` go through the D-16 spec PR.
 
