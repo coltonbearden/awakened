@@ -65,10 +65,10 @@ Plugin content lands after those audits and after the mandatory human approval g
 
 | Path | What it is |
 |---|---|
-| `SPEC.md` | The ratified specification (v2.3) — the authority, shipped verbatim |
+| `SPEC.md` | The ratified specification (v2.4) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
-| `DECISIONS.md` | ADR-001…ADR-024 — every resolved decision, mirroring `SPEC.md` §12 one to one |
+| `DECISIONS.md` | ADR-001…ADR-025 — every resolved decision, mirroring `SPEC.md` §12 one to one |
 | `ROADMAP.md` | Build phases, verification criteria, approval gates, gate log |
 | `upstream.json` | The ten source repositories: URL, license, role, and the commit pin |
 | `eval/` | Scoring rubric (Markdown and JSON), the evaluation matrix, the triage log |

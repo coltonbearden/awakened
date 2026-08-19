@@ -99,7 +99,7 @@ awakened/
 ├── .gitattributes                # LF line endings enforced for *.sh, *.ps1, *.json, *.md
 ├── CLAUDE.md                     # Repo-session execution rules for Claude Code
 ├── CONTEXT.md                    # System overview, non-goals, user profile
-├── DECISIONS.md                  # ADR-001…ADR-024, 1:1 with §12
+├── DECISIONS.md                  # ADR-001…ADR-025, 1:1 with §12
 ├── ROADMAP.md                    # Phases 1–6 with exit criteria (§10)
 ├── SPEC.md                       # THIS FILE — canonical, shipped verbatim
 ├── upstream.json                 # Source repo registry; SHAs pinned via scripts/pin-upstream.*
