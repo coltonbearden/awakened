@@ -1,7 +1,7 @@
 # ROADMAP.md — Awakened Build Phases
 
 **Derived from:** `SPEC.md` §10 (Build Phases & Exit Criteria), §9 (Evaluation Rubric), §11 (Ongoing Maintenance).
-**Rule:** phases execute in order; each phase ends at a gate (G1–G6). A gate closes only when every verification criterion passes and the gate decision is recorded per §11 below. **G5 is a mandatory human approval gate — no building before sign-off, and the sign-off is recorded as an ADR in `DECISIONS.md` (§10 Phase 5).**
+**Rule:** phases execute in order; each phase ends at a gate (G1–G6). A gate closes only when every verification criterion passes and the gate decision is recorded per §11 below. **G5 is a hard approval gate — adjudicated by an independent reviewer (D-25), the sign-off recorded as an ADR in `DECISIONS.md`; Phase 6 stays barred until the owner acknowledges the reviewer's `APPROVED` on the sign-off PR (§10 Phase 5).**
 
 Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quoted block, then expands them into checkable verification rows. Where a verification row and the quoted criterion disagree, the quoted criterion wins.
 
@@ -13,12 +13,12 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | Not started (next) | G3 |
 | 4 | Remaining sources | Not started | G4 |
-| 5 | Evaluation matrix consolidation | Not started | **G5 — human approval gate** |
+| 5 | Evaluation matrix consolidation | Not started | **G5 — independent-reviewer gate + owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
 
-Before Phase 2 begins, the governance, evaluation, schema, template, and legal foundation must be committed. The foundation is the 28 authored files plus `SPEC.md` shipped verbatim (D-16):
+Before Phase 2 begins, the governance, evaluation, schema, template, and legal foundation must be committed. The foundation is the 28 authored files plus `SPEC.md` shipped verbatim (D-16) — the count is historical, taken at Phase-2 entry; the tree has since gained `eval/gate-review-protocol.md` (SPEC v2.4) and `.github/workflows/validate.yml` (SPEC v2.5):
 
 | Group | Contents |
 |---|---|
@@ -151,7 +151,7 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 
 **Objective.** Consolidate Phases 2–4 into the final scored matrix and shortlist; stop for an explicit, independently adjudicated approval before any building.
 
-> **Exit criteria (`SPEC.md` §10, verbatim):** Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25).
+> **Exit criteria (`SPEC.md` §10, verbatim):** Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). A reviewer `APPROVED` is provisional: the `ROADMAP.md` gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind is barred until the owner posts an acknowledgement comment on the sign-off PR (D-25, amended v2.5).
 
 **Deliverables.**
 
@@ -172,7 +172,7 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 | V5.6 | Hook budget preview | Shortlist implies ≤ 1 hook per plugin, hooks only in `super-saiyan` and `rinnegan` (D-15) |
 | V5.7 | Roster balance | Every core plugin has ≥ 1 shortlisted component or a recorded plan for original work (for example `aura`) |
 
-**Gate G5 — MANDATORY INDEPENDENT APPROVAL (D-25).** No scaffolding, no synthesis, no component authoring until an **independent reviewer** — running on a different model from the executing agent, reading the matrix, shortlist report, triage log and the pinned sources, and receiving none of the executing agent's reasoning — returns `APPROVED` under `eval/gate-review-protocol.md`, and the approval is **recorded as an ADR in `DECISIONS.md`**. That ADR is the authorization; the §11 gate-log row below is an index to it, not the record. A first `REJECTED` loops the phase; a **second `REJECTED` on this gate escalates to the project owner**, who decides it. Scope changes demanded at this gate become superseding ADRs before Phase 6 starts.
+**Gate G5 — MANDATORY INDEPENDENT APPROVAL (D-25).** No scaffolding, no synthesis, no component authoring until an **independent reviewer** — running on a different model from the executing agent, reading the matrix, shortlist report, triage log and the pinned sources, and receiving none of the executing agent's reasoning — returns `APPROVED` under `eval/gate-review-protocol.md`, and the approval is **recorded as an ADR in `DECISIONS.md`**. That `APPROVED` is provisional: the §11 gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind stays barred until the project owner posts an acknowledgement comment on the sign-off PR and an `OWNER ACK` row joins it. That ADR, together with the owner's acknowledgement, is the authorization; the §11 gate-log rows below index it, they are not the record. A first `REJECTED` loops the phase; a **second `REJECTED` on this gate escalates to the project owner**, who decides it. Scope changes demanded at this gate become superseding ADRs before Phase 6 starts.
 
 ---
 
@@ -186,7 +186,7 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 
 - The full §3 tree, including the entries deferred from the foundation stage: `.claude-plugin/marketplace.json`, the nine `plugins/<name>/.claude-plugin/plugin.json` manifests, `tests/` fixtures, and `.github/workflows/upstream-watch.yml`.
 - Synthesized components for every approved shortlist row — skills, commands, curated `bankai` agents, and the at most two budgeted hooks.
-- CI running both validators on every PR.
+- CI running both validators on every PR — landed early as `.github/workflows/validate.yml` (SPEC v2.5), which also enforces the HD-12 twin-parity diff and is a required check on `main`. Phase 6 extends it to the release checks; V6.9 is unchanged.
 - Completed `SOURCES.md` (every shipped component mapped), `NOTICE` entries where flagged, per-plugin `CHANGELOG.md`.
 
 **Verification criteria.**
@@ -225,8 +225,8 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 ## 10. Gate Protocol
 
 1. **Inputs:** the phase's deliverables plus its verification table, all criteria green, and the §10 exit criteria quoted in that phase satisfied.
-2. **Reviewer:** the project owner, or the executing agent under the owner's standing delegation, for the review gates G2–G4 and G6. **G5 is a hard approval gate** and is adjudicated by an **independent reviewer** under `eval/gate-review-protocol.md` (D-25), escalating to the owner on a second `REJECTED`. Phase 6 work of any kind before a recorded G5 approval is a process violation.
-3. **Record:** G5's approval is recorded as an ADR in `DECISIONS.md`. All gates additionally get a Gate Log row (§11) with date and verdict for at-a-glance status. `APPROVED` opens the next phase; `REJECTED` loops the phase with noted remediations.
+2. **Reviewer:** the project owner, or the executing agent under the owner's standing delegation, for the review gates G2–G4 and G6. **G5 is a hard approval gate** and is adjudicated by an **independent reviewer** under `eval/gate-review-protocol.md` (D-25), escalating to the owner on a second `REJECTED`. Phase 6 work of any kind before a recorded G5 approval is a process violation, and a reviewer `APPROVED` is not enough on its own — the owner must acknowledge it on the sign-off PR first.
+3. **Record:** G5's approval is recorded as an ADR in `DECISIONS.md`. All gates additionally get a Gate Log row (§11) with date and verdict for at-a-glance status; G5 takes two — the reviewer's `APPROVED (reviewer) — pending owner ack`, then the owner's `OWNER ACK` with its date and comment URL. `APPROVED` opens the next phase — at G5, once the owner has acknowledged it; `REJECTED` loops the phase with noted remediations.
 4. **Scope changes at a gate:** become superseding ADRs in `DECISIONS.md` before the next phase begins. Changes that touch `SPEC.md` go through the D-16 spec PR.
 
 ## 11. Gate Log
@@ -236,11 +236,13 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 | G1 | 2026-08-15 | APPROVED | Structural inventory ratified via `SPEC.md` §8 and §10 |
 | G2 | 2026-08-18 | APPROVED | Phase-2 audit complete: V2.1–V2.10 all discharged (V2.8–V2.10 by SPEC v2.3, PR #2). Reviewed and approved under standing delegation D11 (2026-08-18); review record: PR #4 |
 
+G5 occupies two rows, not one: `APPROVED (reviewer) — pending owner ack` when the independent reviewer returns its verdict, then `OWNER ACK` with the date and the comment URL when the owner acknowledges it. Phase 6 opens on the second row (D-25 as amended at SPEC v2.5).
+
 ## 12. Sequence Overview
 
 ```text
 Foundation ──▶ pin-upstream ──▶ [Phase 2] Tier-1 audit ──G2──▶ [Phase 3] ECC + claude-mem ──G3──▶
-[Phase 4] Remaining sources ──G4──▶ [Phase 5] Matrix ══G5 (HUMAN APPROVAL, recorded as an ADR)══▶
+[Phase 4] Remaining sources ──G4──▶ [Phase 5] Matrix ══G5 (INDEPENDENT REVIEW + OWNER ACK, recorded as an ADR)══▶
 [Phase 6] Scaffold & synthesize ──G6──▶ first release tag ──▶ §11 maintenance loop
                                                               (upstream-watch monthly · instinct review · tagged releases)
 ```

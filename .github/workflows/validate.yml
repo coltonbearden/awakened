@@ -1,0 +1,84 @@
+# Awakened CI — the twin validators plus the HD-12 twin-parity check.
+#
+# `SPEC.md` §3 lists this file as a scaffold-stage (non-[P6]) entry, and check S2 in both
+# validators requires it to be present. The job runs `scripts/validate.sh` and
+# `scripts/validate.ps1`, then diffs their CRLF-normalized output so parity between the
+# twins is enforced rather than honoured (HD-12, closed at SPEC v2.5).
+#
+# Policy position (`SPEC.md` §14, v2.4 -> v2.5 row 5): this workflow is repo-maintenance
+# tooling and is never shipped to a user machine, so it is not a new HR-6 or HR-7
+# exception. Its only network activity is the GitHub checkout. The PowerShell step is
+# guarded: GitHub-hosted `ubuntu-latest` runners ship PowerShell 7, so the install branch
+# never executes there; it exists so that a self-hosted runner cannot silently skip the
+# `.ps1` leg. `CLAUDE.md` §5.3's "no sudo" rule governs scripts shipped in this
+# repository — this is CI runner provisioning, and it is inert on hosted runners.
+
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Ensure PowerShell 7 is available
+        run: |
+          set -euo pipefail
+          if ! command -v pwsh >/dev/null 2>&1; then
+            echo "pwsh not found: provisioning it (self-hosted runner path)"
+            . /etc/os-release
+            sudo apt-get update
+            sudo apt-get install -y wget apt-transport-https software-properties-common
+            wget -q "https://packages.microsoft.com/config/ubuntu/${VERSION_ID}/packages-microsoft-prod.deb" -O /tmp/packages-microsoft-prod.deb
+            sudo dpkg -i /tmp/packages-microsoft-prod.deb
+            rm -f /tmp/packages-microsoft-prod.deb
+            sudo apt-get update
+            sudo apt-get install -y powershell
+          fi
+          pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
+
+      - name: validate.sh — the bash leg
+        run: bash scripts/validate.sh
+
+      - name: validate.ps1 — the PowerShell 7 leg
+        run: pwsh -NoProfile -File scripts/validate.ps1
+
+      - name: HD-12 twin-parity diff
+        run: |
+          set -euo pipefail
+          bash scripts/validate.sh > "${RUNNER_TEMP}/bash.out"
+          pwsh -NoProfile -File scripts/validate.ps1 > "${RUNNER_TEMP}/pwsh.out"
+          tr -d '\r' < "${RUNNER_TEMP}/bash.out" > "${RUNNER_TEMP}/bash.norm"
+          tr -d '\r' < "${RUNNER_TEMP}/pwsh.out" > "${RUNNER_TEMP}/pwsh.norm"
+          diff -u "${RUNNER_TEMP}/bash.norm" "${RUNNER_TEMP}/pwsh.norm"
+          echo "PARITY: IDENTICAL"
+
+  validate-windows:
+    name: validate-windows
+    runs-on: windows-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: validate.ps1 on Windows PowerShell 7
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File scripts/validate.ps1
+          exit $LASTEXITCODE

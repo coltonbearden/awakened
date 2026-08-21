@@ -57,15 +57,15 @@ The one sanctioned network use in the whole repository is maintenance tooling th
 
 ## Status
 
-**Foundation complete, plugin content not yet built.** Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates are committed. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18, ahead of the source audits.
+**Foundation complete, plugin content not yet built.** Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates are committed. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18. The Phase-2 Tier-1 audit has since scored 55 components — 27 shortlist, 25 reject, 3 merge.
 
-Plugin content lands after those audits and after the mandatory human approval gate. The sequence, the verification criteria for each phase, and the gate log live in [`ROADMAP.md`](ROADMAP.md).
+Plugin content lands after those audits, after the independent-reviewer approval gate, and after the project owner acknowledges that approval (D-25). The sequence, the verification criteria for each phase, and the gate log live in [`ROADMAP.md`](ROADMAP.md).
 
 ## Repository map
 
 | Path | What it is |
 |---|---|
-| `SPEC.md` | The ratified specification (v2.4) — the authority, shipped verbatim |
+| `SPEC.md` | The ratified specification (v2.5) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
 | `DECISIONS.md` | ADR-001…ADR-025 — every resolved decision, mirroring `SPEC.md` §12 one to one |
@@ -75,6 +75,7 @@ Plugin content lands after those audits and after the mandatory human approval g
 | `schemas/` | JSON Schemas for marketplace, plugin, skill, and agent files |
 | `scripts/` | `validate.sh` / `validate.ps1` and `pin-upstream.sh` / `pin-upstream.ps1` twins |
 | `templates/` | Slot-bearing starting points for every component type, each with a worked example |
+| `.github/workflows/` | CI: `validate.yml` runs both validators and the HD-12 twin-parity diff on every PR and push to `main` |
 | `SOURCES.md`, `NOTICE` | Provenance ledger and Apache-2.0 attributions |
 
 ## Trademarks and artwork
