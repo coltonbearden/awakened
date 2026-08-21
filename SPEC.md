@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.4
-**Date:** 2026-08-18
-**Status:** Governing spec — supersedes SPEC.md v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Version:** 2.5
+**Date:** 2026-08-21
+**Status:** Governing spec — supersedes SPEC.md v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -95,7 +95,8 @@ awakened/
 ├── tests/                        # [P6] Component test fixtures
 ├── .github/
 │   └── workflows/
-│       └── upstream-watch.yml    # [P6] Monthly upstream diff monitor
+│       ├── upstream-watch.yml    # [P6] Monthly upstream diff monitor
+│       └── validate.yml          # CI: both validators + HD-12 twin-parity diff on every PR and push to main; required on main
 ├── .gitattributes                # LF line endings enforced for *.sh, *.ps1, *.json, *.md
 ├── CLAUDE.md                     # Repo-session execution rules for Claude Code
 ├── CONTEXT.md                    # System overview, non-goals, user profile
@@ -345,10 +346,10 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | Phase | Scope | Exit criteria (all required) |
 |---|---|---|
 | 1 — Structural inventory | ✅ Complete 2026-08-15 | All 10 repos crawled; structure, counts, licenses mapped. |
-| 2 — Tier-1 deep audit | Read every skill file in superpowers, mattpocock/skills, kepano/obsidian-skills, vercel-labs/skills | `upstream.json` SHAs pinned (no nulls); one `matrix.csv` row per skill file in all four repos; every `reject` has a triage-log entry citing rule IDs; §0 official-docs verification complete — the five `UNVERIFIED-EXTERNAL` assumptions (synthesis HD-9) adjudicated, the hook dispatch mechanism decided (HD-5) via a §14 changelog row, and all ten §8 licenses re-verified against the pinned commits (HD-10). |
+| 2 — Tier-1 deep audit | ✅ Complete 2026-08-18 — Read every skill file in superpowers, mattpocock/skills, kepano/obsidian-skills, vercel-labs/skills | `upstream.json` SHAs pinned (no nulls); one `matrix.csv` row per skill file in all four repos; every `reject` has a triage-log entry citing rule IDs; §0 official-docs verification complete — the five `UNVERIFIED-EXTERNAL` assumptions (synthesis HD-9) adjudicated, the hook dispatch mechanism decided (HD-5) via a §14 changelog row, and all ten §8 licenses re-verified against the pinned commits (HD-10). |
 | 3 — ECC triage + claude-mem extraction | 270 ECC skills → shortlist → deep-read shortlist only; extract claude-mem memory concepts | ECC shortlist ≤ 40 rows deep-read (bulk rejects logged in aggregate); file-based rebuild design written to `eval/claude-mem-rebuild.md`. |
 | 4 — Remaining sources | wshobson shortlisted plugins (~12–15), anthropics/skills, davila7 components dir, awesome-claude-code gap scan | Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`. |
-| 5 — Evaluation matrix | Full scored matrix | Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). |
+| 5 — Evaluation matrix | Full scored matrix | Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). A reviewer `APPROVED` is provisional: the `ROADMAP.md` gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind is barred until the owner posts an acknowledgement comment on the sign-off PR (D-25, amended v2.5). |
 | 6 — Scaffold & synthesize | Repo structure, marketplace.json, synthesized components, validation + CI, docs | Tree matches §3 exactly; `scripts/validate.sh` and `validate.ps1` both exit 0; CI green; a `SOURCES.md` row exists for every shipped component. |
 
 ---
@@ -389,8 +390,8 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | D-21 | Blocked-check verdict | §9 enum frozen; `defer` requires a named blocking check + resolution phase; Phase 5 sign-off enumerates open defers (resolves A-GAP-003; Set A's `hold` not adopted) |
 | D-22 | C-1 scope | C-1 binds every hook regardless of handler type; `timeout` mandatory on all hook entries (resolves A-GAP-005) |
 | D-23 | aura statuslines | `plugins/aura/statuslines/` added to the per-plugin layout, scoped to `aura` only; preset scripts ship as `.sh`/`.ps1` twin pairs (resolves A-GAP-006) |
-| D-25 | G5 adjudication | Gate G5 is decided by an **independent reviewer** on a different model from the executing agent, artifact-only, against the versioned `eval/gate-review-protocol.md`; a mandatory source spot-check, uncertainty resolving to `REJECTED`, and escalation to the owner on a second `REJECTED`. Scope is G5 alone — G3, G4 and G6 remain review gates. Outcomes in ADR-025 |
 | D-24 | Phase-2 §0 verification | §8 licenses corrected at the first pin (HD-10); hook dispatch decided — shell-free `prompt`/`agent` handlers, command handlers barred pending a P-5-sanctioned dual-platform interpreter (HD-5, resolves B-GAP-002); five HD-9 assumptions adjudicated against the live official docs — outcomes in ADR-024 |
+| D-25 | G5 adjudication | Gate G5 is decided by an **independent reviewer** on a different model from the executing agent, artifact-only, against the versioned `eval/gate-review-protocol.md`; a mandatory source spot-check, uncertainty resolving to `REJECTED`, and escalation to the owner on a second `REJECTED`. Scope is G5 alone — G3, G4 and G6 remain review gates. Amended v2.5 (ADR-025 in place): a reviewer `APPROVED` is provisional until the owner acknowledges it on the sign-off PR — no Phase 6 work before the ack; reviews run clean-room from a `git archive` workspace under an explicit MUST-NOT-read list; the reviewer loader is sha256-pinned in the protocol (§0, verified at Step 0 — mismatch ⇒ automatic `REJECTED`); a non-Anthropic second pass is a non-binding SHOULD at the real G5, REQUIRED where the executing agent's model equals the reviewer's. Outcomes in ADR-025 |
 
 ---
 
@@ -443,6 +444,18 @@ The spec is versioned `MAJOR.MINOR`: MINOR for clarifications and additive decis
 
 Open items intentionally **not** resolved in v2.2: HD-5 (cross-platform hook dispatch mechanism) and HD-9's assumptions — both gated on Phase 2 §0 verification; HD-7, HD-8, HD-11, HD-12 remain advisory in `03-synthesis/SYNTHESIS_LOG.md`.
 
+### v2.2 → v2.3 (2026-08-18) — Phase-2 §0 verification: licenses at first pin (HD-10), hook dispatch (HD-5), assumption adjudication (HD-9)
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §8: `anthropics/skills` license cell corrected — no root license; per-skill `LICENSE.txt`: 12 Apache-2.0 (incl. skill-creator, the named `instinct` lineage) / 4 proprietary (pdf, pptx, xlsx, docx). `hesreallyhim/awesome-claude-code` corrected CC0 → CC-BY-NC-ND-4.0. Verified at the first pin via the GitHub API and, where the API reports no license or `NOASSERTION`, the repository's LICENSE file (HD-10); `upstream.json`, `NOTICE`, `SOURCES.md` aligned in the same PR | Semantic → D-24 |
+| 2 | §6: Hook Dispatch subsection added — hooks satisfy C-1 shell-free (`prompt`/`agent` handlers); command handlers only by superseding decision, exec form, with a P-5-sanctioned dual-platform interpreter (none today). Resolves B-GAP-002 (HD-5) | Semantic → D-24 |
+| 3 | HD-9's five `UNVERIFIED-EXTERNAL` assumptions adjudicated against the live official docs; conclusive outcomes tightened into `schemas/agent.schema.json` (`permissionMode` rejected — unsupported for plugin-shipped agents) and `schemas/marketplace.schema.json` (git-source pin fields `sha`/`ref` declared); full outcomes and SPEC-GAP-001 in ADR-024 | Clarifying → D-24 |
+| 4 | §12 decisions extended D-24; §3 comment updated to ADR-001…ADR-024 | Additive |
+| 5 | §0/§2: external standard-of-record URL corrected to `https://code.claude.com/docs/en/plugins` — `docs.claude.com/en/docs/claude-code/*` now `301`-redirects to `code.claude.com/docs/en/*`. §2's "re-verify URL at Phase 2" note discharged; §0's re-verify rule re-bound to every subsequent phase gate | Clarifying → D-24 |
+
+Open items after v2.3: HD-7, HD-8, HD-11, HD-12 remain advisory in `03-synthesis/SYNTHESIS_LOG.md`. SPEC-GAP-001 (ADR-024): the official sub-agents reference documents agents' `tools` as a comma-separated string and does not explicitly document the YAML list form the templates standardize — resolve during the Phase-2 audit, before any agent ships.
+
 ### v2.3 → v2.4 (2026-08-18) — G5 adjudicated by an independent reviewer (D-25)
 
 | # | Change | Kind |
@@ -455,14 +468,19 @@ Open items intentionally **not** resolved in v2.2: HD-5 (cross-platform hook dis
 
 Rationale of record: the Phase-2 audit shortlisted two components that violate hard rejects (`vercel/find-skills`, `superpowers/using-git-worktrees`, both HR-7) and they survived every internal consistency check, because those checks verify the matrix against itself rather than against the sources. A G5 rehearsal under this protocol then found three further defects the same self-checks had passed. The gate's value is adversarial reading; what changes is who reads, not how hard.
 
-### v2.2 → v2.3 (2026-08-18) — Phase-2 §0 verification: licenses at first pin (HD-10), hook dispatch (HD-5), assumption adjudication (HD-9)
+### v2.4 → v2.5 (2026-08-21) — G5 owner-ack tripwire, clean-room review, loader pin, CI gate (D-25 amended)
 
 | # | Change | Kind |
 |---|---|---|
-| 1 | §8: `anthropics/skills` license cell corrected — no root license; per-skill `LICENSE.txt`: 12 Apache-2.0 (incl. skill-creator, the named `instinct` lineage) / 4 proprietary (pdf, pptx, xlsx, docx). `hesreallyhim/awesome-claude-code` corrected CC0 → CC-BY-NC-ND-4.0. Verified at the first pin via the GitHub API and, where the API reports no license or `NOASSERTION`, the repository's LICENSE file (HD-10); `upstream.json`, `NOTICE`, `SOURCES.md` aligned in the same PR | Semantic → D-24 |
-| 2 | §6: Hook Dispatch subsection added — hooks satisfy C-1 shell-free (`prompt`/`agent` handlers); command handlers only by superseding decision, exec form, with a P-5-sanctioned dual-platform interpreter (none today). Resolves B-GAP-002 (HD-5) | Semantic → D-24 |
-| 3 | HD-9's five `UNVERIFIED-EXTERNAL` assumptions adjudicated against the live official docs; conclusive outcomes tightened into `schemas/agent.schema.json` (`permissionMode` rejected — unsupported for plugin-shipped agents) and `schemas/marketplace.schema.json` (git-source pin fields `sha`/`ref` declared); full outcomes and SPEC-GAP-001 in ADR-024 | Clarifying → D-24 |
-| 4 | §12 decisions extended D-24; §3 comment updated to ADR-001…ADR-024 | Additive |
-| 5 | §0/§2: external standard-of-record URL corrected to `https://code.claude.com/docs/en/plugins` — `docs.claude.com/en/docs/claude-code/*` now `301`-redirects to `code.claude.com/docs/en/*`. §2's "re-verify URL at Phase 2" note discharged; §0's re-verify rule re-bound to every subsequent phase gate | Clarifying → D-24 |
+| 1 | §10 Phase 5 and §12 D-25: a reviewer `APPROVED` is provisional — the `ROADMAP.md` gate log records `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind is barred until the owner posts an acknowledgement comment on the sign-off PR. A second `REJECTED` still escalates to the owner | Semantic → D-25 (amended in place, ADR-025) |
+| 2 | `eval/gate-review-protocol.md` §1: G5 reviews run **clean room**. The executor builds the review workspace with `git archive --prefix=04-master/`, so it carries no `.git`, clones each pinned upstream beside it, and the invocation carries only the gate ID, the workspace, the repository `HEAD`, the executing agent's model string and absolute artifact paths. Absolute-path discipline replaces any assumption about the working directory a subagent inherits, and an explicit MUST-NOT-read list names what Bash can reach but the reviewer may not read | Semantic → D-25 |
+| 3 | `eval/gate-review-protocol.md` §3 Step 0: the **reviewer** now verifies the loader's path and sha256 itself; a mismatch is an automatic `REJECTED` pending owner review of the loader diff, and consumes no escalation round because nothing was reviewed. It is the single read permitted outside the workspace. The §0 pin itself landed before this version, as protocol v1.0.1 (PR #8); §0 rule 3 gains the dated evidence for how the reviewer registers | Semantic → D-25 |
+| 4 | `eval/gate-review-protocol.md` §3.5: SHOULD — at the real G5, not at rehearsals, one identical artifacts-only pass through a non-Anthropic model, attached as non-binding. Where the executing agent's model equals the reviewer's, that pass is REQUIRED rather than SHOULD, still non-binding, and both outputs accompany the owner-ack request; the invocation records the executing agent's model and the reviewer echoes it in its verdict | Additive → D-25 |
+| 5 | §3: `.github/workflows/validate.yml` added as a scaffold-stage (non-`[P6]`) entry — both validators plus the HD-12 twin-parity diff on every pull request and every push to `main`, required on `main` by repository ruleset. This pulls the Phase-6 deliverable "CI running both validators on every PR" forward; §10 Phase 6 "CI green" is unchanged, and `ROADMAP.md` §2's foundation count is historical. It installs nothing on GitHub-hosted runners and makes no network call beyond the checkout, so it is not a new HR-6 or HR-7 exception | Additive |
+| 6 | ADR amendment mechanism codified: when a spec PR amends an existing §12 cell, the mirroring ADR is amended **in place** — a dated `Amended` row in its field table plus dated italic notes at every changed passage, with `Status` staying `Accepted`. Superseding remains the route for reversing a decision. Recorded in `DECISIONS.md`, `CLAUDE.md` and `CONTRIBUTING.md` | Clarifying → D-16 |
+| 7 | Editorial: §10 Phase 2 row marked complete; §12 rows re-sequenced so D-24 precedes D-25; §14 blocks re-ordered chronologically | Editorial |
+| 8 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md`, `README.md`, `CONTRIBUTING.md`, `DECISIONS.md` and `eval/rubric.md`, and the verbatim exit-criteria quote in `ROADMAP.md` §7; validators re-bound — check D1 to the v2.5 version line, check S2 to require `.github/workflows/validate.yml` and `eval/gate-review-protocol.md`, check D2 unchanged at 25 ADRs. `DECISIONS.md` gains an ADR-025 Index row and "Next available" advances to ADR-026 | Additive |
 
-Open items after v2.3: HD-7, HD-8, HD-11, HD-12 remain advisory in `03-synthesis/SYNTHESIS_LOG.md`. SPEC-GAP-001 (ADR-024): the official sub-agents reference documents agents' `tools` as a comma-separated string and does not explicitly document the YAML list form the templates standardize — resolve during the Phase-2 audit, before any agent ships.
+Rationale of record: a reviewer is independent only if its inputs and its own definition are. v2.4 made the reviewer independent of the executing agent's reasoning; it still read a live checkout it could walk out of, and it was loaded from a file that nothing pinned. The clean room and the Step-0 digest close both gaps. The owner acknowledgement is the other half of the trade: delegation moved routine judgment off the owner's desk, and the one irreversible step — the commitment to build — returns to a human at the cost of a single comment.
+
+Open items after v2.5: SPEC-GAP-001 (ADR-024) remains open — the official sub-agents reference documents an agent's `tools` as a comma-separated string while `templates/agent.md` standardizes the YAML list; resolve before any agent ships. HD-12 is closed by row 5, enforced now rather than honoured. `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen, and ADR-009, ADR-021 and ADR-025's own Context keep the historical phrasing: they record what was true when they were written.

@@ -15,7 +15,7 @@ New plugins are out of scope: the nine-plugin lineup is fixed by `SPEC.md` §4 a
 
 Open an issue titled `proposal: <plugin>/<component-name>` containing every `eval/matrix.csv` column for your candidate, self-scored against `eval/rubric.md` — axes and anchors in §2, policy trigger IDs in §3. The maintainer audits at the pinned SHA in `upstream.json` (for upstream material) or against the rubric directly (for original work), records the official row, and applies the §4 verdict rules: `shortlist` requires no hard-reject hit, every axis ≥ 3, and exactly one owning plugin.
 
-Shortlisted is not accepted. Inclusion happens only at the `SPEC.md` §10 Phase-5 human approval gate, whose sign-off is recorded as an ADR in `DECISIONS.md` (`ROADMAP.md` G5).
+Shortlisted is not accepted. Inclusion happens only at the `SPEC.md` §10 Phase-5 gate, which is adjudicated by an independent reviewer against `eval/gate-review-protocol.md` (D-25). The sign-off is recorded as an ADR in `DECISIONS.md` (`ROADMAP.md` G5), and the reviewer's `APPROVED` is provisional until the project owner acknowledges it on the sign-off PR.
 
 ### What gets rejected without discussion
 
@@ -100,8 +100,8 @@ Set `git config core.autocrlf false` before cloning on Windows. `.gitattributes`
 | Merge strategy | Squash-merge; the PR title becomes the commit subject. Linear history on `main` |
 | Force pushes | Never — `--force` and `--force-with-lease` alike |
 | Branch names | `feat/<area>-<slug>`, `fix/<area>-<slug>`, `docs/<slug>` |
-| PR gate | `scripts/validate.*` exits 0 on the tree; CI runs the same command |
-| History | ADRs are immutable — a policy change requires a superseding ADR in the same PR |
+| PR gate | `scripts/validate.*` exits 0 on the tree; `.github/workflows/validate.yml` runs both twins plus the HD-12 parity diff on every PR and is a required check on `main` |
+| History | ADRs are immutable — a policy change requires a superseding ADR in the same PR. Carve-out: a spec PR amending an existing `SPEC.md` §12 cell amends the mirroring ADR in place, with a dated `Amended` row and dated notes |
 
 ### PR checklist
 
@@ -110,7 +110,7 @@ Set `git config core.autocrlf false` before cloning on Windows. `.gitattributes`
 - [ ] Apache-2.0 material adapted closely also has a `NOTICE` entry.
 - [ ] Any agent added or changed carries a restricted, parameterised `tools` allowlist (C-2).
 - [ ] Any hook added or changed is within the D-15 budget, declares a timeout, and writes only within the D-18 scope.
-- [ ] **A change that touches `SPEC.md` includes a §14 changelog row in the same PR and a matching ADR in `DECISIONS.md`** (D-16). An ADR must not supersede, override, or reclassify a `SPEC.md` cell — if it would need to, the change belongs in the spec PR instead.
+- [ ] **A change that touches `SPEC.md` includes a §14 changelog row in the same PR and a matching ADR in `DECISIONS.md`** (D-16) — a new ADR for a new §12 cell, or an in-place amendment (dated `Amended` row plus dated notes, `Status` unchanged) for a cell that already has one. An ADR must not supersede, override, or reclassify a `SPEC.md` cell — if it would need to, the change belongs in the spec PR instead.
 - [ ] No commit SHA was typed into `upstream.json` by hand; pins come only from `scripts/pin-upstream.*` (§8).
 - [ ] No franchise artwork, logos, or media assets were added (§7).
 

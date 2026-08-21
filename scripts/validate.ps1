@@ -33,7 +33,7 @@
 # NUMBERED CHECK LIST - shared verbatim with scripts/validate.sh
 # -----------------------------------------------------------------------------
 #   S1  Root foundation files present
-#   S2  Foundation directories present (eval, schemas, scripts, templates)
+#   S2  Foundation entries present (eval, schemas, scripts, templates, CI workflow)
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
@@ -79,7 +79,7 @@ $NinePlugins = @('super-saiyan', 'sharingan', 'rinnegan', 'kaioken', 'bankai',
 $HookPlugins = @('super-saiyan', 'rinnegan')
 $MarketplaceName = 'awakened'
 $Kebab = '^[a-z0-9]+(-[a-z0-9]+)*$'
-$SpecVersionLine = '**Version:** 2.4'
+$SpecVersionLine = '**Version:** 2.5'
 $MatrixHeader = 'id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 function Write-Usage {
@@ -173,18 +173,20 @@ foreach ($d in @('eval', 'schemas', 'scripts', 'templates', 'templates/plugin'))
     if (-not (Test-Path -LiteralPath $d -PathType Container)) { $s2Missing += $d }
 }
 foreach ($f in @('eval/rubric.md', 'eval/rubric.json', 'eval/matrix.csv', 'eval/triage-log.md',
+                 'eval/gate-review-protocol.md',
                  'schemas/marketplace.schema.json', 'schemas/plugin.schema.json',
                  'schemas/skill.schema.json', 'schemas/agent.schema.json',
                  'scripts/validate.sh', 'scripts/validate.ps1',
                  'scripts/pin-upstream.sh', 'scripts/pin-upstream.ps1',
                  'templates/plugin/plugin.json', 'templates/skill.md', 'templates/command.md',
-                 'templates/agent.md', 'templates/hook.json')) {
+                 'templates/agent.md', 'templates/hook.json',
+                 '.github/workflows/validate.yml')) {
     if (-not (Test-Path -LiteralPath $f -PathType Leaf)) { $s2Missing += $f }
 }
 if ($s2Missing.Count -gt 0) {
     foreach ($f in $s2Missing) { Add-Err 'S2' ("foundation entry is missing: " + $f) }
 } else {
-    Add-Ok 'S2' 'eval, schemas, scripts, and templates are complete'
+    Add-Ok 'S2' 'eval, schemas, scripts, templates, and the CI workflow are complete'
 }
 
 # -----------------------------------------------------------------------------

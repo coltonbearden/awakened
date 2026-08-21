@@ -4,9 +4,9 @@
 
 **Conventions**
 
-- **IDs** are sequential and never reused. Next available: **ADR-025**.
-- **Statuses:** `Proposed` → `Accepted` → (`Superseded by ADR-0NN` | `Deprecated`). Accepted ADRs are **immutable** — to change course, write a new ADR that supersedes the old one.
-- **Format:** field table (Status, Date, Spec ref, Supersedes), Context, Decision, Alternatives Considered, Consequences, Enforcement.
+- **IDs** are sequential and never reused. Next available: **ADR-026**.
+- **Statuses:** `Proposed` → `Accepted` → (`Superseded by ADR-0NN` | `Deprecated`). Accepted ADRs are **immutable** — to change course, write a new ADR that supersedes the old one. One carve-out, codified at SPEC v2.5: when a spec PR amends an existing `SPEC.md` §12 cell, the ADR that mirrors it is amended **in place** — a dated `Amended` row in its field table plus a dated italic note at every changed passage, `Status` staying `Accepted` — because D-16 requires the mirror to stay 1:1 and a superseding ADR would break that mapping. Superseding remains the route for *reversing* a decision.
+- **Format:** field table (Status, Date, Spec ref, Supersedes, plus `Amended` where an in-place amendment has landed), Context, Decision, Alternatives Considered, Consequences, Enforcement.
 - **Spec ref** cites the `D-NN` rule ID from `SPEC.md` §12, so the 1:1 mapping is mechanically checkable.
 - An ADR **MUST NOT** supersede, override, or reclassify a `SPEC.md` cell (ADR-016). Deviating from any Accepted ADR without a superseding ADR is a policy violation (`CLAUDE.md` PD-4).
 
@@ -38,6 +38,7 @@
 | 022 | C-1 scope: binds every hook regardless of handler type; `timeout` mandatory | Accepted | D-22 |
 | 023 | `aura` statuslines: `plugins/aura/statuslines/`, `.sh`/`.ps1` twin pairs | Accepted | D-23 |
 | 024 | Phase-2 §0 verification: licenses at first pin, hook dispatch, assumption adjudication | Accepted | D-24 |
+| 025 | Gate G5 adjudicated by an independent reviewer (amended 2026-08-21: owner-ack tripwire, clean room, loader pin) | Accepted | D-25 |
 
 ---
 
@@ -553,7 +554,7 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 - (+) ADR/decision parity is mechanically checkable — the validator counts ADRs and matches `Spec ref` fields against §12.
 - (−) Correcting an external fact, such as an upstream license, costs a spec PR rather than an ADR. Accepted: that cost is the control.
 
-**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* *(Amended 2026-08-18 by ADR-024 / SPEC v2.3 §14: check D2 now asserts exactly 24 ADR headings covering D-01…D-24.)* *(Amended 2026-08-18 by ADR-025 / SPEC v2.4 §14: check D2 now asserts exactly 25 ADR headings covering D-01…D-25, and check D1 the v2.4 version line.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
+**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* *(Amended 2026-08-18 by ADR-024 / SPEC v2.3 §14: check D2 now asserts exactly 24 ADR headings covering D-01…D-24.)* *(Amended 2026-08-18 by ADR-025 / SPEC v2.4 §14: check D2 now asserts exactly 25 ADR headings covering D-01…D-25, and check D1 the v2.4 version line.)* *(Amended 2026-08-21 by ADR-025 / SPEC v2.5 §14: check D1 now asserts the v2.5 version line and check S2 now requires `.github/workflows/validate.yml` and `eval/gate-review-protocol.md`; check D2 is unchanged at 25 ADR headings covering D-01…D-25. A spec PR that amends an existing `SPEC.md` §12 cell amends the mirroring ADR in place — a dated `Amended` field row plus dated italic notes at each changed passage, `Status` unchanged — because D-16 requires the mirror to stay 1:1; superseding is for reversing a decision.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
 
 ---
 
@@ -847,6 +848,7 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 | Date | 2026-08-18 |
 | Spec ref | D-25 |
 | Supersedes | — |
+| Amended | 2026-08-21 — SPEC v2.5 §14 rows 1-4 (owner decisions FD-1, FD-2, FD-5 and the second-model clause) |
 
 **Context.** `SPEC.md` §10 Phase 5 and `ROADMAP.md` §7 made G5 a **mandatory human approval
 gate**: the project owner reviews the consolidated matrix, shortlist report and triage log,
@@ -872,7 +874,12 @@ from the executing agent, against the versioned standard `eval/gate-review-proto
 1. **Independence is the mechanism.** The reviewer receives the gate ID and artifact paths
    only. It never receives the executing agent's reasoning, transcript, commit messages or
    PR narrative, and the invocation may not assert that any criterion passes. Every V5.1–V5.7
-   value is re-derived by the reviewer from the artifacts.
+   value is re-derived by the reviewer from the artifacts. *(Amended 2026-08-21 by SPEC v2.5
+   §14 row 2: independence now extends to what the reviewer can reach. Reviews run clean-room
+   from a `git archive --prefix=04-master/` export of the commit under review — no `.git`,
+   pinned upstream clones beside it — under an explicit MUST-NOT-read list and absolute-path
+   discipline, because Bash makes the live checkout, the handoff and the git history reachable,
+   and reachability is not permission.)*
 2. **A source spot-check is mandatory,** not discretionary: at least eight shortlisted rows
    verified against upstream at the pinned SHA, selection weighted toward rows where a wrong
    score is most costly. Internal consistency is not correctness; ADR-025's Context is the
@@ -882,12 +889,43 @@ from the executing agent, against the versioned standard `eval/gate-review-proto
 4. **Escalation bounds the delegation.** A first `REJECTED` loops the phase. A second
    `REJECTED` on the same gate escalates to the project owner with both review records
    attached. The executor may not re-invoke the reviewer a third time in place of escalating,
-   and may not narrow the resubmission to the parts questioned.
+   and may not narrow the resubmission to the parts questioned. *(Amended 2026-08-21 by SPEC
+   v2.5 §14 row 1: the owner-ack tripwire bounds the other direction — an `APPROVED` is
+   provisional until the owner acknowledges it — so neither verdict carries the project into
+   Phase 6 without a human. See item 7.)*
 5. **Scope is G5 only.** G3, G4 and G6 remain review gates disposed under D11. G5 is the one
    hard gate — the irreversible commitment before building — and the only one moved here.
 6. **Recording is unchanged.** G5's approval is still recorded as an ADR in `DECISIONS.md`,
    which remains the authorization; the `ROADMAP.md` §11 gate-log row indexes it. A
    `REJECTED` verdict is recorded too, so an auditor sees the loop and not only the approval.
+   *(Amended 2026-08-21 by SPEC v2.5 §14 row 1: recording is no longer unchanged. The ADR
+   together with the owner's acknowledgement comment is the authorization, and G5 takes two
+   §11 gate-log rows — `APPROVED (reviewer) — pending owner ack`, then `OWNER ACK` carrying
+   its date and the comment URL.)*
+7. **The owner acknowledges before Phase 6.** *(Added 2026-08-21 by SPEC v2.5 §14 row 1.)* A
+   reviewer `APPROVED` is provisional. The sign-off ADR is written and the sign-off pull
+   request merges normally, but Phase 6 work of any kind stays barred until the project owner
+   posts an acknowledgement comment on that pull request and the second gate-log row exists.
+   Delegation moved routine judgment off the owner's desk; the one irreversible step — the
+   commitment to build — returns to a human at the cost of a single comment.
+8. **The loader is pinned, and the reviewer checks it.** *(Added 2026-08-21 by SPEC v2.5 §14
+   row 3; the pin itself landed the same day as protocol v1.0.1, PR #8.)* The agent definition
+   that loads the reviewer is sha256-pinned in `eval/gate-review-protocol.md` §0 and is
+   READ-ONLY: a change to it is a change to that table, landed by pull request. The executor
+   verifies the digest before invoking; the reviewer re-verifies the path and digest itself at
+   §3 Step 0, which is the single read permitted outside the review workspace. A mismatch is an
+   automatic `REJECTED` pending the owner's review of the loader diff, and consumes no
+   escalation round, because nothing was reviewed.
+9. **A same-model G5 requires the second pass.** *(Added 2026-08-21 by SPEC v2.5 §14 row 4.)*
+   At the real G5 the same artifacts-only review SHOULD also run once through a non-Anthropic
+   model, attached as non-binding. Where the executing agent's model equals the reviewer's,
+   that pass is REQUIRED rather than SHOULD — still non-binding — and both outputs accompany
+   the owner-acknowledgement request. This decision requires an adjudicator on a different
+   model from the executing agent; the loader pins `model: fable` and a session's execution
+   model is not fixed, so it can equal the reviewer's. The clause defines what that case does
+   instead of proceeding in silent violation. The invocation records the executing agent's
+   model string and the reviewer echoes it in its verdict, so the condition is checkable from
+   the verdict rather than from the executor's word for it.
 
 **Alternatives Considered.**
 
@@ -911,7 +949,15 @@ from the executing agent, against the versioned standard `eval/gate-review-proto
 - (−) The reviewer's own definition (`.claude/agents/gate-reviewer.md`) lives outside the
   repository, at the project root, because `SPEC.md` §3 does not admit a `.claude/` entry and
   check S4 would reject one. The **standard** is versioned in `eval/`; the loader that points
-  at it is not. An auditor reads the protocol, not the loader.
+  at it is not. An auditor reads the protocol, not the loader. *(Amended 2026-08-21 by SPEC
+  v2.5 §14 row 3: the loader is now sha256-pinned in `eval/gate-review-protocol.md` §0 and
+  READ-ONLY, so it is tamper-evident even while it stays unversioned. Registration was measured
+  on 2026-08-21: `claude --add-dir <project-root>` resolves the agent, and so does a session
+  whose working directory is the project root; a session inside `04-master` with neither does
+  not. A `--agents` CLI override outranks project agents and no file digest can detect it. The
+  clean-room export uses `git archive --prefix=04-master/`, which bakes this checkout's
+  directory name into the workspace; accepted, because the loader whose relative paths depend
+  on it is READ-ONLY and changes only by pull request.)*
 - (−) Scope discipline now has a named owner at the gate: the reviewer checks that the build
   plan proposes nothing the matrix did not shortlist.
 
@@ -919,7 +965,13 @@ from the executing agent, against the versioned standard `eval/gate-review-proto
 §10 Phase 5 and `ROADMAP.md` §7/§10 carry the normative gate text. `scripts/validate.*`
 checks D1/D2 hold the v2.4 version line and the 25-ADR mapping onto D-01…D-25. Phase 6 work
 of any kind before a recorded G5 approval remains a process violation (`ROADMAP.md` §10
-rule 2), unchanged by who reviews.
+rule 2), unchanged by who reviews. *(Amended 2026-08-21 by SPEC v2.5 §14 rows 1 and 8: check
+D1 now holds the v2.5 version line and check S2 now requires `.github/workflows/validate.yml`
+and `eval/gate-review-protocol.md`; check D2 is unchanged at 25, because this ADR was amended
+in place rather than superseded. `.github/workflows/validate.yml` runs both validators and the
+HD-12 twin-parity diff on every pull request and every push to `main`, required on `main` by
+repository ruleset. A recorded G5 approval is no longer sufficient on its own: the owner's
+acknowledgement comment on the sign-off pull request is the second half of the authorization.)*
 
 ---
 
@@ -929,6 +981,8 @@ rule 2), unchanged by who reviews.
 nothing was committed, pushed, or filed. This section is a record, not a decision — it
 deliberately carries no ADR heading and no spec-ref row, because check D2 requires
 `DECISIONS.md` to hold exactly twenty-three ADR headings mapping 1:1 onto D-01…D-23.
+*(As of 2026-08-21 that count is twenty-five, D-01…D-25; the reason this section carries no ADR
+heading is unchanged.)*
 
 **Subject.** An autonomous five-phase "closure run" prompt authored by claude.ai (web
 chat) for this repository: fix a PowerShell UNC defect, `git init` and push to a new

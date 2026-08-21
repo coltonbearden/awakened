@@ -132,7 +132,7 @@ The enum is frozen by `SPEC.md` §9 rule 3 (D-21): `shortlist` | `reject` | `mer
 | `merge` | The candidate's value is fully absorbed by another candidate | **Name the absorbing candidate** in `rationale`, by its matrix `id` |
 | `defer` | Audited, but the decision waits on a named blocking check | **Name the blocking check ID and the phase** in `rationale` (§9 rule 3); the Phase 5 sign-off ADR enumerates every open `defer` |
 
-Shortlisted components are **candidates for synthesis**, not accepted content — final inclusion happens only at the §10 Phase 5 human approval gate (`ROADMAP.md` G5), whose sign-off is recorded as an ADR.
+Shortlisted components are **candidates for synthesis**, not accepted content — final inclusion happens only at the §10 Phase 5 independent-reviewer approval gate (`ROADMAP.md` G5, D-25), whose sign-off is recorded as an ADR and stays provisional until the project owner acknowledges it.
 
 A rejected component's *concept* may still be re-donated through a rebuild (the claude-mem pattern). The rebuild enters the matrix as a new row with `component_type = concept`, owned by the receiving plugin.
 

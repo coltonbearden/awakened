@@ -1,7 +1,7 @@
 # CLAUDE.md — Operating Rules for Claude Code Sessions in `awakened`
 
 **Scope:** every Claude Code session working inside this repository.
-**Governing document:** `SPEC.md` v2.4. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
+**Governing document:** `SPEC.md` v2.5. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
 **Repository:** `coltonbearden/awakened` — curated Claude Code plugin marketplace monorepo.
 
 This file is **operational**. It does not restate `SPEC.md`'s normative content; it references it by rule ID (D-16). Where you need the rule itself, read `SPEC.md`.
@@ -26,7 +26,7 @@ This file is **operational**. It does not restate `SPEC.md`'s normative content;
 
 Precedence on conflict (highest first):
 
-1. `SPEC.md` — normative specification (v2.4)
+1. `SPEC.md` — normative specification (v2.5)
 2. `DECISIONS.md` — ADR-001…ADR-025; rationale and enforcement, mirroring SPEC §12 one-to-one
 3. `CLAUDE.md` — this file; operational rules for sessions
 4. `ROADMAP.md` — phase plan, verification criteria, approval gates
@@ -48,6 +48,7 @@ The canonical tree is `SPEC.md` §3. Do not maintain a second copy of it here �
 | §3 entry class | Stage | Present at scaffold |
 |---|---|---|
 | Root governance docs, `upstream.json`, `.gitattributes`, `eval/`, `schemas/`, `scripts/`, `templates/` | Foundation | Yes — validated |
+| `.github/workflows/validate.yml` | Foundation (v2.5) | Yes — validated (S2) |
 | `.claude-plugin/marketplace.json` | Phase 6 (§10) | No — expected absent |
 | `plugins/<name>/` contents and manifests | Phase 6 (§10) | No — expected absent |
 | `tests/` fixtures | Phase 6 (§10) | No — expected absent |
@@ -221,7 +222,7 @@ Static review checklist for every PR:
 - **Squash-merge only.** Linear history on the default branch `main`.
 - **No force flags.** `--force` and `--force-with-lease` are prohibited in every context.
 - **Branch naming.** `feat/<area>-<slug>`, `fix/<area>-<slug>`, `docs/<slug>`.
-- **ADR discipline.** Accepted ADRs are immutable — supersede with a new ADR, never edit. Architectural deviations get their ADR before merge (PD-4).
+- **ADR discipline.** Accepted ADRs are immutable — supersede with a new ADR, never edit. The one carve-out (SPEC v2.5): a spec PR that amends an existing `SPEC.md` §12 cell amends the mirroring ADR **in place** — dated `Amended` field row plus dated italic notes at each changed passage, `Status` unchanged — because D-16 requires the 1:1 mapping to hold. Architectural deviations get their ADR before merge (PD-4).
 - **`upstream.json` discipline.** Commit SHAs are `null` at scaffold and are written **only** by `scripts/pin-upstream.*` (§8: "No SHA may ever be typed from memory"). Re-pins that affect a prior evaluation get an entry in `eval/triage-log.md`.
 - **Attribution.** Update `SOURCES.md` in the same commit that adds or materially revises a synthesized component. No per-file headers (D-12).
 - **Releases.** Versioned via git tags; per-plugin `CHANGELOG.md` (§11).
@@ -234,6 +235,7 @@ Static review checklist for every PR:
 |---|---|---|---|
 | Structure, naming, policy, encoding | `bash scripts/validate.sh` | `pwsh -File scripts/validate.ps1` | Exit 0; final line `VALIDATE: PASS` |
 | Release readiness | `bash scripts/validate.sh --release` | `pwsh -File scripts/validate.ps1 -Release` | Exit 0 once the Phase-6 tree entries exist |
+| CI — both validators plus HD-12 parity | runs on GitHub Actions | runs on GitHub Actions | `.github/workflows/validate.yml` green; required check on `main` |
 
 Both twins publish the same numbered check list in their header comment (S1–S4, D1–D2, N1/N3/N4/N5, U1–U2, R1, M1–M2, C1–C4, H1–H3, P1–P4, L1) and emit the same message strings. That list is the contract; the header is where a reviewer checks parity.
 
@@ -245,7 +247,7 @@ Invoke with the interpreter named explicitly (`bash …`, `pwsh -File …`) rath
 
 The validators depend on tools guaranteed present on their platform: bash plus `python3` on WSL2 for JSON parsing, and PowerShell 7's built-in JSON cmdlets on Windows. Nothing is auto-installed (HR-7); a missing interpreter is an environment error (exit 2), not a violation.
 
-Run before every commit. CI re-runs the same validators on every PR — a green local run is a required precondition, not a substitute.
+Run before every commit. `.github/workflows/validate.yml` (SPEC v2.5) re-runs both validators on every pull request and every push to `main`, and adds the HD-12 twin-parity check: the two legs' output, CRLF-normalized, must be byte-identical. It is a **required check on `main` by repository ruleset**, so a red run blocks the merge and direct pushes to `main` are blocked with it. It installs nothing on GitHub-hosted runners — they ship PowerShell 7 and Python 3 — and makes no network call beyond the checkout, so it is not a new HR-6 or HR-7 exception. A green local run is a required precondition, not a substitute.
 
 ---
 
@@ -257,7 +259,7 @@ Run before every commit. CI re-runs the same validators on every PR — a green 
 - Copying upstream files verbatim outside EXC-1 (P-6); record lineage in `SOURCES.md`.
 - Adding franchise artwork, logos, or media assets — names only (§7).
 - Committing secrets, tokens, or machine-specific configuration.
-- Editing an Accepted ADR, rewriting `SPEC.md` normative content outside the D-16 PR flow, or renaming Tier 1 plugins without a superseding ADR.
+- Editing an Accepted ADR outside the in-place amendment carve-out in §8 (a spec PR amending the §12 cell it mirrors, with the dated `Amended` row and dated notes), rewriting `SPEC.md` normative content outside the D-16 PR flow, or renaming Tier 1 plugins without a superseding ADR.
 - Writing a commit SHA into `upstream.json` by hand (§8).
 - Writing hooks, scripts, or components that touch paths outside the D-18 write scope.
 
