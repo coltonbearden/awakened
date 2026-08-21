@@ -1,5 +1,9 @@
 # Gate Review Protocol
 
+**Version:** 1.0.1 — 2026-08-21 (loader pin only, §0; the SPEC v2.5 amendments — clean-room
+invocation, §3 Step 0, owner-acknowledgement recording, second-model pass — are pending). v1.0 is
+the 2026-08-18 text (SPEC v2.4).
+
 **Purpose.** The standard an independent reviewer applies at **Gate G5**, the hard approval
 gate before any building begins (`SPEC.md` §10 Phase 5, `ROADMAP.md` §7). This file is the
 review standard of record: it is versioned, and an auditor answering "what standard was
@@ -8,6 +12,38 @@ applied at G5" reads this file at the commit the gate was decided.
 **Authority.** G5's verdict is the reviewer's, not the executor's. `ROADMAP.md` §10 rule 2
 makes G5 a hard gate — Phase 6 work of any kind before a recorded G5 approval is a process
 violation, and that is unchanged by who reviews.
+
+---
+
+## 0. Reviewer loader pin
+
+The reviewer is loaded from an agent definition that lives **outside this repository**:
+`.claude/agents/gate-reviewer.md` at the project root, one level above the repository root
+(`SPEC.md` §3 admits no `.claude/` entry — ADR-025, Consequences). This section makes that
+file tamper-evident: the standard is versioned here, and the loader that points at it is
+pinned here.
+
+| Item | Value |
+|---|---|
+| Loader | `.claude/agents/gate-reviewer.md` at the project root (one level above this repository); an invocation supplies its **absolute** path — never a `../` path, which resolves against the caller's own directory |
+| sha256 | `466587e533de6f73ac85fab0a53620f894988585f9c3e295d7c59092d5e586ec` |
+| Size | 2,376 bytes |
+| Pinned | 2026-08-21 |
+
+1. The loader is **READ-ONLY**. A change to the loader is a change to this table, landed by
+   pull request so the diff is reviewed where the standard lives; nobody edits the loader in
+   place and then invokes it.
+2. Before every invocation the executor recomputes the digest (`sha256sum <loader>`) and
+   compares it with this table. A mismatch stops the invocation: the gate is not run until the
+   owner has reviewed the loader diff. (The reviewer-side check — §3 Step 0, an automatic
+   `REJECTED` on mismatch — lands with SPEC v2.5.)
+3. **Registration.** Claude Code discovers project subagents only between the working
+   directory and the repository root, so a session started inside `04-master` never sees the
+   project-root loader. Sessions that will invoke the reviewer are launched with
+   `claude --add-dir <project-root>`; on 2026-08-21 an in-session `/add-dir` did not register
+   the agent in the running session — launch-time `--add-dir` is the supported route.
+4. **Residual.** A `--agents` CLI override outranks project agents and is not detectable by a
+   file digest; the owner's launch command is the control for that.
 
 ---
 
