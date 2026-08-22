@@ -707,13 +707,14 @@ and checked out at the `upstream.json` pin. `git rev-parse HEAD` returned
 `06c5e118c4d3e6c3b7f9445f973a2194c82de193`, byte-equal to `upstream.json`'s `affaan-m/ECC` commit,
 and `git status --porcelain` was empty. 1/1 MATCH.
 
-**Denominator, measured — the D36 analogue for commands and agents.** At the pin ECC carries
+**Denominator, measured — the same accounting the Phase-3 preamble made for skills.** At the pin ECC carries
 **424** `*/commands/*.md` and **307** `*/agents/*.md` across the whole tree. The canonical sets are
 the flat top-level directories: **94** `commands/*.md` and **68** `agents/*.md`, for a pass-1
 denominator of **162**. The remainder are the same components at other paths — 280 command and 201
 agent files under `docs/<lang>/`, 35 under `.opencode/`, 33 under `.kiro/`, 12 under
 `legacy-command-shims/`, 3 under `.claude/`, and 5 under `skills/*/agents/`. This is the same
-translation-and-harness-mirror pattern D36 recorded for the 897-vs-285 `SKILL.md` count, and it is
+translation-and-harness-mirror pattern the Phase-3 preamble recorded for the 897-vs-285 `SKILL.md`
+count, and it is
 written down for the same reason: a reviewer counting files should not have to reconstruct it.
 
 **The `id` convention V4.7 requires — settled before the first row was written.** All 94 command
@@ -1458,7 +1459,7 @@ general-purpose with exactly one owning plugin under B-1…B-8 (T-150); **31** w
 category level with a stated ground each (T-151); the remaining **43** are language, framework,
 cloud or business-domain packs (T-152). 91/91 accounted for. §8's "roughly 12–15 general-purpose
 categories" is a dated Phase-1 role note, not an audit target — the measured figure is 17, and §8 is
-left as written, the D36 precedent.
+left as written, as the Phase-3 preamble left its "~270 skills".
 
 **Denominator.** The 17 selected categories hold **77** component files but only **68 distinct
 bodies**: six components are published in more than one plugin with byte-identical bodies once
@@ -1484,8 +1485,9 @@ rejected on one ground, established by re-verifying against the live official re
 start". A component that does nothing for a default user cannot carry `dependencies` ≥ 3. The same
 read found `team-lead` declaring `TeamCreate` and `TeamDelete` in its `tools` list while the
 reference states **both tools no longer exist** as of v2.1.178. Without the fetch this family would
-have shortlisted on the strength of its prose. That is the D48 pattern for the third time on this
-project, and it is why §0 binds re-verification to a gate rather than to a dated reading.
+have shortlisted on the strength of its prose. That is the third time on this project that a live
+fetch has overturned a reading taken from a dated one — the first two were the Phase-3 hooks-event
+correction recorded in T-064…T-069 and the SPEC v2.7 §14 resolution of SPEC-GAP-001 — and it is why §0 binds re-verification to a gate rather than to a dated reading.
 
 #### anthropics/skills — licensing measured, not assumed
 
@@ -1495,7 +1497,7 @@ project, and it is why §0 binds re-verification to a gate rather than to a date
 root license. It therefore carries no grant. It is rejected and **flagged**: excluding an unlicensed
 component needs no judgment, but *including* one would be a licensing decision, which the standing
 authority reserves to the owner. `upstream.json` and §8 record "Apache-2.0 (12)"; the measured figure
-is 14, left as a dated role note per D36.
+is 14, left as a dated role note on the same principle as §8's other Phase-1 counts.
 
 `skill-creator` is §8's named lineage for `instinct`. It is **rejected on `bloat` 2** — 33.2KB plus
 16 bundled Python scripts — and its lineage findings are recorded in full in its triage entry
@@ -1834,7 +1836,7 @@ rows — and every `agent`-type row in the file now targets it.
 - **Source:** wshobson/agents
 - **Path:** plugins/context-management/commands/context-save.md
 - **HR/axis trigger IDs:** `axis:bloat=2`
-- **Rationale:** axis:bloat=2. Carries no frontmatter at all, opens as an 'elite context engineering specialist' persona, and its capture strategy is built on vector-database integration naming Pinecone, Weaviate and Qdrant. The rinnegan memory design in eval/claude-mem-rebuild.md already settles this ground file-based and lexical (D53).
+- **Rationale:** axis:bloat=2. Carries no frontmatter at all, opens as an 'elite context engineering specialist' persona, and its capture strategy is built on vector-database integration naming Pinecone, Weaviate and Qdrant. The rinnegan memory design in eval/claude-mem-rebuild.md already settles this ground file-based and lexical, a choice the owner confirmed and T-227 records.
 - **Date:** 2026-08-22
 
 ### T-187 — debugging-toolkit-smart-debug
@@ -2105,8 +2107,8 @@ rows — and every `agent`-type row in the file now targets it.
 
 - **Source:** anthropics/skills
 - **Path:** skills/doc-coauthoring/SKILL.md
-- **HR/axis trigger IDs:** `axis:dependencies=1,D-24`
-- **Rationale:** axis:dependencies=1. NOT A SCORING REJECT - a licensing one, recorded on the nearest axis because the verdict enum is frozen (D-21). This skill ships NO LICENSE file, and anthropics/skills carries no root license, so there is no grant covering it. SPEC 8 records the per-skill licensing and D-24 makes only the Apache-2.0 skills lineage-eligible. Excluding an unlicensed component needs no judgment; INCLUDING one would be a licensing decision reserved to the owner, so it is flagged rather than decided.
+- **HR/axis trigger IDs:** `D-24`
+- **Rationale:** D-24. A licensing reject, not a scoring one - the axes below describe the component honestly and none of them is the ground. This skill ships NO LICENSE file, and anthropics/skills carries no root license, so there is no grant covering it. SPEC 8 records the per-skill licensing and D-24 makes only the Apache-2.0 skills lineage-eligible. Excluding an unlicensed component needs no judgment; INCLUDING one would be a licensing decision reserved to the owner, so it is flagged rather than decided.
 - **Date:** 2026-08-22
 
 ### T-221 — gap-observability-monitoring
@@ -2277,7 +2279,8 @@ every phase regardless: **B-1…B-8** (a component with no owning plugin is not 
 rejected as a class (T-241). Inside the 12, a breadth screen on name and declared description removed
 **181** — 61 already dispositioned at their actual source, 79 vendor-bound, 41 language-bound — leaving
 **263**. **40** were deep-read and scored; the remaining **223 are named** in T-243 rather than
-silently dropped, the D40 precedent. The 40-cap is a **stated method choice adopted by analogy** to
+silently dropped, as the Phase-3 preamble named its own twelve margin cuts. The 40-cap is a **stated
+method choice adopted by analogy** to
 §10 Phase 3's ECC cap, not a §10 grant, and it is written down as such so a reviewer can disagree with
 it explicitly.
 
@@ -2327,7 +2330,7 @@ C-2 asks for.
 #### Outcome
 
 40 rows appended — **14 shortlist / 24 reject / 2 merge**, zero `defer`. The matrix reads **322 rows,
-100 shortlist / 208 reject / 14 merge**. **All ten §8 repositories are now represented or
+100 shortlist / 207 reject / 15 merge** after the T-273 corrections. **All ten §8 repositories are now represented or
 dispositioned**: nine carry rows and `hesreallyhim/awesome-claude-code` carries none by design, its
 157 catalog rows dispositioned as gap-scan entries in pass 2 (V4.4). `bankai` holds **36** shortlisted
 rows, `super-saiyan` 28, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 6, `poneglyph` 4,
@@ -2370,7 +2373,7 @@ rows, `super-saiyan` 28, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 6, `
 - **Source:** davila7/claude-code-templates
 - **Path:** cli-tool/components/ (223 components)
 - **HR/axis trigger IDs:** `n/a` — margin record, not a rejection
-- **Rationale:** **Named margin, 223 components, no matrix rows.** After the screen, **263** components survived inside the candidate categories and **40** were deep-read and scored. The remaining **223** are named here rather than silently dropped, following the D40 precedent from Phase 3. SPEC 10 Phase 4 sets no deep-read cap for this source - unlike Phase 3, which capped ECC at 40 - so the cap here is a stated method choice, adopted by analogy to that precedent because the source is the largest in SPEC 8 and its yield is demonstrably low: of the 40 deep-read, 14 shortlisted and 2 merged. Distribution by category: development 97, utilities 21, development-tools 18, productivity 17, documentation 15, git-workflow 13, deep-research-team 12, testing 12, security 10, performance-testing 5, modernization 2, git 1. Representative names not deep-read: tooling-engineer, thinking-beast-mode, test-engineer, test-automator, playwright-tester, performance-profiler, performance-engineer, mcp-expert, general-purpose, error-detective, dx-optimizer, dependency-manager, debugger, command-expert, cli-developer, ascii-ui-mockup-generator, architect-reviewer, accessibility-tester, git-workflow-manager, legacy-modernizer, cloud-migration-specialist, tech-debt-remediation-plan, se-technical-writer, documentation-engineer, changelog-generator, arch, api-documenter, technical-researcher, research-orchestrator, research-coordinator, research-brief-generator, research-analyst, report-generator, multi-source-searcher, data-researcher, data-analyst. Anything in this list may be promoted to a scored row later without renumbering, since the log is append-only.
+- **Rationale:** **Named margin, 223 components, no matrix rows.** After the screen, **263** components survived inside the candidate categories and **40** were deep-read and scored. The remaining **223** are named here rather than silently dropped, following the Phase-3 preamble, which named its twelve margin cuts for the same reason. SPEC 10 Phase 4 sets no deep-read cap for this source - unlike Phase 3, which capped ECC at 40 - so the cap here is a stated method choice, adopted by analogy to that precedent because the source is the largest in SPEC 8 and its yield is demonstrably low: of the 40 deep-read, 14 shortlisted and 2 merged. Distribution by category: development 97, utilities 21, development-tools 18, productivity 17, documentation 15, git-workflow 13, deep-research-team 12, testing 12, security 10, performance-testing 5, modernization 2, git 1. Representative names not deep-read: tooling-engineer, thinking-beast-mode, test-engineer, test-automator, playwright-tester, performance-profiler, performance-engineer, mcp-expert, general-purpose, error-detective, dx-optimizer, dependency-manager, debugger, command-expert, cli-developer, ascii-ui-mockup-generator, architect-reviewer, accessibility-tester, git-workflow-manager, legacy-modernizer, cloud-migration-specialist, tech-debt-remediation-plan, se-technical-writer, documentation-engineer, changelog-generator, arch, api-documenter, technical-researcher, research-orchestrator, research-coordinator, research-brief-generator, research-analyst, report-generator, multi-source-searcher, data-researcher, data-analyst. Anything in this list may be promoted to a scored row later without renumbering, since the log is append-only.
 - **Date:** 2026-08-22
 
 ### T-244 — davila7-anthropic-proprietary-rehost
@@ -2497,8 +2500,8 @@ rows, `super-saiyan` 28, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 6, `
 
 - **Source:** davila7/claude-code-templates
 - **Path:** cli-tool/components/skills/productivity/think-tank/SKILL.md
-- **HR/axis trigger IDs:** `axis:bloat=2`
-- **Rationale:** axis:bloat=2 borderline at 12KB, and the deciding ground is duplication: a structured multi-persona debate producing a decision is the shape ecc/council already holds as a shortlisted bankai row, with role-scoped subagents and an explicit anti-anchoring device. Nothing here survives that is not already covered.
+- **HR/axis trigger IDs:** n/a — `merge`, not a rejection
+- **Rationale:** Fully absorbed by ecc/council, already shortlisted for bankai. A structured multi-persona debate producing a decision is exactly what council does, and council adds two things this does not: role-scoped subagents dispatched with deliberately minimal context as an anti-anchoring device, and a ban on shadow writes. Nothing here survives that council does not already carry.
 - **Date:** 2026-08-22
 
 ### T-260 — productivity-devil
@@ -2530,7 +2533,7 @@ rows, `super-saiyan` 28, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 6, `
 - **Source:** davila7/claude-code-templates
 - **Path:** cli-tool/components/skills/productivity/naming-analyzer/SKILL.md
 - **HR/axis trigger IDs:** `axis:user_scope_fit=2`
-- **Rationale:** axis:user_scope_fit=2. Half the file is per-language convention tables - JavaScript/TypeScript, Python, Java, Go - which is the per-language reference SPEC 4's nine plugins do not own (the D41 ground).
+- **Rationale:** axis:user_scope_fit=2. Half the file is per-language convention tables - JavaScript/TypeScript, Python, Java, Go - which is the per-language reference SPEC 4's nine plugins do not own under B-1..B-8 - the ground the ecc/error-handling row states.
 - **Date:** 2026-08-22
 
 ### T-264 — productivity-humanizer
@@ -2605,22 +2608,30 @@ rows, `super-saiyan` 28, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 6, `
 - **Rationale:** axis:value=3 with no unique surface: 2.4KB asking for test-suite quality metrics, which ecc/agent-pr-test-analyzer already covers with gap severity rating and ecc/cmd-test-coverage with a worst-first gap list.
 - **Date:** 2026-08-22
 
+### T-273 — resolvable-citation-and-coherence-corrections
+
+- **Source:** affaan-m/ECC, wshobson/agents, anthropics/skills, davila7/claude-code-templates
+- **Path:** eval/matrix.csv (4 rows), eval/triage-log.md (4 entries and 6 preamble passages)
+- **HR/axis trigger IDs:** `n/a` — re-audit; one verdict moved, no scores invalidated
+- **Rationale:** **Re-audit.** A sweep of the Phase-4 output for the defect class T-069 and SPEC v2.5 SPEC 14 row 8 corrected found three kinds of problem, all introduced by this phase. **(1) Unresolvable citations.** Eleven references to `D36`, `D40`, `D41`, `D48` and `D53` cited *session* decisions recorded in an unversioned `HANDOFF.md` outside the repository, which a G5 reviewer working clean-room from a `git archive` export cannot resolve; SPEC 0 requires citations to resolve. Two sat in scored matrix rationales - `wshobson/context-management-context-save` cited `(D53)` and `davila7/productivity-naming-analyzer` cited `(the D41 ground)` - and nine in pass preambles. All eleven now point at an in-repo referent or state the fact directly: the D53 reference becomes T-227 plus `eval/claude-mem-rebuild.md`, the D41 reference becomes B-1..B-8 and the `ecc/error-handling` row. **(2) A trigger field contradicting its own row.** `anthropics/doc-coauthoring` carried `axis:dependencies=1` while its row scores `dependencies` 5. The axis was never the ground - the component ships no license in a repository with no root license - so the trigger is now `D-24` alone and the rationale no longer claims an axis. **(3) Three more trigger/row contradictions** found by cross-checking every entry against its row: `wshobson/code-refactoring-context-restore` and `davila7/utilities-directory-deep-dive` are rescored `value` 3 to **2**, which is what their rationales already argued; and `davila7/productivity-think-tank` moves from `reject` to **`merge`** naming `ecc/council`, because its own rationale said the deciding ground was that nothing survives which council does not already carry, and that is the merge definition rather than a bloat floor. All 222 entries that map to a matrix row were then cross-checked mechanically: zero remaining contradictions. Matrix totals move from 100/208/14 to **100 shortlist / 207 reject / 15 merge**; no row was added or removed and no shortlist verdict changed.
+- **Date:** 2026-08-22
+
 ## 4. Statistics
 
-Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; a field beginning `n/a` is its own row **including the `n/a (re-audit)` form**, which the v2.6 table wrongly filed under other-rule (T-069). 44 + 149 + 36 + 43 = 272.
+Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; a field beginning `n/a` is its own row **including the `n/a (re-audit)` form**, which the v2.6 table wrongly filed under other-rule (T-069). 44 + 147 + 37 + 45 = 273.
 
 | Metric | Count |
 |---|---|
-| Total entries | 272 |
+| Total entries | 273 |
 | Hard-reject entries | 44 |
-| Axis-floor entries | 149 |
-| Other-rule entries | 36 |
-| `n/a` entries | 43 |
+| Axis-floor entries | 147 |
+| Other-rule entries | 37 |
+| `n/a` entries | 45 |
 | Bulk-reject classes | 19 |
 | Gap-scan entries | 18 |
-| Re-audit / re-pin entries | 10 |
+| Re-audit / re-pin entries | 11 |
 
-The last three rows **overlap** the partition above and are not added to it: the sixteen bulk-reject classes are T-029…T-037, T-070…T-072 and T-151, T-152, T-154 plus the T-150 and T-240 scoping records and T-241, T-242 from pass 3, sixteen of which also carry an `HR-N` or `axis:` trigger; the ten re-audit entries are T-026…T-028 (the 2026-08-18 G5 rehearsal), T-064…T-069 (the 2026-08-22 review corrections) and T-149 (the B-6 agent-ownership recalibration). **Gap-scan entries move off 0 for the first time**: T-221…T-238 disposition all 157 rows of `hesreallyhim/awesome-claude-code`'s catalog across its 18 categories — 9 mapped to an owning plugin, 9 explicitly out of scope, zero merge candidates sourced from it (V4.4).
+The last three rows **overlap** the partition above and are not added to it: the sixteen bulk-reject classes are T-029…T-037, T-070…T-072 and T-151, T-152, T-154 plus the T-150 and T-240 scoping records and T-241, T-242 from pass 3, sixteen of which also carry an `HR-N` or `axis:` trigger; the ten re-audit entries are T-026…T-028 (the 2026-08-18 G5 rehearsal), T-064…T-069 (the 2026-08-22 review corrections) T-149 (the B-6 agent-ownership recalibration) and T-273 (the resolvable-citation and trigger-coherence sweep). **Gap-scan entries move off 0 for the first time**: T-221…T-238 disposition all 157 rows of `hesreallyhim/awesome-claude-code`'s catalog across its 18 categories — 9 mapped to an owning plugin, 9 explicitly out of scope, zero merge candidates sourced from it (V4.4).
 
 Reconciliation with the v2.5 table, which read 28 / 12 / 7 / 0 / 0 / 3 after Phase 2: the Phase-2 entries still contribute 12 hard-reject and 7 axis-floor. Six sit in the other-rule row, described below, and T-026 / T-027 sit in the `n/a` row rather than the other-rule row — the correction T-069 records. The v2.6 table published 22 / 24 / 14 / 3; the differences are that fix plus T-066's withdrawal of `HR-3` from T-030, which moves that class from hard-reject to axis-floor.
 
@@ -2636,6 +2647,6 @@ The three Phase-2 re-audit entries (T-026…T-028) arose from the **G5 rehearsal
 
 **Phase 4 pass 2 (2026-08-22) added T-149…T-238**: one re-audit correcting eight pass-1 agent rows to `bankai` under B-6, a category-triage record and three class rejects covering 91 wshobson plugins and four proprietary anthropics skills, a denominator record for nine byte-identical duplicate component copies, sixty-six individual rejects, and the eighteen gap-scan entries. `eval/matrix.csv` grew by 83 rows — 68 wshobson and 15 anthropics — and now reads 282 rows, 86 shortlist / 184 reject / 12 merge. Zero `defer` rows exist. Eight of the ten `SPEC.md` §8 repositories now carry rows; `hesreallyhim/awesome-claude-code` carries none by design and `davila7/claude-code-templates` is pass 3, after which G4 can close.
 
-**Phase 4 pass 3 (2026-08-22) added T-239…T-272**, completing the phase: a denominator and category-triage record for the largest source in §8, three class rejects covering 70 non-candidate categories and 181 screened components, a named 223-component margin, two licensing findings, an upstream self-nesting record, and twenty-six individual rejects and merges from the forty deep reads. `eval/matrix.csv` grew by 40 rows and now reads **322 rows, 100 shortlist / 208 reject / 14 merge**, still with zero `defer`. **All ten `SPEC.md` §8 repositories are now represented or dispositioned** — nine carry rows, and `hesreallyhim/awesome-claude-code` carries none by design with its catalog dispositioned as the eighteen gap-scan entries.
+**Phase 4 pass 3 (2026-08-22) added T-239…T-272**, completing the phase: a denominator and category-triage record for the largest source in §8, three class rejects covering 70 non-candidate categories and 181 screened components, a named 223-component margin, two licensing findings, an upstream self-nesting record, and twenty-six individual rejects and merges from the forty deep reads. `eval/matrix.csv` grew by 40 rows and now reads **322 rows, 100 shortlist / 207 reject / 15 merge** after the T-273 corrections, still with zero `defer`. **All ten `SPEC.md` §8 repositories are now represented or dispositioned** — nine carry rows, and `hesreallyhim/awesome-claude-code` carries none by design with its catalog dispositioned as the eighteen gap-scan entries. **T-273** then swept the whole phase for unresolvable citations and trigger/row contradictions and corrected four rows and four entries; every one of the 222 entries that maps to a row was cross-checked mechanically afterwards.
 
 The verdict vocabulary is `SPEC.md` §9 rule 3 — `shortlist`, `reject`, `merge`, `defer`. This log carries entries for `reject` (mandatory) and may carry them for `merge` and `defer` where the reasoning is worth preserving; `shortlist` rows need no entry.
