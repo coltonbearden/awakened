@@ -12,7 +12,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 1 | Structural inventory | **Complete** (2026-08-15) | G1 — passed |
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
-| 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-272; matrix 322 rows, 100 shortlist / 208 reject / 14 merge | G4 — passed |
+| 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
 | 5 | Evaluation matrix consolidation | Not started | **G5 — independent-reviewer gate + owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
@@ -206,7 +206,9 @@ passes. Pass 1 dispositioned ECC's 94 `commands/` and 68 `agents/` — 102 rows 
 classes. Pass 2 took `wshobson/agents` (91 categories → 17, 68 distinct bodies from 77 files),
 `anthropics/skills` (19 skills: 14 Apache-2.0, 4 proprietary excluded by D-24, one unlicensed) and
 the `hesreallyhim/awesome-claude-code` gap scan — 83 rows and 18 gap entries. Pass 3 took davila7 —
-40 rows. `eval/matrix.csv` 97 → **322** rows; `eval/triage-log.md` T-069 → **T-272**. **All ten §8
+40 rows. `eval/matrix.csv` 97 → **322** rows (100 shortlist / 207 reject / 15 merge); `eval/triage-log.md`
+T-069 → **T-273**, the last entry being a sweep that corrected eleven unresolvable citations and four
+trigger/row contradictions across the whole phase. **All ten §8
 repositories are represented or dispositioned**: nine carry rows, and awesome-claude-code carries
 none by design with its 157 catalog rows dispositioned as gap-scan entries. Zero `defer` rows exist.
 
