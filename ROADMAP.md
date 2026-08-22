@@ -141,6 +141,28 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 - **affaan-m/ECC `commands/` (94 files):** audited and scored at the pinned SHA. §8's mining targets that exist only here are prioritized — `sessions.md`, `save-session.md`, `resume-session.md`, `build-fix.md`, `code-review.md`, `project-init.md`, the `plan*`/`prp-*` family, `hookify*.md`, `security-scan.md`.
 - **affaan-m/ECC `agents/` (68 files):** the general-purpose candidates audited and scored, annotated with proposed restricted tool allowlists (C-2) alongside wshobson's.
 
+**Pass structure (owner decision, 2026-08-22).** Phase 4 runs as **three passes**, because the
+remaining surface measures far larger than §8's role notes suggest — `davila7/claude-code-templates`
+alone carries 3,220 skill, 421 agent and 346 command files under `cli-tool/components/`, more than
+all of ECC. Pass 1: ECC `commands/` + `agents/`. Pass 2: `wshobson/agents`, `anthropics/skills` and
+the `hesreallyhim/awesome-claude-code` gap scan. Pass 3: `davila7/claude-code-templates`.
+**G4 closes only after all three**, so the gate log carries no Phase-4 row until then.
+
+**V4.7 convention, settled 2026-08-22 (pass 1).** ECC rows use `ecc/cmd-<name>` for all 94 commands
+and `ecc/agent-<name>` for all 68 agents, applied uniformly rather than only to the colliding names.
+The source slug stays `ecc` because `eval/rubric.md` §5 fixes the `id` shape as
+`<source-slug>/<component-name>` and the slug denotes the `upstream.json` repo that check U1 pins to
+exactly ten; a slug like `ecc-cmd/` would name a repository that does not exist. Recorded in full,
+with the measured collision set, in the `eval/triage-log.md` Phase-4 preamble.
+
+**Pass 1 delivered (2026-08-22).** ECC read at the pin `06c5e118c4d3`, verified by `git rev-parse`
+before any component was opened. 162 canonical components — 94 `commands/*.md` and 68
+`agents/*.md` — dispositioned exactly once: 102 scored matrix rows (26 shortlist / 69 reject /
+7 merge, zero `defer`) plus 60 in the three `SPEC.md` §8-ratified reject classes (T-070 the 22
+language-pack commands, T-071 the 28 language-pack agents, T-072 the 10 domain-niche agents).
+`eval/matrix.csv` 97 → 199 rows; `eval/triage-log.md` T-069 → T-148. `kaioken`'s roster goes from
+one shortlisted row to five, which is the §4 lineage D-26 was written to reach.
+
 **Verification criteria.**
 
 | # | Check | Expected |
