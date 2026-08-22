@@ -2253,22 +2253,372 @@ rows — and every `agent`-type row in the file now targets it.
 - **Rationale:** **Out of scope.** Terraform and OpenTelemetry tooling - an operations discipline, the same ground the wshobson cloud-infrastructure and observability-monitoring categories were rejected on.
 - **Date:** 2026-08-22
 
+---
+
+### Phase 4 preamble — pass 3: davila7/claude-code-templates (2026-08-22)
+
+The last of the three passes. **G4 closes with it.**
+
+**Pin verified before any component was read.** Cloned fresh into this session's scratchpad, checked
+out at the `upstream.json` pin: `git rev-parse HEAD` = `8546d44fdec5c9775bf92ef881090820e568198e`,
+byte-equal to `upstream.json`; `git status --porcelain` empty. **1/1 MATCH.**
+
+**Denominator.** §8 scopes this source to the components directory only. It holds **1,664** canonical
+component files — 895 `SKILL.md`, 423 agent `.md`, 346 command `.md` — across **82** category
+directories, carrying 1,592 distinct names. It is the largest source in §8: more components than ECC's
+skills, commands and agents combined. Everything outside `cli-tool/components/` — the npm CLI,
+`analytics-ui/`, `dashboard/`, `cli-rust/`, `cloudflare-workers/` — is out of scope by §8 and carries
+zero rows, which is V4.2.
+
+**Method, and the authority it rests on.** Unlike wshobson, §10 gives this source no
+shortlisted-category wording and no deep-read cap. So the grounds used are the ones that bind in
+every phase regardless: **B-1…B-8** (a component with no owning plugin is not shortlistable) and the
+§9 `user_scope_fit` anchor. 82 categories reviewed → **12** taken forward (444 components) and **70**
+rejected as a class (T-241). Inside the 12, a breadth screen on name and declared description removed
+**181** — 61 already dispositioned at their actual source, 79 vendor-bound, 41 language-bound — leaving
+**263**. **40** were deep-read and scored; the remaining **223 are named** in T-243 rather than
+silently dropped, the D40 precedent. The 40-cap is a **stated method choice adopted by analogy** to
+§10 Phase 3's ECC cap, not a §10 grant, and it is written down as such so a reviewer can disagree with
+it explicitly.
+
+**Yield.** Of the 40 deep-read: **14 shortlist, 24 reject, 2 merge**. The low yield is the finding, not
+a shortfall — this source is an aggregator whose components are largely re-hosts, vendor integrations
+and per-language packs.
+
+#### Two licensing findings
+
+1. **It re-hosts Anthropic's four source-available skills under an MIT root license.**
+   `skills/document-processing/{docx,pdf,pptx,xlsx}` sit inside a repository whose root `LICENSE` is
+   MIT, while the source's own `skills/ANTHROPIC_ATTRIBUTION.md` says they are "**NOT open source**"
+   and "**Do not redistribute as your own**". D-24 already excludes those four, so no verdict moves —
+   but an MIT root license does not relicense third-party proprietary content, and a future re-pin
+   must not read it as covering them (T-244).
+2. **GPL-3.0 enters through FFmpeg.** The same attribution file declares FFmpeg 7.0.2 under **GNU GPL
+   v3.0** in the media skills, plus Pillow (MIT-CMU) and SIL-OFL fonts. GPL-3.0 is copyleft and is not
+   compatible with distributing a close adaptation under this project's MIT terms (D-08). No
+   shortlisted row touches a media skill, so nothing is blocked — the flag exists so a later pass does
+   not adopt one without the owner deciding the license question (T-245). **This is the second V4.5
+   NOTICE flag of Phase 4**, after `anthropics/brand-guidelines`.
+
+#### A defect in our own enforcement, found while auditing
+
+`davila7/security-read-only-auditor` promises a guarantee "enforced at the hook level, not just by
+convention", using `hooks:` in its **agent frontmatter** with `type: command` PreToolUse matchers.
+Three of our own rules bite: D-24 bars command handlers; D-15 caps hooks at one per plugin for
+`super-saiyan` and `rinnegan` only; and D-24 also records that the official plugins reference states
+`hooks` are **not supported for plugin-shipped agents for security reasons** — so shipped from a
+plugin the enforcement would silently not exist while the description still promised it.
+
+Checking that against our own schema surfaced a real gap: `schemas/agent.schema.json`'s `$comment`
+states that `hooks` (D-15) and `mcpServers` (HR-2) are prohibited, but **only `permissionMode` is
+actually declared with `"not": {}`**. `hooks` and `mcpServers` are undeclared and
+`additionalProperties` is `true`, so an agent carrying either would pass validation today. It is
+recorded **here and in the handoff's open items rather than as a `T-` entry**, because this log
+records component audits and the finding is about this repository's own schema. The fix is a small
+schema PR kept **separate from this audit** so it is reviewable on its own. This is the D-31 pattern —
+a stated policy that the mechanical check did not actually enforce.
+
+**The re-donation worth keeping:** `read-only-auditor`'s guarantee needs no hook at all.
+`tools: Read, Grep, Glob` — which that agent already declares — *is* the enforcement, and it is what
+C-2 asks for.
+
+#### Outcome
+
+40 rows appended — **14 shortlist / 24 reject / 2 merge**, zero `defer`. The matrix reads **322 rows,
+100 shortlist / 208 reject / 14 merge**. **All ten §8 repositories are now represented or
+dispositioned**: nine carry rows and `hesreallyhim/awesome-claude-code` carries none by design, its
+157 catalog rows dispositioned as gap-scan entries in pass 2 (V4.4). `bankai` holds **36** shortlisted
+rows, `super-saiyan` 28, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 6, `poneglyph` 4,
+`rinnegan` 3, and `aura` 0 by design.
+
+### T-239 — davila7-denominator
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/
+- **HR/axis trigger IDs:** `n/a` — denominator record, not a rejection
+- **Rationale:** **Denominator.** `SPEC.md` SPEC 8 scopes this source to the components directory only. At the pin it holds **1,664** canonical component files - **895** `SKILL.md`, **423** agent `.md`, **346** command `.md** - across **82** category directories (29 skill, 28 agent, 25 command), carrying **1,592** distinct component names. The 5,657 total files under `skills/` are mostly bundled assets and references, not components, which is why the file count is not the denominator. Everything outside the components directory - the npm CLI, `cli-tool/analytics-ui/`, `dashboard/`, `cli-rust/`, `cloudflare-workers/` - is out of scope by SPEC 8 and carries no rows (V4.2).
+- **Date:** 2026-08-22
+
+### T-240 — davila7-category-triage
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/ (82 categories)
+- **HR/axis trigger IDs:** `n/a` — scoping record, not a rejection
+- **Rationale:** **Category triage.** All 82 category directories were reviewed by name and contents listing. **12** were taken forward as candidate categories - agents `development-tools`, `git`, `modernization`, `documentation`, `deep-research-team`, `security`, `performance-testing`; skills `productivity`, `development`, `utilities`; commands `utilities`, `testing`, `git-workflow`, `documentation` - yielding a 444-component candidate pool. The other **70** are rejected as a class in T-241. Unlike wshobson, SPEC 10 gives this source no shortlisted-category wording, so the ground for every category rejection is B-1..B-8 and the SPEC 9 `user_scope_fit` anchor, which bind every component in every phase, rather than a phase-specific grant.
+- **Date:** 2026-08-22
+
+### T-241 — davila7-non-candidate-categories
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/ (70 categories, ~1,220 files)
+- **HR/axis trigger IDs:** `B-1..B-8,axis:user_scope_fit=1`
+- **Rationale:** **Class reject, 70 categories, no matrix rows.** Each is bound to one vendor, platform, language or business discipline, so no plugin among the nine can own it under B-1..B-8. Representative: `google-workspace` (107 commands), `programming-languages` (50 agents), `data-ai` (40), `devops-infrastructure` (40), `ai-research` (130 skills), `scientific` (139), `business-marketing`, `career`, `creative-design`, `enterprise-communication`, `doordash`, `gmod-addon-maker`, `sports`, `pocketbase`, `railway`, `sentry`, `azure`, `nextjs-vercel`, `svelte`, `blockchain-web3`, `finance`, `game-development`, `ffmpeg-clip-team`, `podcast-creator-team`, `ocr-extraction-team`, `ui-analysis`, `realtime`, `api-graphql`, `database`, `mcp-dev-team`. `obsidian-ops-team` is rejected on a different ground worth stating: Obsidian work is `poneglyph`'s, but SPEC 4 records `poneglyph`'s Source Lineage as kepano/obsidian-skills under EXC-1, so a second Obsidian source has no owner - the same lineage-bar reasoning that rejected anthropics/theme-factory for `aura`.
+- **Date:** 2026-08-22
+
+### T-242 — davila7-candidate-pool-screen
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/ (181 of the 444-component candidate pool)
+- **HR/axis trigger IDs:** `B-1..B-8,axis:user_scope_fit=1`
+- **Rationale:** **Class reject, 181 components, no matrix rows.** Inside the 12 candidate categories the pool was screened on name and declared description before any deep read. **61** are components already dispositioned at their actual source - davila7 re-hosts material from superpowers, ECC, wshobson and anthropics, and D-24's rule for catalog-surfaced candidates is that they are audited at their real source under that source's own license, which this phase already did. **79** name a specific vendor or hosted platform. **41** name a specific language or framework. Examples of the re-host class: `brainstorming`, `executing-plans`, `writing-plans`, `skill-creator`, `claude-api`, `avoid-ai-writing`, `architecture-decision-records`, `code-reviewer`, `context-manager`, `dx-optimizer`, `error-detective`, `debugger`, `test-automator`, `docx`.
+- **Date:** 2026-08-22
+
+### T-243 — davila7-deep-read-margin
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/ (223 components)
+- **HR/axis trigger IDs:** `n/a` — margin record, not a rejection
+- **Rationale:** **Named margin, 223 components, no matrix rows.** After the screen, **263** components survived inside the candidate categories and **40** were deep-read and scored. The remaining **223** are named here rather than silently dropped, following the D40 precedent from Phase 3. SPEC 10 Phase 4 sets no deep-read cap for this source - unlike Phase 3, which capped ECC at 40 - so the cap here is a stated method choice, adopted by analogy to that precedent because the source is the largest in SPEC 8 and its yield is demonstrably low: of the 40 deep-read, 14 shortlisted and 2 merged. Distribution by category: development 97, utilities 21, development-tools 18, productivity 17, documentation 15, git-workflow 13, deep-research-team 12, testing 12, security 10, performance-testing 5, modernization 2, git 1. Representative names not deep-read: tooling-engineer, thinking-beast-mode, test-engineer, test-automator, playwright-tester, performance-profiler, performance-engineer, mcp-expert, general-purpose, error-detective, dx-optimizer, dependency-manager, debugger, command-expert, cli-developer, ascii-ui-mockup-generator, architect-reviewer, accessibility-tester, git-workflow-manager, legacy-modernizer, cloud-migration-specialist, tech-debt-remediation-plan, se-technical-writer, documentation-engineer, changelog-generator, arch, api-documenter, technical-researcher, research-orchestrator, research-coordinator, research-brief-generator, research-analyst, report-generator, multi-source-searcher, data-researcher, data-analyst. Anything in this list may be promoted to a scored row later without renumbering, since the log is append-only.
+- **Date:** 2026-08-22
+
+### T-244 — davila7-anthropic-proprietary-rehost
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/document-processing/{docx,pdf,pptx,xlsx}
+- **HR/axis trigger IDs:** `D-24`
+- **Rationale:** **Licensing finding, no matrix rows.** This source re-hosts Anthropic's four source-available document skills inside a repository whose root LICENSE is MIT. Its own `skills/ANTHROPIC_ATTRIBUTION.md` states they are "**NOT open source**", that they are "provided by Anthropic as reference examples", and instructs "**Do not redistribute as your own**". D-24 already excludes these four from lineage eligibility, so no verdict changes - but the finding is recorded because an MIT root license does not relicense third-party proprietary content, and a future re-pin must not read the root LICENSE as covering them. `pdf` is vendored here as `pdf-anthropic`.
+- **Date:** 2026-08-22
+
+### T-245 — davila7-third-party-license-exposure
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/ (ANTHROPIC_ATTRIBUTION.md, THIRD_PARTY_NOTICES.md)
+- **HR/axis trigger IDs:** `n/a` — licensing finding, flagged for V4.5
+- **Rationale:** **NOTICE finding.** The same attribution file declares third-party dependencies carried by some skills: **FFmpeg 7.0.2 under GNU GPL v3.0** in the video and media skills, Pillow 11.3.0 under MIT-CMU/HPND, and fonts under the SIL Open Font License v1.1. GPL v3.0 is a copyleft license and is not compatible with distributing a close adaptation under this project's MIT terms (D-08). No shortlisted davila7 row touches a media skill, so nothing is blocked today; the flag exists so a later pass or re-pin does not adopt one without deciding the license question, which is the owner's under the standing authority.
+- **Date:** 2026-08-22
+
+### T-246 — davila7-self-nested-paths
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/business-marketing/cli-tool/components/agents/...
+- **HR/axis trigger IDs:** `n/a` — denominator record, not a rejection
+- **Rationale:** **Upstream defect, recorded so the count is reproducible.** The tree contains a self-nested copy of its own path: `agents/business-marketing/cli-tool/components/agents/business-marketing/vital-health-content-agent.md` and one further level below that. Two agent files sit at these nested depths. They are in a category rejected by T-241 regardless, so no verdict turns on them, but a reader recounting `find ... -name '*.md'` will meet them and should know they are duplicates of one component, not distinct ones.
+- **Date:** 2026-08-22
+
+### T-247 — development-tools-refactoring-specialist
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/development-tools/refactoring-specialist.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. One of six agents in this source built from a shared role template - Communication Protocol, <role> Assessment, Development Workflow, then numbered Analysis / Implementation / Excellence sections - each carrying 168-183 bullets and no executable procedure. The template also embeds a {'requesting_agent': ..., 'request_type': ...} JSON query addressed to a context-manager coordination protocol that does not exist in Claude Code, so the opening step of every one of them is inert.
+- **Date:** 2026-08-22
+
+### T-248 — development-tools-qa-expert
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/development-tools/qa-expert.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. One of six agents in this source built from a shared role template - Communication Protocol, <role> Assessment, Development Workflow, then numbered Analysis / Implementation / Excellence sections - each carrying 168-183 bullets and no executable procedure. The template also embeds a {'requesting_agent': ..., 'request_type': ...} JSON query addressed to a context-manager coordination protocol that does not exist in Claude Code, so the opening step of every one of them is inert.
+- **Date:** 2026-08-22
+
+### T-249 — development-tools-build-engineer
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/development-tools/build-engineer.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. One of six agents in this source built from a shared role template - Communication Protocol, <role> Assessment, Development Workflow, then numbered Analysis / Implementation / Excellence sections - each carrying 168-183 bullets and no executable procedure. The template also embeds a {'requesting_agent': ..., 'request_type': ...} JSON query addressed to a context-manager coordination protocol that does not exist in Claude Code, so the opening step of every one of them is inert.
+- **Date:** 2026-08-22
+
+### T-250 — development-tools-chaos-engineer
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/development-tools/chaos-engineer.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. One of six agents in this source built from a shared role template - Communication Protocol, <role> Assessment, Development Workflow, then numbered Analysis / Implementation / Excellence sections - each carrying 168-183 bullets and no executable procedure. The template also embeds a {'requesting_agent': ..., 'request_type': ...} JSON query addressed to a context-manager coordination protocol that does not exist in Claude Code, so the opening step of every one of them is inert. Chaos experiments against live systems are also an operations discipline with no owning plugin.
+- **Date:** 2026-08-22
+
+### T-251 — security-security-engineer
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/security/security-engineer.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. One of six agents in this source built from a shared role template - Communication Protocol, <role> Assessment, Development Workflow, then numbered Analysis / Implementation / Excellence sections - each carrying 168-183 bullets and no executable procedure. The template also embeds a {'requesting_agent': ..., 'request_type': ...} JSON query addressed to a context-manager coordination protocol that does not exist in Claude Code, so the opening step of every one of them is inert.
+- **Date:** 2026-08-22
+
+### T-252 — documentation-technical-writer
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/documentation/technical-writer.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. One of six agents in this source built from a shared role template - Communication Protocol, <role> Assessment, Development Workflow, then numbered Analysis / Implementation / Excellence sections - each carrying 168-183 bullets and no executable procedure. The template also embeds a {'requesting_agent': ..., 'request_type': ...} JSON query addressed to a context-manager coordination protocol that does not exist in Claude Code, so the opening step of every one of them is inert.
+- **Date:** 2026-08-22
+
+### T-253 — development-tools-technical-debt-manager
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/development-tools/technical-debt-manager.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 17.6KB across 68 headings and 184 bullets. The debt-category taxonomy is re-donated to sharingan; the file itself is a large always-read instruction surface for one analysis.
+- **Date:** 2026-08-22
+
+### T-254 — security-read-only-auditor
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/security/read-only-auditor.md
+- **HR/axis trigger IDs:** `D-24,D-15`
+- **Rationale:** D-24,D-15. Its stated guarantee is enforced by hooks: in the agent frontmatter - PreToolUse matchers on Write|Edit|MultiEdit and Bash, each a type: command hook running a shell echo-and-exit. D-24 bars command handlers pending a P-5-sanctioned dual-platform interpreter, D-15 caps hooks at one per plugin for super-saiyan and rinnegan only, and D-24 also records that the official plugins reference states hooks are NOT SUPPORTED for plugin-shipped agents for security reasons. Shipped from a plugin the enforcement would silently not exist while the description still promised it. Re-donated and important: the same guarantee needs no hook at all - tools: Read, Grep, Glob, which this agent already declares, is the enforcement.
+- **Date:** 2026-08-22
+
+### T-255 — security-supply-chain-security
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/security/supply-chain-security.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. Its instructions are built on npm audit, syft, CycloneDX SBOM generation and vulnerability scanners - each a tool outside the P-5 exceptions with no degraded path. The SBOM-then-scan sequence is re-donated to instinct.
+- **Date:** 2026-08-22
+
+### T-256 — git-git-flow-manager
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/git/git-flow-manager.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2`
+- **Rationale:** axis:user_scope_fit=2. Bound to the Git Flow branching model specifically - develop, feature, release and hotfix branch types with their prescribed merge targets - rather than to git. A project on trunk-based development gets nothing.
+- **Date:** 2026-08-22
+
+### T-257 — deep-research-team-fact-checker
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/agents/deep-research-team/fact-checker.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 21.4KB - the largest davila7 component read - for claim verification and source-credibility assessment. The evidence-evaluation criteria are re-donated to sharingan.
+- **Date:** 2026-08-22
+
+### T-258 — productivity-concise-planning
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/concise-planning/SKILL.md
+- **HR/axis trigger IDs:** n/a — `merge`, not a rejection
+- **Rationale:** Fully absorbed by ecc/cmd-plan. Its whole output is a plan with scope in/out, 6-10 atomic verb-first action items and a validation step, which cmd-plan's artifact template already carries alongside pattern grounding. The one rule worth keeping into synthesis - ask at most one or two questions and only when truly blocking - is re-donated rather than lost.
+- **Date:** 2026-08-22
+
+### T-259 — productivity-think-tank
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/think-tank/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2 borderline at 12KB, and the deciding ground is duplication: a structured multi-persona debate producing a decision is the shape ecc/council already holds as a shortlisted bankai row, with role-scoped subagents and an explicit anti-anchoring device. Nothing here survives that is not already covered.
+- **Date:** 2026-08-22
+
+### T-260 — productivity-devil
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/devil/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 19KB for an adversarial sign-off persona. Its two habits - the pre-mortem and the silence check, asking what the document does not say - are re-donated to sharingan; the persona framing around them is the bulk.
+- **Date:** 2026-08-22
+
+### T-261 — productivity-skill-judge
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/skill-judge/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 31KB and a 120-point rubric across named dimensions. The evaluation concept is already held by the shortlisted wshobson/plugin-eval-eval-judge row, which does the same job with anchored 0.0-1.0 rubrics in 3KB.
+- **Date:** 2026-08-22
+
+### T-262 — productivity-kaizen
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/kaizen/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 17.5KB organised around four manufacturing pillars (Kaizen, Poka-Yoke, Standardized Work, JIT) mapped onto code quality. The error-proofing idea is re-donated; the framework scaffolding is the bulk.
+- **Date:** 2026-08-22
+
+### T-263 — productivity-naming-analyzer
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/naming-analyzer/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2`
+- **Rationale:** axis:user_scope_fit=2. Half the file is per-language convention tables - JavaScript/TypeScript, Python, Java, Go - which is the per-language reference SPEC 4's nine plugins do not own (the D41 ground).
+- **Date:** 2026-08-22
+
+### T-264 — productivity-humanizer
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/humanizer/SKILL.md
+- **HR/axis trigger IDs:** n/a — `merge`, not a rejection
+- **Rationale:** Fully absorbed by wshobson/avoid-ai-writing-avoid-ai-writing, shortlisted for sharingan in pass 2. Same job - strip machine-generated tells from prose - at 17.9KB against 7.7KB, and without the absorbing row's two safeguards: the false-positive caveat forbidding use for attribution decisions, and the rule against ADDING fake voice during a rewrite.
+- **Date:** 2026-08-22
+
+### T-265 — productivity-nowait
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/productivity/nowait/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. Implements an inference-time technique for R1-style reasoning models named as QwQ and similar. It tunes a third-party model's decoding, not the user's project.
+- **Date:** 2026-08-22
+
+### T-266 — development-code-review-checklist
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/development/code-review-checklist/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 11.6KB across 53 headings and 167 bullets. sharingan already holds ecc/cmd-code-review and wshobson/operating-kit-code-review-preshipment, the latter with a ten-section walk and an explicit SHIP verdict in a quarter of the size.
+- **Date:** 2026-08-22
+
+### T-267 — development-production-code-audit
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/development/production-code-audit/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 15.8KB, and its Step 3 is Automatic Fixes and Optimizations - an autonomous line-by-line transformation of an entire codebase with no approval gate, which is a risk posture nothing else in the shortlist takes.
+- **Date:** 2026-08-22
+
+### T-268 — development-software-architecture
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/development/software-architecture/SKILL.md
+- **HR/axis trigger IDs:** `axis:value=3`
+- **Rationale:** axis:value=3 with no unique surface: 3.5KB of general code-style and best-practice bullets that super-saiyan's existing mattpocock and superpowers rows already carry. Nothing survives synthesis that is not duplicated.
+- **Date:** 2026-08-22
+
+### T-269 — development-domain-driven-design
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/skills/development/domain-driven-design/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2`
+- **Rationale:** axis:user_scope_fit=2. DDD is one modelling methodology; the skill is a routing map between its strategic and tactical patterns. Its structure is worth noting - an explicit Do not use this skill when section and a viability check before proceeding - and both are re-donated.
+- **Date:** 2026-08-22
+
+### T-270 — utilities-explain-code
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/commands/utilities/explain-code.md
+- **HR/axis trigger IDs:** `axis:value=3`
+- **Rationale:** axis:value=3 with no unique surface. 6.7KB of explanation prompts largely duplicated by ecc/agent-code-explorer and davila7/development-tools-codebase-explorer, both of which produce a structured model rather than prose.
+- **Date:** 2026-08-22
+
+### T-271 — utilities-directory-deep-dive
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/commands/utilities/directory-deep-dive.md
+- **HR/axis trigger IDs:** `axis:value=2`
+- **Rationale:** axis:value=2. 1.2KB that walks a directory and summarises it - fully covered by the shortlisted codebase-explorer and codebase-pattern-finder rows.
+- **Date:** 2026-08-22
+
+### T-272 — testing-test-quality-analyzer
+
+- **Source:** davila7/claude-code-templates
+- **Path:** cli-tool/components/commands/testing/test-quality-analyzer.md
+- **HR/axis trigger IDs:** `axis:value=3`
+- **Rationale:** axis:value=3 with no unique surface: 2.4KB asking for test-suite quality metrics, which ecc/agent-pr-test-analyzer already covers with gap severity rating and ecc/cmd-test-coverage with a worst-first gap list.
+- **Date:** 2026-08-22
+
 ## 4. Statistics
 
-Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; a field beginning `n/a` is its own row **including the `n/a (re-audit)` form**, which the v2.6 table wrongly filed under other-rule (T-069). 44 + 124 + 34 + 36 = 238.
+Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; a field beginning `n/a` is its own row **including the `n/a (re-audit)` form**, which the v2.6 table wrongly filed under other-rule (T-069). 44 + 149 + 36 + 43 = 272.
 
 | Metric | Count |
 |---|---|
-| Total entries | 238 |
+| Total entries | 272 |
 | Hard-reject entries | 44 |
-| Axis-floor entries | 124 |
-| Other-rule entries | 34 |
-| `n/a` entries | 36 |
-| Bulk-reject classes | 16 |
+| Axis-floor entries | 149 |
+| Other-rule entries | 36 |
+| `n/a` entries | 43 |
+| Bulk-reject classes | 19 |
 | Gap-scan entries | 18 |
 | Re-audit / re-pin entries | 10 |
 
-The last three rows **overlap** the partition above and are not added to it: the sixteen bulk-reject classes are T-029…T-037, T-070…T-072 and T-151, T-152, T-154 plus the T-150 scoping record, thirteen of which also carry an `HR-N` or `axis:` trigger; the ten re-audit entries are T-026…T-028 (the 2026-08-18 G5 rehearsal), T-064…T-069 (the 2026-08-22 review corrections) and T-149 (the B-6 agent-ownership recalibration). **Gap-scan entries move off 0 for the first time**: T-221…T-238 disposition all 157 rows of `hesreallyhim/awesome-claude-code`'s catalog across its 18 categories — 9 mapped to an owning plugin, 9 explicitly out of scope, zero merge candidates sourced from it (V4.4).
+The last three rows **overlap** the partition above and are not added to it: the sixteen bulk-reject classes are T-029…T-037, T-070…T-072 and T-151, T-152, T-154 plus the T-150 and T-240 scoping records and T-241, T-242 from pass 3, sixteen of which also carry an `HR-N` or `axis:` trigger; the ten re-audit entries are T-026…T-028 (the 2026-08-18 G5 rehearsal), T-064…T-069 (the 2026-08-22 review corrections) and T-149 (the B-6 agent-ownership recalibration). **Gap-scan entries move off 0 for the first time**: T-221…T-238 disposition all 157 rows of `hesreallyhim/awesome-claude-code`'s catalog across its 18 categories — 9 mapped to an owning plugin, 9 explicitly out of scope, zero merge candidates sourced from it (V4.4).
 
 Reconciliation with the v2.5 table, which read 28 / 12 / 7 / 0 / 0 / 3 after Phase 2: the Phase-2 entries still contribute 12 hard-reject and 7 axis-floor. Six sit in the other-rule row, described below, and T-026 / T-027 sit in the `n/a` row rather than the other-rule row — the correction T-069 records. The v2.6 table published 22 / 24 / 14 / 3; the differences are that fix plus T-066's withdrawal of `HR-3` from T-030, which moves that class from hard-reject to axis-floor.
 
@@ -2283,5 +2633,7 @@ The three Phase-2 re-audit entries (T-026…T-028) arose from the **G5 rehearsal
 **Phase 4 pass 1 (2026-08-22) added T-070…T-148**: three ratified reject classes covering 60 of ECC's 162 canonical commands and agents (T-070 the 22 language-pack commands, T-071 the 28 language-pack agents, T-072 the 10 domain-niche agents), sixty-nine individual rejects and seven `merge` entries from the 102 deep reads. `eval/matrix.csv` grew by 102 rows — 72 commands and 30 agents, the first `command` and `agent` rows in the file — and now reads 199 rows, 69 shortlist / 118 reject / 12 merge. Zero `defer` rows exist. The pass covers only the ECC half of `SPEC.md` §10 Phase 4; the four remaining sources run in passes 2 and 3.
 
 **Phase 4 pass 2 (2026-08-22) added T-149…T-238**: one re-audit correcting eight pass-1 agent rows to `bankai` under B-6, a category-triage record and three class rejects covering 91 wshobson plugins and four proprietary anthropics skills, a denominator record for nine byte-identical duplicate component copies, sixty-six individual rejects, and the eighteen gap-scan entries. `eval/matrix.csv` grew by 83 rows — 68 wshobson and 15 anthropics — and now reads 282 rows, 86 shortlist / 184 reject / 12 merge. Zero `defer` rows exist. Eight of the ten `SPEC.md` §8 repositories now carry rows; `hesreallyhim/awesome-claude-code` carries none by design and `davila7/claude-code-templates` is pass 3, after which G4 can close.
+
+**Phase 4 pass 3 (2026-08-22) added T-239…T-272**, completing the phase: a denominator and category-triage record for the largest source in §8, three class rejects covering 70 non-candidate categories and 181 screened components, a named 223-component margin, two licensing findings, an upstream self-nesting record, and twenty-six individual rejects and merges from the forty deep reads. `eval/matrix.csv` grew by 40 rows and now reads **322 rows, 100 shortlist / 208 reject / 14 merge**, still with zero `defer`. **All ten `SPEC.md` §8 repositories are now represented or dispositioned** — nine carry rows, and `hesreallyhim/awesome-claude-code` carries none by design with its catalog dispositioned as the eighteen gap-scan entries.
 
 The verdict vocabulary is `SPEC.md` §9 rule 3 — `shortlist`, `reject`, `merge`, `defer`. This log carries entries for `reject` (mandatory) and may carry them for `merge` and `defer` where the reasoning is worth preserving; `shortlist` rows need no entry.

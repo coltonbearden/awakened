@@ -12,7 +12,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 1 | Structural inventory | **Complete** (2026-08-15) | G1 — passed |
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
-| 4 | Remaining sources | **In progress** — passes 1 and 2 of 3 complete (2026-08-22): ECC `commands/`+`agents/`, wshobson, anthropics and the gap scan. 185 rows, T-070…T-238. Pass 3 (davila7) remains; widened to ECC at SPEC v2.6 (D-26) | G4 |
+| 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-272; matrix 322 rows, 100 shortlist / 208 reject / 14 merge | G4 — passed |
 | 5 | Evaluation matrix consolidation | Not started | **G5 — independent-reviewer gate + owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
@@ -124,7 +124,7 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 
 ---
 
-## 6. Phase 4 — Remaining Sources
+## 6. Phase 4 — Remaining Sources ✔ Complete
 
 **Objective.** Complete candidate coverage across the remaining sources.
 
@@ -188,6 +188,47 @@ which holds **27** shortlisted rows.
 **Still open for pass 3.** V4.1 and V4.2 cannot discharge until `davila7/claude-code-templates` is
 audited — V4.1 names davila7 component candidates explicitly and V4.2 is entirely about its
 components-directory boundary. **G4 closes after pass 3.**
+
+**Pass 3 delivered (2026-08-22).** `davila7/claude-code-templates`, read at its pin after a
+`git rev-parse` check (1/1 MATCH). The largest source in §8: **1,664** canonical components across
+**82** category directories. §10 gives this source no shortlisted-category wording and no deep-read
+cap, so the grounds used are the ones that bind in every phase — **B-1…B-8** and the §9
+`user_scope_fit` anchor. 82 categories → 12 candidate (444 components), 70 class-rejected; a breadth
+screen removed 181 (61 already dispositioned at their actual source, 79 vendor-bound, 41
+language-bound); **40** of the surviving 263 were deep-read and the other **223 are named** in T-243.
+The 40-cap is a stated method choice adopted by analogy to §10 Phase 3's ECC cap, not a §10 grant,
+and is recorded as such. 40 rows appended — 14 shortlist / 24 reject / 2 merge. Two licensing
+findings: the source re-hosts Anthropic's four source-available skills under an MIT root license
+(T-244), and GPL-3.0 enters through FFmpeg in its media skills (T-245, the second V4.5 flag).
+
+**Delivered (evidence: PR #13 `c5a9b46`, PR #16 `ebed336`, and this PR).** Phase 4 ran as three
+passes. Pass 1 dispositioned ECC's 94 `commands/` and 68 `agents/` — 102 rows plus three §8-ratified
+classes. Pass 2 took `wshobson/agents` (91 categories → 17, 68 distinct bodies from 77 files),
+`anthropics/skills` (19 skills: 14 Apache-2.0, 4 proprietary excluded by D-24, one unlicensed) and
+the `hesreallyhim/awesome-claude-code` gap scan — 83 rows and 18 gap entries. Pass 3 took davila7 —
+40 rows. `eval/matrix.csv` 97 → **322** rows; `eval/triage-log.md` T-069 → **T-272**. **All ten §8
+repositories are represented or dispositioned**: nine carry rows, and awesome-claude-code carries
+none by design with its 157 catalog rows dispositioned as gap-scan entries. Zero `defer` rows exist.
+
+**Verification (passed).** V4.1 all three pass-2/3 sources carry rows — wshobson 68, anthropics 15,
+davila7 40 — and the only §8 repo at zero is awesome-claude-code, which V4.4 requires to be at zero.
+V4.2 all 40 davila7 rows sit under `cli-tool/components/` and zero touch the CLI, `analytics-ui/`,
+`dashboard/`, `cli-rust/` or `cloudflare-workers/`. V4.3 **29/29** shortlisted agent rows carry a
+proposed restricted allowlist, each replayed against `schemas/agent.schema.json`'s C-2 regex — zero
+bare grants and zero `Write` grants anywhere; all 29 target `bankai`, which B-6 requires and which
+pass 2 corrected pass 1 to honour (T-149). V4.4 18 gap entries disposition all 157 catalog rows, 9
+mapped to an owning plugin and 9 out of scope, with **zero** merge candidates sourced from the
+catalog. V4.5 two NOTICE flags raised — `anthropics/brand-guidelines` and davila7's GPL-3.0 FFmpeg
+dependency. V4.6 all 19 §8 ECC command-only targets carry a matrix row, zero unaccounted. V4.7 zero
+duplicate ids across 322 rows, under three source-specific conventions settled before any row was
+written — `ecc/cmd-*` and `ecc/agent-*`, `wshobson/<plugin>-<component>`, `davila7/<category>-<name>`.
+
+**Gate G4:** **APPROVED** 2026-08-22 under standing delegation D11 (§10 rule 2; D-25 moved only G5).
+Review record: PR #13, PR #16 and this PR. Two findings are carried into Phase 5 rather than closed
+here: the three capability gaps the scan surfaced (T-223, T-232, T-235), and a gap in this
+repository's own `schemas/agent.schema.json`, whose `$comment` claims `hooks` and `mcpServers` are
+prohibited for agents while only `permissionMode` is actually declared — the D-31 pattern, fixed in
+a separate schema PR.
 
 **Verification criteria.**
 
@@ -294,6 +335,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 | G1 | 2026-08-15 | APPROVED | Structural inventory ratified via `SPEC.md` §8 and §10 |
 | G2 | 2026-08-18 | APPROVED | Phase-2 audit complete: V2.1–V2.10 all discharged (V2.8–V2.10 by SPEC v2.3, PR #2). Reviewed and approved under standing delegation D11 (2026-08-18); review record: PR #4 |
 | G3 | 2026-08-22 | APPROVED | Phase-3 complete: V3.1–V3.7 all discharged. Reviewed and approved under standing delegation D11 (D-25 moved only G5); review record: PR #10. Scope change arising at the gate landed as D-26 / ADR-026 (SPEC v2.6) per §10 rule 4 |
+| G4 | 2026-08-22 | APPROVED | Phase-4 complete across three passes: V4.1–V4.7 all discharged. Reviewed and approved under standing delegation D11 (§10 rule 2; D-25 moved only G5); review record: PR #13, PR #16 and PR #17. Two open findings carried to Phase 5 rather than closed at the gate: the three capability gaps from the V4.4 scan, and the `schemas/agent.schema.json` enforcement gap on `hooks`/`mcpServers` |
 
 G5 occupies two rows, not one: `APPROVED (reviewer) — pending owner ack` when the independent reviewer returns its verdict, then `OWNER ACK` with the date and the comment URL when the owner acknowledges it. Phase 6 opens on the second row (D-25 as amended at SPEC v2.5).
 
