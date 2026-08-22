@@ -1427,22 +1427,848 @@ requires, and every absorbing row is itself shortlisted.
 - **Rationale:** B-1..B-8. Same pipeline, same missing owner. Worth re-donating on its own account: it is an independent auditor that by design 'never trusts the forker's work' and re-verifies everything, with any secret match a hard FAIL - the same adversarial-independence shape D-25 gives awakened's own G5 reviewer.
 - **Date:** 2026-08-22
 
+---
+
+### Phase 4 preamble — pass 2: wshobson/agents, anthropics/skills, and the gap scan (2026-08-22)
+
+Pass 2 of three. Pass 1 covered ECC `commands/` and `agents/`; pass 3 covers
+`davila7/claude-code-templates`. **G4 stays open until pass 3 lands.**
+
+**Pins verified before any component was read.** Each source was cloned fresh into this session's
+scratchpad and checked out at its `upstream.json` pin; `git rev-parse HEAD` was compared to the pin
+and `git status --porcelain` was empty in every case. **3/3 MATCH** — `wshobson/agents`
+`367cb6a4a182cf7e9b0a17c9429f7411ddd9cf35`, `anthropics/skills`
+`0a64e398ec6bb34a494f0c347e8ccae53a862f8e`, `hesreallyhim/awesome-claude-code`
+`58cdbfde5058e175972f75624f65c009ab8b9180`.
+
+**A correction to pass 1, made here rather than propagated.** Pass 1 assigned eight shortlisted ECC
+agent rows to `sharingan` and `instinct` on the purpose each agent serves. `SPEC.md` B-6 reads
+"`bankai` owns **all subagents** and their restricted tool permissions", §4's `bankai` row lists
+**review** among its intended agent kinds and names ECC `agents/` as its lineage, and D-26 says the
+same. B-6 is specific to the `agent` component type; B-2 governs `sharingan`'s *scope*, not the
+component type, so there is no genuine two-owner conflict. All eight rows are replaced in place with
+`target_plugin = bankai` and the mis-cited rule IDs corrected — recorded as T-149, no verdict moved.
+Every `agent`-type row in the matrix now targets `bankai`.
+
+#### wshobson/agents — category triage first
+
+§10 Phase 4 scopes this source to "wshobson **shortlisted** plugins", so the unit of triage is the
+category. All **91** plugin descriptions were read. **17** categories were selected as
+general-purpose with exactly one owning plugin under B-1…B-8 (T-150); **31** were rejected at
+category level with a stated ground each (T-151); the remaining **43** are language, framework,
+cloud or business-domain packs (T-152). 91/91 accounted for. §8's "roughly 12–15 general-purpose
+categories" is a dated Phase-1 role note, not an audit target — the measured figure is 17, and §8 is
+left as written, the D36 precedent.
+
+**Denominator.** The 17 selected categories hold **77** component files but only **68 distinct
+bodies**: six components are published in more than one plugin with byte-identical bodies once
+frontmatter is stripped, `code-reviewer` in five (T-153). One scored row per distinct body, keyed to
+the alphabetically first plugin.
+
+**The `id` convention, settled before the first row.** `wshobson/<plugin>-<component>`, mirroring
+upstream's own namespaced `name` field. Measured: bare `<component>` collides **six** ways within
+the selected set; `<plugin>-<component>` collides **zero** ways and zero ways against the existing
+matrix. This is the pass-2 analogue of pass 1's V4.7 decision and rests on the same ground — the
+source slug must keep denoting the `upstream.json` repo that check U1 pins to exactly ten.
+
+**Agent `tools`, measured.** A pass-1 handoff note said wshobson's agents "declare no `tools` field
+at all". That came from a two-file sample and is wrong: **10 of 30** agent files in the selected
+categories declare one. Corrected here so it is not carried into pass 3.
+
+#### The finding that disposed of the largest single family
+
+Seventeen components across the `agent-teams` category — 4 agents, 7 commands, 6 skills — were
+rejected on one ground, established by re-verifying against the live official reference under §0:
+**agent teams are experimental and disabled by default**, requiring
+`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, and "without that variable, no team is set up at session
+start". A component that does nothing for a default user cannot carry `dependencies` ≥ 3. The same
+read found `team-lead` declaring `TeamCreate` and `TeamDelete` in its `tools` list while the
+reference states **both tools no longer exist** as of v2.1.178. Without the fetch this family would
+have shortlisted on the strength of its prose. That is the D48 pattern for the third time on this
+project, and it is why §0 binds re-verification to a gate rather than to a dated reading.
+
+#### anthropics/skills — licensing measured, not assumed
+
+19 skill directories at the pin. **14** carry an Apache-2.0 `LICENSE.txt`; **4** are proprietary
+(`docx`, `pdf`, `pptx`, `xlsx`) and are excluded by D-24 without being audited as candidates
+(T-154); and **one — `doc-coauthoring` — ships no `LICENSE` file at all**, in a repository with no
+root license. It therefore carries no grant. It is rejected and **flagged**: excluding an unlicensed
+component needs no judgment, but *including* one would be a licensing decision, which the standing
+authority reserves to the owner. `upstream.json` and §8 record "Apache-2.0 (12)"; the measured figure
+is 14, left as a dated role note per D36.
+
+`skill-creator` is §8's named lineage for `instinct`. It is **rejected on `bloat` 2** — 33.2KB plus
+16 bundled Python scripts — and its lineage findings are recorded in full in its triage entry
+instead. D-05 makes lineage a synthesis relationship, not a copy, so a lineage source needs no
+shortlist row; §6's deliverable is that the findings are *recorded*, and they are.
+
+**V4.5, NOTICE flags.** One flag raised: `anthropics/brand-guidelines` applies another
+organisation's brand identity and typography. It is rejected on scope, and any close adaptation
+would raise a NOTICE and trademark question rather than only an attribution one.
+
+#### The gap scan (V4.4)
+
+All **157** catalog rows across **18** categories are dispositioned as gap-scan entries T-221…T-238:
+**9 mapped to an owning plugin, 9 explicitly out of scope, and zero merge candidates sourced from
+this catalog**, as V4.4 requires. Where the catalog surfaced something real — its "Avoid AI Writing"
+entry — the component was audited **at its actual source** under that source's own MIT license, which
+is what D-24 requires of a CC-BY-NC-ND catalog.
+
+**Three genuine gaps found**, all recorded rather than silently closed:
+
+1. **Component-safety auditing** → `instinct`. Nothing shortlisted audits a skill, agent or hook for
+   unsafe patterns: `ecc/security-scan` and `ecc/skill-comply` fell on HR-7, wshobson's
+   `security-scanning` at category level, its `security-auditor` on bloat. Partially covered by
+   `scripts/validate.*` checks P1–P3 — but that is repo tooling, not a shipped component.
+2. **Component linting** → `instinct`. Same family as (1) and worth resolving with it.
+3. **Statusline presets** → `aura`, **and this one must not be closed from upstream.** §4 records
+   `aura`'s Source Lineage as *Original work*, which is exactly why `anthropics/theme-factory` was
+   rejected despite being the closest match in either source. The gap closes by authoring at Phase 6.
+
+#### Outcome
+
+83 rows appended — **17 shortlist / 66 reject / 0 merge**, zero `defer`. The matrix reads **282
+rows, 86 shortlist / 184 reject / 12 merge**. Eight of the ten §8 repositories now carry rows;
+`hesreallyhim/awesome-claude-code` carries none by design (V4.4) and `davila7/claude-code-templates`
+is pass 3. `bankai` moves from 10 shortlisted rows to **27** — the B-6 correction plus nine new agent
+rows — and every `agent`-type row in the file now targets it.
+
+### T-149 — agent-row-ownership-recalibration
+
+- **Source:** affaan-m/ECC
+- **Path:** agents/ (8 shortlisted rows: comment-analyzer, type-design-analyzer, silent-failure-hunter, pr-test-analyzer, code-simplifier, code-reviewer, security-reviewer, agent-evaluator)
+- **HR/axis trigger IDs:** `n/a` — re-audit of eight shortlisted rows; no verdict change
+- **Rationale:** **Re-audit.** Phase-4 pass 1 assigned seven ECC agent rows to `sharingan` and one to `instinct` on the purpose each agent serves. That is the wrong rule. `SPEC.md` B-6 reads "`bankai` owns **all subagents** and their restricted tool permissions", SPEC 4's `bankai` row lists **review** among its intended agent kinds and names ECC `agents/` as its Source Lineage, and D-26's own text says the same. B-6 is specific to the `agent` component type and B-2 governs `sharingan`'s scope, not the component type, so there is no genuine two-owner conflict to resolve under SPEC 4's closing rule. Previous `target_plugin`: `sharingan` x7, `instinct` x1. New: `bankai` x8. Every axis, `hard_reject` and `verdict` is unchanged and all eight remain `shortlist`; matrix rows replaced in place per `eval/rubric.md` SPEC 1, ids unchanged. Rationale text was corrected at the same time in the three rows that cited B-2 or B-7 as the ownership ground, because a rationale citing the wrong rule ID is the defect class T-069 was written to fix.
+- **Date:** 2026-08-22
+
+### T-150 — wshobson-category-selection
+
+- **Source:** wshobson/agents
+- **Path:** plugins/ (17 of 91 selected)
+- **HR/axis trigger IDs:** `n/a` — scoping record, not a rejection
+- **Rationale:** **Category triage.** `SPEC.md` SPEC 10 Phase 4 scopes this source to "wshobson shortlisted plugins" and SPEC 8 estimates "roughly 12-15 general-purpose categories worth mining", a dated Phase-1 role note rather than an audit target. All 91 plugin descriptions were read and 17 categories selected, each with exactly one owning plugin under B-1..B-8: `agent-orchestration` -> `bankai`; `agent-teams` -> `bankai`; `comprehensive-review` -> `sharingan`; `performance-testing-review` -> `sharingan`; `avoid-ai-writing` -> `sharingan`; `code-refactoring` -> `super-saiyan`; `debugging-toolkit` -> `super-saiyan`; `error-debugging` -> `super-saiyan`; `git-pr-workflows` -> `super-saiyan`; `tdd-workflows` -> `super-saiyan`; `before-you-build` -> `super-saiyan`; `context-management` -> `rinnegan`; `operating-kit` -> `kaioken`; `code-documentation` -> `domain`; `documentation-standards` -> `domain`; `skill-forge-essentials` -> `instinct`; `plugin-eval` -> `instinct`. Component-level ownership is decided per component, not inherited from the category - three operating-kit agents landed outside `kaioken` on their own grounds. 91/91 categories are accounted for across this entry, T-151 and T-152.
+- **Date:** 2026-08-22
+
+### T-151 — wshobson-non-general-purpose-categories
+
+- **Source:** wshobson/agents
+- **Path:** plugins/ (31 categories)
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1,axis:dependencies=1,B-1..B-8,D-15,HR-1,HR-6`
+- **Rationale:** **Class reject, 31 categories, no matrix rows.** Categories rejected at category level, each with its stated ground: `developer-essentials` - B-1..B-8: an 11-skill bundle spanning Git, SQL optimization, auth, monorepo and E2E has no single owning plugin, which SPEC 4's closing rule makes unshortlistable; `codebase-cleanup` - duplicative: same technical-debt and refactoring surface as code-refactoring, which is shortlisted; `error-diagnostics` - duplicative: same error-tracing and root-cause surface as error-debugging, which is shortlisted; `documentation-generation` - axis:user_scope_fit - OpenAPI specification and API reference generation; bound to API projects; `c4-architecture` - axis:user_scope_fit - the C4 model is one specific architecture-documentation methodology; `full-stack-orchestration` - duplicative of agent-teams plus the ECC orch-pipeline concept already re-donated in Phase 3; `ship-mate` - duplicative: orchestrator to architect to developer to PR reviewer is the same pipeline shape as agent-teams and ECC orch-pipeline; `conductor` - duplicative: a Context to Spec to Implement project-management workflow overlapping kaioken (operating-kit) and super-saiyan planning; `team-collaboration` - B-1..B-8: standup automation and issue management map to no owning plugin among the nine; `unit-testing` - axis:user_scope_fit=1 - stated as 'for Python and JavaScript'; `security-scanning` - axis:user_scope_fit - SAST, container scanning and dependency CVE tooling; tool-bound rather than a general practice; `security-compliance` - axis:user_scope_fit=1 - SOC2/HIPAA/GDPR regulatory documentation, a compliance discipline; `dependency-management` - axis:user_scope_fit - package-ecosystem auditing and version management, per-ecosystem by nature; `accessibility-compliance` - axis:user_scope_fit=2 - WCAG UI auditing, the same domain-niche ground as ecc/agent-a11y-architect; `application-performance` - duplicative of performance-testing-review, which is shortlisted; `framework-migration` - axis:user_scope_fit - framework-version migration is per-framework by nature; `incident-response` - axis:user_scope_fit - production incident management, an operations discipline; `deployment-validation` - axis:user_scope_fit - deployment readiness, an operations discipline; `deployment-strategies` - axis:user_scope_fit - rollback automation and infrastructure templates, operations; `distributed-debugging` - axis:user_scope_fit=1 - microservice tracing, one architecture style; `observability-monitoring` - axis:user_scope_fit - metrics, tracing and SLO tooling, an operations discipline; `data-validation-suite` - axis:user_scope_fit - backend schema and streaming validation; `block-no-verify` - D-15: a PreToolUse hook, and the hook budget names only super-saiyan session-start and rinnegan capture. Concept re-donated: refuse --no-verify and --no-gpg-sign bypass flags; `review-agent-governance` - axis:dependencies=1 - Cedar policy enforcement and Ed25519 signed receipts, a runtime outside the P-5 exceptions. Concept re-donated: require a human approval signal before an agent posts a PR review; `protect-mcp` - axis:dependencies=1 - Cedar plus Ed25519 receipts on every tool call, same runtime requirement; `signed-audit-trails` - axis:dependencies=1 - a teaching skill for the same Cedar/Ed25519 stack; `file-conversion` - HR-1,HR-6 - routes conversions through the hosted ChangeThisFile API; `hermes-tweet` - HR-1,HR-6 - X/Twitter access through the hosted Hermes agent; `social-publishing` - HR-1,HR-6 - publishes to 13 hosted social platforms; `meigen-ai-design` - HR-1 - hosted AI image generation; `brand-landingpage` - HR-1 - routes design through the hosted Stitch service
+- **Date:** 2026-08-22
+
+### T-152 — wshobson-domain-and-language-packs
+
+- **Source:** wshobson/agents
+- **Path:** plugins/ (43 categories)
+- **HR/axis trigger IDs:** `B-1..B-8,axis:user_scope_fit=1`
+- **Rationale:** **Class reject, 43 categories, no matrix rows.** Every remaining plugin is bound to one language, framework, cloud, or business discipline: `api-scaffolding`, `api-testing-observability`, `arm-cortex-microcontrollers`, `backend-api-security`, `backend-development`, `blockchain-web3`, `business-analytics`, `cicd-automation`, `cloud-infrastructure`, `content-marketing`, `customer-sales-automation`, `data-engineering`, `database-cloud-optimization`, `database-design`, `database-migrations`, `dgx-spark-ops`, `dotnet-contribution`, `frontend-mobile-development`, `frontend-mobile-security`, `functional-programming`, `game-development`, `hr-legal-compliance`, `javascript-typescript`, `julia-development`, `jvm-languages`, `kubernetes-operations`, `llm-application-dev`, `llm-finetuning`, `machine-learning-ops`, `multi-platform-apps`, `payment-processing`, `pptx-deck-creation`, `python-development`, `quantitative-trading`, `reverse-engineering`, `seo-analysis-monitoring`, `seo-content-creation`, `seo-technical-optimization`, `shell-scripting`, `startup-business-analyst`, `systems-programming`, `ui-design`, `web-scripting`. Same ground as T-070, T-071 and T-072 for ECC - SPEC 4's nine plugins own no per-language or per-discipline implementation reference, and "project- or language-specific" is the SPEC 9 anchor-1 wording for `user_scope_fit`.
+- **Date:** 2026-08-22
+
+### T-153 — wshobson-duplicate-component-instances
+
+- **Source:** wshobson/agents
+- **Path:** plugins/ (9 redundant copies across 6 components)
+- **HR/axis trigger IDs:** `n/a` — denominator record, not a rejection
+- **Rationale:** **Denominator.** Within the 17 selected categories the tree holds 77 component files but only **68 distinct bodies**. Six components are published in more than one plugin with byte-identical bodies once frontmatter is stripped; the only difference is the namespaced `name` field. `context-manager` x2; `code-reviewer` x5; `context-restore` x2; `pr-enhance` x2; `debugger` x2; `multi-agent-review` x2. One scored row is written per distinct body, keyed to the alphabetically first plugin, rather than five identical rows for `code-reviewer`. This is the same duplicate-at-another-path pattern T-029 recorded for ECC's translations and T-070 for its harness mirrors, and it is also the sharpest argument for the `<plugin>-<name>` id convention: bare `<name>` collides six ways in this source, `code-reviewer` five ways.
+- **Date:** 2026-08-22
+
+### T-154 — anthropics-proprietary-skills
+
+- **Source:** anthropics/skills
+- **Path:** skills/docx, skills/pdf, skills/pptx, skills/xlsx
+- **HR/axis trigger IDs:** `D-24`
+- **Rationale:** **Class exclusion, 4 components, no matrix rows.** Each ships a LICENSE.txt reading "(c) 2025 Anthropic, PBC. All rights reserved." D-24 makes only the Apache-2.0 skills lineage-eligible and excludes these four by name. They were not audited as candidates, because they are not candidates. Measured at the pin: 19 skill directories, of which 14 carry an Apache-2.0 LICENSE.txt, 4 are proprietary and 1 - `doc-coauthoring` - ships no LICENSE file at all in a repository with no root license; that one carries its own row. `upstream.json` and SPEC 8 record "Apache-2.0 (12)", a dated Phase-1 role note; the measured figure is 14.
+- **Date:** 2026-08-22
+
+### T-155 — agent-orchestration-context-manager
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-orchestration/agents/context-manager.md (+1 byte-identical copies: plugins/context-management/agents/context-manager)
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 7.9KB and 98 bullets with no procedural step at all - an expert-persona capability list covering vector databases (Pinecone, Weaviate, Qdrant), knowledge graphs and enterprise SharePoint/Confluence integration. It describes building context systems for a product rather than managing this agent's own context.
+- **Date:** 2026-08-22
+
+### T-156 — agent-teams-team-debugger
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/agents/team-debugger.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-157 — agent-teams-team-implementer
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/agents/team-implementer.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-158 — agent-teams-team-lead
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/agents/team-lead.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2. This one additionally declares TeamCreate and TeamDelete in its tools list, and the reference states both tools no longer exist as of v2.1.178.
+- **Date:** 2026-08-22
+
+### T-159 — agent-teams-team-reviewer
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/agents/team-reviewer.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-160 — code-documentation-code-reviewer
+
+- **Source:** wshobson/agents
+- **Path:** plugins/code-documentation/agents/code-reviewer.md (+4 byte-identical copies: plugins/code-refactoring/agents/code-reviewer, plugins/comprehensive-review/agents/code-reviewer, plugins/git-pr-workflows/agents/code-reviewer, plugins/tdd-workflows/agents/code-reviewer)
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 8.4KB and 106 bullets with zero procedural steps; sections include Language-Specific Expertise, and its first capability block is integration with hosted AI review tools (Trag, Bito, Codiga, Copilot). This body is the most duplicated component in the source - five byte-identical copies across five plugins.
+- **Date:** 2026-08-22
+
+### T-161 — comprehensive-review-architect-review
+
+- **Source:** wshobson/agents
+- **Path:** plugins/comprehensive-review/agents/architect-review.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 7.8KB and 99 bullets, no procedural steps - the same expert-persona capability-list shape as code-documentation-code-reviewer.
+- **Date:** 2026-08-22
+
+### T-162 — comprehensive-review-security-auditor
+
+- **Source:** wshobson/agents
+- **Path:** plugins/comprehensive-review/agents/security-auditor.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 9.6KB and 89 bullets with no procedure; a capability inventory rather than an audit workflow.
+- **Date:** 2026-08-22
+
+### T-163 — debugging-toolkit-dx-optimizer
+
+- **Source:** wshobson/agents
+- **Path:** plugins/debugging-toolkit/agents/dx-optimizer.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** B-1..B-8. Developer-experience tooling - IDE settings, git hooks, package.json scripts, Makefiles, .claude/commands additions - maps to no owning plugin among the nine, and SPEC 4's closing rule makes a component with no clear owner unshortlistable.
+- **Date:** 2026-08-22
+
+### T-164 — operating-kit-deploy-with-verification
+
+- **Source:** wshobson/agents
+- **Path:** plugins/operating-kit/agents/deploy-with-verification.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** B-1..B-8. Deploying to production maps to no owning plugin among the nine. Its central principle is re-donated to super-saiyan's verification lineage: 'Exited 0' and 'live and serving the new code' are different claims, so confirm the live endpoint reflects the build you just shipped before reporting it shipped.
+- **Date:** 2026-08-22
+
+### T-165 — operating-kit-prod-logs-health-check
+
+- **Source:** wshobson/agents
+- **Path:** plugins/operating-kit/agents/prod-logs-health-check.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** B-1..B-8. Production log triage is an operations discipline with no owning plugin. Re-donated: never analyse an incident from dashboard data or script stdout alone, state explicitly when logs were not checked, and never present inference as fact.
+- **Date:** 2026-08-22
+
+### T-166 — performance-testing-review-performance-engineer
+
+- **Source:** wshobson/agents
+- **Path:** plugins/performance-testing-review/agents/performance-engineer.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 10.4KB and 97 bullets with no procedure - a capability inventory.
+- **Date:** 2026-08-22
+
+### T-167 — performance-testing-review-test-automator
+
+- **Source:** wshobson/agents
+- **Path:** plugins/performance-testing-review/agents/test-automator.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 10.7KB and 143 bullets, the highest bullet count in the source, with no procedural steps.
+- **Date:** 2026-08-22
+
+### T-168 — plugin-eval-eval-orchestrator
+
+- **Source:** wshobson/agents
+- **Path:** plugins/plugin-eval/agents/eval-orchestrator.md
+- **HR/axis trigger IDs:** `axis:dependencies=1`
+- **Rationale:** axis:dependencies=1. Step 1 is uv run plugin-eval score against a Python CLI bundled in the plugin, so the scoring engine is a packaged binary outside the P-5 exceptions.
+- **Date:** 2026-08-22
+
+### T-169 — tdd-workflows-tdd-orchestrator
+
+- **Source:** wshobson/agents
+- **Path:** plugins/tdd-workflows/agents/tdd-orchestrator.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 9.9KB and 114 bullets with no procedural steps.
+- **Date:** 2026-08-22
+
+### T-170 — agent-orchestration-improve-agent
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-orchestration/commands/improve-agent.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 9.1KB, and its first step invokes a context-manager command named analyze-agent-performance that exists nowhere in the source - the metrics baseline the rest of the workflow consumes is never actually produced.
+- **Date:** 2026-08-22
+
+### T-171 — agent-orchestration-multi-agent-optimize
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-orchestration/commands/multi-agent-optimize.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. Optimises multi-agent systems through the same context-manager surface as agent-orchestration-improve-agent.
+- **Date:** 2026-08-22
+
+### T-172 — agent-teams-team-debug
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/commands/team-debug.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-173 — agent-teams-team-delegate
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/commands/team-delegate.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-174 — agent-teams-team-feature
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/commands/team-feature.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-175 — agent-teams-team-review
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/commands/team-review.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-176 — agent-teams-team-shutdown
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/commands/team-shutdown.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-177 — agent-teams-team-spawn
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/commands/team-spawn.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-178 — agent-teams-team-status
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/commands/team-status.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-179 — code-documentation-code-explain
+
+- **Source:** wshobson/agents
+- **Path:** plugins/code-documentation/commands/code-explain.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 22.1KB across 63 headings - a large always-read instruction file for a single explain-this-code action.
+- **Date:** 2026-08-22
+
+### T-180 — code-documentation-doc-generate
+
+- **Source:** wshobson/agents
+- **Path:** plugins/code-documentation/commands/doc-generate.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 17.2KB across 47 headings.
+- **Date:** 2026-08-22
+
+### T-181 — code-refactoring-context-restore
+
+- **Source:** wshobson/agents
+- **Path:** plugins/code-refactoring/commands/context-restore.md (+1 byte-identical copies: plugins/context-management/commands/context-restore)
+- **HR/axis trigger IDs:** `axis:value=2`
+- **Rationale:** axis:value=2. The counterpart to context-management-context-save and written in the same expert-persona register; it restores context from artifacts that command's rejected pipeline would have produced. Two byte-identical copies across two plugins.
+- **Date:** 2026-08-22
+
+### T-182 — code-refactoring-refactor-clean
+
+- **Source:** wshobson/agents
+- **Path:** plugins/code-refactoring/commands/refactor-clean.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 22.9KB across 50 headings.
+- **Date:** 2026-08-22
+
+### T-183 — code-refactoring-tech-debt
+
+- **Source:** wshobson/agents
+- **Path:** plugins/code-refactoring/commands/tech-debt.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 9.5KB for a technical-debt inventory that super-saiyan's shortlisted refactoring rows already cover.
+- **Date:** 2026-08-22
+
+### T-184 — comprehensive-review-full-review
+
+- **Source:** wshobson/agents
+- **Path:** plugins/comprehensive-review/commands/full-review.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 20.1KB across 54 headings.
+- **Date:** 2026-08-22
+
+### T-185 — comprehensive-review-pr-enhance
+
+- **Source:** wshobson/agents
+- **Path:** plugins/comprehensive-review/commands/pr-enhance.md (+1 byte-identical copies: plugins/git-pr-workflows/commands/pr-enhance)
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 19.7KB across 58 headings. Two byte-identical copies across two plugins.
+- **Date:** 2026-08-22
+
+### T-186 — context-management-context-save
+
+- **Source:** wshobson/agents
+- **Path:** plugins/context-management/commands/context-save.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. Carries no frontmatter at all, opens as an 'elite context engineering specialist' persona, and its capture strategy is built on vector-database integration naming Pinecone, Weaviate and Qdrant. The rinnegan memory design in eval/claude-mem-rebuild.md already settles this ground file-based and lexical (D53).
+- **Date:** 2026-08-22
+
+### T-187 — debugging-toolkit-smart-debug
+
+- **Source:** wshobson/agents
+- **Path:** plugins/debugging-toolkit/commands/smart-debug.md
+- **HR/axis trigger IDs:** `HR-1,HR-6`
+- **Rationale:** HR-1,HR-6. Its observability step queries hosted third-party services by name - Sentry, Rollbar, Bugsnag, DataDog, New Relic, Dynatrace, Jaeger, Honeycomb, Splunk, LogRocket - each requiring an account and a network call.
+- **Date:** 2026-08-22
+
+### T-188 — error-debugging-error-analysis
+
+- **Source:** wshobson/agents
+- **Path:** plugins/error-debugging/commands/error-analysis.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 35.8KB, the second-largest component in the source.
+- **Date:** 2026-08-22
+
+### T-189 — error-debugging-error-trace
+
+- **Source:** wshobson/agents
+- **Path:** plugins/error-debugging/commands/error-trace.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 39.3KB, the largest component in the source.
+- **Date:** 2026-08-22
+
+### T-190 — error-debugging-multi-agent-review
+
+- **Source:** wshobson/agents
+- **Path:** plugins/error-debugging/commands/multi-agent-review.md (+1 byte-identical copies: plugins/performance-testing-review/commands/multi-agent-review)
+- **HR/axis trigger IDs:** `axis:value=2`
+- **Rationale:** axis:value=2. Marketing register rather than procedure - it promises a 'distributed, specialized agent network' that 'transcends traditional single-perspective review' and then lists six abstract agent types with no concrete dispatch. Two byte-identical copies across two plugins.
+- **Date:** 2026-08-22
+
+### T-191 — git-pr-workflows-git-workflow
+
+- **Source:** wshobson/agents
+- **Path:** plugins/git-pr-workflows/commands/git-workflow.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 17.4KB across 30 headings; superpowers' shortlisted git rows already hold this ground for super-saiyan.
+- **Date:** 2026-08-22
+
+### T-192 — git-pr-workflows-onboard
+
+- **Source:** wshobson/agents
+- **Path:** plugins/git-pr-workflows/commands/onboard.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 14.2KB and 108 bullets.
+- **Date:** 2026-08-22
+
+### T-193 — performance-testing-review-ai-review
+
+- **Source:** wshobson/agents
+- **Path:** plugins/performance-testing-review/commands/ai-review.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 14.8KB, and the review is routed through hosted AI review services rather than performed inline.
+- **Date:** 2026-08-22
+
+### T-194 — plugin-eval-certify
+
+- **Source:** wshobson/agents
+- **Path:** plugins/plugin-eval/commands/certify.md
+- **HR/axis trigger IDs:** `axis:dependencies=1`
+- **Rationale:** axis:dependencies=1. uv run plugin-eval certify against the bundled Python CLI; it also states the run takes 15-20 minutes.
+- **Date:** 2026-08-22
+
+### T-195 — plugin-eval-compare
+
+- **Source:** wshobson/agents
+- **Path:** plugins/plugin-eval/commands/compare.md
+- **HR/axis trigger IDs:** `axis:dependencies=1`
+- **Rationale:** axis:dependencies=1. uv run plugin-eval compare against the same bundled Python CLI.
+- **Date:** 2026-08-22
+
+### T-196 — plugin-eval-eval
+
+- **Source:** wshobson/agents
+- **Path:** plugins/plugin-eval/commands/eval.md
+- **HR/axis trigger IDs:** `axis:dependencies=1`
+- **Rationale:** axis:dependencies=1. uv run plugin-eval score against the same bundled Python CLI.
+- **Date:** 2026-08-22
+
+### T-197 — tdd-workflows-tdd-cycle
+
+- **Source:** wshobson/agents
+- **Path:** plugins/tdd-workflows/commands/tdd-cycle.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 20.1KB across 43 headings; the three phase commands cover the same cycle in a fifth of the size.
+- **Date:** 2026-08-22
+
+### T-198 — tdd-workflows-tdd-refactor
+
+- **Source:** wshobson/agents
+- **Path:** plugins/tdd-workflows/commands/tdd-refactor.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. Carries no frontmatter and delegates the whole job to the tdd-workflows-tdd-orchestrator agent, which is itself rejected on bloat; what remains is a design-pattern catalogue.
+- **Date:** 2026-08-22
+
+### T-199 — agent-teams-multi-reviewer-patterns
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/skills/multi-reviewer-patterns/SKILL.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-200 — agent-teams-parallel-debugging
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/skills/parallel-debugging/SKILL.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-201 — agent-teams-parallel-feature-development
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/skills/parallel-feature-development/SKILL.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-202 — agent-teams-task-coordination-strategies
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/skills/task-coordination-strategies/SKILL.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-203 — agent-teams-team-communication-protocols
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/skills/team-communication-protocols/SKILL.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-204 — agent-teams-team-composition-patterns
+
+- **Source:** wshobson/agents
+- **Path:** plugins/agent-teams/skills/team-composition-patterns/SKILL.md
+- **HR/axis trigger IDs:** `axis:dependencies=2`
+- **Rationale:** axis:dependencies=2. agent teams are experimental and disabled by default - the official reference states they require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and that without it no team is set up - so a shipped component here does nothing for a default user. dependencies 2.
+- **Date:** 2026-08-22
+
+### T-205 — plugin-eval-evaluation-methodology
+
+- **Source:** wshobson/agents
+- **Path:** plugins/plugin-eval/skills/evaluation-methodology/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 22.2KB across 51 headings - the rubric documentation behind the plugin-eval CLI. The scoring dimensions worth keeping are already carried by the shortlisted plugin-eval-eval-judge row.
+- **Date:** 2026-08-22
+
+### T-206 — skill-forge-essentials-visual-edit-precision
+
+- **Source:** wshobson/agents
+- **Path:** plugins/skill-forge-essentials/skills/visual-edit-precision/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2`
+- **Rationale:** axis:user_scope_fit=2. Framed entirely around UI and frontend work - element selections, annotations, screenshots, CSS and markup edits, responsive behaviour and aria attributes. Re-donated to super-saiyan: change exactly what was indicated and preserve everything else, which generalises past the UI framing.
+- **Date:** 2026-08-22
+
+### T-207 — skill-creator
+
+- **Source:** anthropics/skills
+- **Path:** skills/skill-creator/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=2`
+- **Rationale:** axis:bloat=2. 33.2KB, the largest Apache-2.0 skill here, plus 16 bundled Python scripts including run_loop.py, run_eval.py and package_skill.py, so the eval harness needs a Python runtime (dependencies 3). SPEC 8 names this instinct's lineage and D-05 makes lineage a synthesis relationship rather than a copy, so the findings are recorded here rather than the file being shortlisted. Lineage findings for instinct: capture intent before writing; interview and research before drafting; run with-skill and baseline evaluations in the SAME turn so the comparison is controlled; draft assertions while runs are in flight; grade, aggregate, then read the user's feedback; and optimise the description separately by generating trigger-eval queries and scoring which prompts should and should not fire.
+- **Date:** 2026-08-22
+
+### T-208 — claude-api
+
+- **Source:** anthropics/skills
+- **Path:** skills/claude-api/SKILL.md
+- **HR/axis trigger IDs:** `axis:bloat=1`
+- **Rationale:** axis:bloat=1. 74.3KB plus 65 files under shared/ - a reference library rather than a workflow, and the largest component seen in any source this phase.
+- **Date:** 2026-08-22
+
+### T-209 — academy-guide
+
+- **Source:** anthropics/skills
+- **Path:** skills/academy-guide/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. Recommends courses and tutorials from academy.claude.com; the value is Anthropic-product onboarding, not project work, and the catalog is embedded in the file.
+- **Date:** 2026-08-22
+
+### T-210 — algorithmic-art
+
+- **Source:** anthropics/skills
+- **Path:** skills/algorithmic-art/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. Generative art with p5.js and seeded randomness - a creative-coding niche.
+- **Date:** 2026-08-22
+
+### T-211 — brand-guidelines
+
+- **Source:** anthropics/skills
+- **Path:** skills/brand-guidelines/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. Applies one company's brand identity - Anthropic's colors and Poppins/Lora typography - through python-pptx. A general marketplace shipping another organisation's brand styling would also be a NOTICE and trademark question, flagged under V4.5 rather than resolved here.
+- **Date:** 2026-08-22
+
+### T-212 — canvas-design
+
+- **Source:** anthropics/skills
+- **Path:** skills/canvas-design/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. Visual art into .png and .pdf, shipping 81 extra files including eight bundled TTF font families.
+- **Date:** 2026-08-22
+
+### T-213 — frontend-design
+
+- **Source:** anthropics/skills
+- **Path:** skills/frontend-design/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2`
+- **Rationale:** axis:user_scope_fit=2. Aesthetic direction and typography for UI work - a design discipline, the same ground the wshobson ui-design and accessibility-compliance categories were rejected on.
+- **Date:** 2026-08-22
+
+### T-214 — internal-comms
+
+- **Source:** anthropics/skills
+- **Path:** skills/internal-comms/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. Status reports, leadership updates, company newsletters and FAQs in one organisation's preferred formats.
+- **Date:** 2026-08-22
+
+### T-215 — mcp-builder
+
+- **Source:** anthropics/skills
+- **Path:** skills/mcp-builder/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2,axis:dependencies=2`
+- **Rationale:** axis:user_scope_fit=2,axis:dependencies=2. A guide to building MCP servers in Python FastMCP or the Node/TypeScript SDK, shipping scripts/requirements.txt and evaluation.py. Consistent with rejecting the wshobson api-scaffolding class: building one integration surface is a specialised task, not general engineering.
+- **Date:** 2026-08-22
+
+### T-216 — slack-gif-creator
+
+- **Source:** anthropics/skills
+- **Path:** skills/slack-gif-creator/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. Animated GIFs sized for Slack, with a bundled Python package and requirements.txt.
+- **Date:** 2026-08-22
+
+### T-217 — theme-factory
+
+- **Source:** anthropics/skills
+- **Path:** skills/theme-factory/SKILL.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** B-1..B-8. Ten preset color-and-font themes for artifacts is the closest match in this source to aura's stated scope, but SPEC 4 records aura's Source Lineage as Original work and B-8 keeps aura an optional satellite, so no plugin can own it. Recorded because the near-miss is worth stating rather than leaving implicit.
+- **Date:** 2026-08-22
+
+### T-218 — web-artifacts-builder
+
+- **Source:** anthropics/skills
+- **Path:** skills/web-artifacts-builder/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** axis:user_scope_fit=1. React, Tailwind and shadcn/ui artifacts for claude.ai, shipping init-artifact.sh, bundle-artifact.sh and a shadcn-components.tar.gz.
+- **Date:** 2026-08-22
+
+### T-219 — webapp-testing
+
+- **Source:** anthropics/skills
+- **Path:** skills/webapp-testing/SKILL.md
+- **HR/axis trigger IDs:** `axis:user_scope_fit=2,axis:dependencies=2`
+- **Rationale:** axis:user_scope_fit=2,axis:dependencies=2. Playwright-driven testing of local web applications, with a bundled with_server.py harness. Web applications only.
+- **Date:** 2026-08-22
+
+### T-220 — doc-coauthoring
+
+- **Source:** anthropics/skills
+- **Path:** skills/doc-coauthoring/SKILL.md
+- **HR/axis trigger IDs:** `axis:dependencies=1,D-24`
+- **Rationale:** axis:dependencies=1. NOT A SCORING REJECT - a licensing one, recorded on the nearest axis because the verdict enum is frozen (D-21). This skill ships NO LICENSE file, and anthropics/skills carries no root license, so there is no grant covering it. SPEC 8 records the per-skill licensing and D-24 makes only the Apache-2.0 skills lineage-eligible. Excluding an unlicensed component needs no judgment; INCLUDING one would be a licensing decision reserved to the owner, so it is flagged rather than decided.
+- **Date:** 2026-08-22
+
+### T-221 — gap-observability-monitoring
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (23 catalog rows, category "Observability & Monitoring")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** Usage-and-cost meters, session monitors and telemetry dashboards. HR-6 bars telemetry, analytics and network calls outright, and SPEC 8 ratifies dashboards as an ECC reject class; the same ground disposes of this category. No plugin should own it.
+- **Date:** 2026-08-22
+
+### T-222 — gap-documentation-knowledge-learning
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (20 catalog rows, category "Documentation, Knowledge & Learning")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `domain`
+- **Rationale:** **Mapped, covered.** Documentation and knowledge tooling is domain's under B-4, and the four Obsidian entries map to poneglyph, whose four near-verbatim kepano rows already hold that ground under EXC-1. No gap.
+- **Date:** 2026-08-22
+
+### T-223 — gap-security
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (16 catalog rows, category "Security")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `instinct`
+- **Rationale:** **Mapped, GAP.** Entries such as SkillSpector and SkilLock audit skills, agents and hooks themselves for unsafe patterns. Nothing shortlisted owns that: ecc/security-scan and ecc/skill-comply were rejected on HR-7, the wshobson security-scanning category was rejected at category level, and wshobson comprehensive-review-security-auditor on bloat. Component-safety auditing is instinct's under B-7. Partially covered today by scripts/validate.* checks P1, P2 and P3, but that is repo tooling, not a shipped component.
+- **Date:** 2026-08-22
+
+### T-224 — gap-start-here
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (15 catalog rows, category "Start Here")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** Tutorials, guides and blog posts about using Claude Code. Educational content, not installable components.
+- **Date:** 2026-08-22
+
+### T-225 — gap-from-anthropic
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (11 catalog rows, category "From Anthropic")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope as a discovery source.** Official documentation and actions. The lineage-eligible half is already a pinned SPEC 8 source (anthropics/skills) and audited in this pass; the documentation half is what the SPEC 0 re-verify rule consults directly.
+- **Date:** 2026-08-22
+
+### T-226 — gap-agent-orchestration
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (10 catalog rows, category "Agent Orchestration")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `bankai`
+- **Rationale:** **Mapped, partially covered.** Subagent orchestration is bankai's under B-6 and bankai now holds 27 shortlisted rows. The autonomous-loop subclass (the three Ralph Wiggum entries and the harness runners) stays out of scope: HR-4 bars background daemons and watchers, and the ECC loop-start, loop-status and loop-operator components were rejected on that and on D-15.
+- **Date:** 2026-08-22
+
+### T-227 — gap-memory-context-persistence
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (10 catalog rows, category "Memory & Context Persistence")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `rinnegan`
+- **Rationale:** **Mapped, covered by design.** Temporal memory is rinnegan's under B-3. Three shortlisted rows plus eval/claude-mem-rebuild.md, whose two open design calls the owner confirmed on 2026-08-22 (no recall hook, lexical search). No gap.
+- **Date:** 2026-08-22
+
+### T-228 — gap-remote-control-notifications-voice-i-o
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (8 catalog rows, category "Remote Control, Notifications & Voice I/O")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** Telegram, WhatsApp, voice and notification bridges all require third-party accounts and network calls - HR-1 and HR-6.
+- **Date:** 2026-08-22
+
+### T-229 — gap-providers-runtime-integration-infrastructure
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (7 catalog rows, category "Providers, Runtime & Integration Infrastructure")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** LLM routers, CDP bridges and WSL2 setup are runtime and environment infrastructure, not plugin components; HR-3 and HR-6 apply to the parts that are.
+- **Date:** 2026-08-22
+
+### T-230 — gap-alternative-clients
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (7 catalog rows, category "Alternative Clients")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** GUI and web clients for Claude Code. Not plugin components at all.
+- **Date:** 2026-08-22
+
+### T-231 — gap-design-ui-ux
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (6 catalog rows, category "Design & UI/UX")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** A design discipline. Consistent with rejecting anthropics/frontend-design, the wshobson ui-design and accessibility-compliance categories, and ecc/agent-a11y-architect on axis:user_scope_fit.
+- **Date:** 2026-08-22
+
+### T-232 — gap-linting
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (6 catalog rows, category "Linting")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `instinct`
+- **Rationale:** **Mapped, GAP.** Linting authored components - agents.md conventions, context linting, skill structure. Instinct owns validation under B-7 but holds no shortlisted component that lints a component file. Same gap family as Security above and worth resolving with it.
+- **Date:** 2026-08-22
+
+### T-233 — gap-skills
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (5 catalog rows, category "Skills")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `super-saiyan`
+- **Rationale:** **Mapped, covered.** Superpowers is already SPEC 8's ratified spine and contributes 14 rows. No gap.
+- **Date:** 2026-08-22
+
+### T-234 — gap-creative-media
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (4 catalog rows, category "Creative Media")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** Video, motion and replay tooling. Same ground as anthropics/algorithmic-art and slack-gif-creator.
+- **Date:** 2026-08-22
+
+### T-235 — gap-status-lines
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (3 catalog rows, category "Status Lines")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `aura`
+- **Rationale:** **Mapped, GAP that must NOT be closed from upstream.** Statusline presets are aura's under D-23, and aura holds zero rows by design because SPEC 4 records its Source Lineage as Original work. The gap is real and is closed by authoring at Phase 6, not by sourcing a candidate. anthropics/theme-factory was rejected on exactly this ground.
+- **Date:** 2026-08-22
+
+### T-236 — gap-research-scientific-inquiry
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (2 catalog rows, category "Research & Scientific Inquiry")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `super-saiyan`
+- **Rationale:** **Mapped, covered.** Research-before-coding is held by the shortlisted ecc/search-first row. No gap.
+- **Date:** 2026-08-22
+
+### T-237 — gap-writing-prose-quality
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (2 catalog rows, category "Writing & Prose Quality")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, mapped to `sharingan`
+- **Rationale:** **Mapped, closed this pass.** The catalog's Avoid AI Writing entry is the same upstream component as wshobson/avoid-ai-writing-avoid-ai-writing, shortlisted for sharingan in this pass. The catalog surfaced it; the audit was done at its actual source under that source's own MIT license, as D-24 requires.
+- **Date:** 2026-08-22
+
+### T-238 — gap-infrastructure-devops
+
+- **Source:** hesreallyhim/awesome-claude-code
+- **Path:** THE_RESOURCES_TABLE_NEW.csv (2 catalog rows, category "Infrastructure & DevOps")
+- **HR/axis trigger IDs:** `n/a` — gap-scan finding, out of scope
+- **Rationale:** **Out of scope.** Terraform and OpenTelemetry tooling - an operations discipline, the same ground the wshobson cloud-infrastructure and observability-monitoring categories were rejected on.
+- **Date:** 2026-08-22
+
 ## 4. Statistics
 
-Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; a field beginning `n/a` is its own row **including the `n/a (re-audit)` form**, which the v2.6 table wrongly filed under other-rule (T-069). 42 + 62 + 29 + 15 = 148.
+Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; a field beginning `n/a` is its own row **including the `n/a (re-audit)` form**, which the v2.6 table wrongly filed under other-rule (T-069). 44 + 124 + 34 + 36 = 238.
 
 | Metric | Count |
 |---|---|
-| Total entries | 148 |
-| Hard-reject entries | 42 |
-| Axis-floor entries | 62 |
-| Other-rule entries | 29 |
-| `n/a` entries | 15 |
-| Bulk-reject classes | 12 |
-| Gap-scan entries | 0 |
-| Re-audit / re-pin entries | 9 |
+| Total entries | 238 |
+| Hard-reject entries | 44 |
+| Axis-floor entries | 124 |
+| Other-rule entries | 34 |
+| `n/a` entries | 36 |
+| Bulk-reject classes | 16 |
+| Gap-scan entries | 18 |
+| Re-audit / re-pin entries | 10 |
 
-The last three rows **overlap** the partition above and are not added to it: the twelve bulk-reject classes are T-029…T-037 and T-070…T-072, ten of which also carry an `HR-N` or `axis:` trigger; the nine re-audit entries are T-026…T-028 (the 2026-08-18 G5 rehearsal) and T-064…T-069 (the 2026-08-22 review corrections). **Gap-scan entries stay at 0**: `SPEC.md` §10 Phase 4's `hesreallyhim/awesome-claude-code` scan runs in pass 2, and G4 cannot close until it does.
+The last three rows **overlap** the partition above and are not added to it: the sixteen bulk-reject classes are T-029…T-037, T-070…T-072 and T-151, T-152, T-154 plus the T-150 scoping record, thirteen of which also carry an `HR-N` or `axis:` trigger; the ten re-audit entries are T-026…T-028 (the 2026-08-18 G5 rehearsal), T-064…T-069 (the 2026-08-22 review corrections) and T-149 (the B-6 agent-ownership recalibration). **Gap-scan entries move off 0 for the first time**: T-221…T-238 disposition all 157 rows of `hesreallyhim/awesome-claude-code`'s catalog across its 18 categories — 9 mapped to an owning plugin, 9 explicitly out of scope, zero merge candidates sourced from it (V4.4).
 
 Reconciliation with the v2.5 table, which read 28 / 12 / 7 / 0 / 0 / 3 after Phase 2: the Phase-2 entries still contribute 12 hard-reject and 7 axis-floor. Six sit in the other-rule row, described below, and T-026 / T-027 sit in the `n/a` row rather than the other-rule row — the correction T-069 records. The v2.6 table published 22 / 24 / 14 / 3; the differences are that fix plus T-066's withdrawal of `HR-3` from T-030, which moves that class from hard-reject to axis-floor.
 
@@ -1455,5 +2281,7 @@ The three Phase-2 re-audit entries (T-026…T-028) arose from the **G5 rehearsal
 **The 2026-08-22 review corrections added T-064…T-069**, from an independent Fable-5 artifacts-only read of the Phase-3 output against both pinned clones. Same shape as the G5 rehearsal and the same lesson: the findings that mattered were claims that were internally coherent and wrong about the source or the standard. No verdict changed; three shortlisted rows were rescored on the §9 risk anchor, one rationale was completed, two class trigger sets were re-grounded, one skill moved between classes, and the counting rule in this section was made to match what it implements.
 
 **Phase 4 pass 1 (2026-08-22) added T-070…T-148**: three ratified reject classes covering 60 of ECC's 162 canonical commands and agents (T-070 the 22 language-pack commands, T-071 the 28 language-pack agents, T-072 the 10 domain-niche agents), sixty-nine individual rejects and seven `merge` entries from the 102 deep reads. `eval/matrix.csv` grew by 102 rows — 72 commands and 30 agents, the first `command` and `agent` rows in the file — and now reads 199 rows, 69 shortlist / 118 reject / 12 merge. Zero `defer` rows exist. The pass covers only the ECC half of `SPEC.md` §10 Phase 4; the four remaining sources run in passes 2 and 3.
+
+**Phase 4 pass 2 (2026-08-22) added T-149…T-238**: one re-audit correcting eight pass-1 agent rows to `bankai` under B-6, a category-triage record and three class rejects covering 91 wshobson plugins and four proprietary anthropics skills, a denominator record for nine byte-identical duplicate component copies, sixty-six individual rejects, and the eighteen gap-scan entries. `eval/matrix.csv` grew by 83 rows — 68 wshobson and 15 anthropics — and now reads 282 rows, 86 shortlist / 184 reject / 12 merge. Zero `defer` rows exist. Eight of the ten `SPEC.md` §8 repositories now carry rows; `hesreallyhim/awesome-claude-code` carries none by design and `davila7/claude-code-templates` is pass 3, after which G4 can close.
 
 The verdict vocabulary is `SPEC.md` §9 rule 3 — `shortlist`, `reject`, `merge`, `defer`. This log carries entries for `reject` (mandatory) and may carry them for `merge` and `defer` where the reasoning is worth preserving; `shortlist` rows need no entry.

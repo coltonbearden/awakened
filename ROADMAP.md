@@ -12,7 +12,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 1 | Structural inventory | **Complete** (2026-08-15) | G1 — passed |
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
-| 4 | Remaining sources | **In progress** — pass 1 of 3 complete (2026-08-22): ECC `commands/` + `agents/`, 102 rows, T-070…T-148. Passes 2–3 remain; widened to ECC at SPEC v2.6 (D-26) | G4 |
+| 4 | Remaining sources | **In progress** — passes 1 and 2 of 3 complete (2026-08-22): ECC `commands/`+`agents/`, wshobson, anthropics and the gap scan. 185 rows, T-070…T-238. Pass 3 (davila7) remains; widened to ECC at SPEC v2.6 (D-26) | G4 |
 | 5 | Evaluation matrix consolidation | Not started | **G5 — independent-reviewer gate + owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
@@ -162,6 +162,32 @@ before any component was opened. 162 canonical components — 94 `commands/*.md`
 language-pack commands, T-071 the 28 language-pack agents, T-072 the 10 domain-niche agents).
 `eval/matrix.csv` 97 → 199 rows; `eval/triage-log.md` T-069 → T-148. `kaioken`'s roster goes from
 one shortlisted row to five, which is the §4 lineage D-26 was written to reach.
+
+**Pass 2 delivered (2026-08-22).** `wshobson/agents`, `anthropics/skills` and the
+`hesreallyhim/awesome-claude-code` gap scan, all read at their pins after a `git rev-parse` check
+(3/3 MATCH). wshobson was triaged at **category** level first, as §10's "shortlisted plugins"
+wording requires: 91 plugin descriptions read, **17** categories selected, 31 rejected by name and
+43 as language/framework/cloud/business packs. Those 17 hold 77 component files but only **68
+distinct bodies** — six components are published in several plugins byte-identically,
+`code-reviewer` in five. Id convention `wshobson/<plugin>-<component>`, which collides zero ways
+where a bare component name collides six. anthropics measured **19** skills: 14 Apache-2.0, 4
+proprietary (excluded by D-24), and one — `doc-coauthoring` — with **no LICENSE file at all**, which
+is rejected and flagged for the owner. 83 rows appended (17 shortlist / 66 reject); matrix 199 →
+**282** rows; triage T-148 → **T-238**. The `Gap-scan entries` statistic moves off zero for the
+first time: 18 entries dispositioning all 157 catalog rows, 9 mapped to an owning plugin and 9 out
+of scope, **zero merge candidates sourced from the catalog** (V4.4).
+
+**Two findings from pass 2 worth carrying forward.** First, re-verifying against the live reference
+under §0 disposed of the single largest family in the source: the 17 `agent-teams` components depend
+on a feature that is **experimental and disabled by default**, and `team-lead` declares two tools the
+reference says no longer exist. Second, pass 2 corrected pass 1: eight shortlisted ECC agent rows had
+been assigned on the purpose each agent serves rather than on **B-6**, which gives `bankai` *all*
+subagents. All eight were replaced in place (T-149); every `agent`-type row now targets `bankai`,
+which holds **27** shortlisted rows.
+
+**Still open for pass 3.** V4.1 and V4.2 cannot discharge until `davila7/claude-code-templates` is
+audited — V4.1 names davila7 component candidates explicitly and V4.2 is entirely about its
+components-directory boundary. **G4 closes after pass 3.**
 
 **Verification criteria.**
 
