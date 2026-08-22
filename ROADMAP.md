@@ -11,14 +11,14 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 |---|---|---|---|
 | 1 | Structural inventory | **Complete** (2026-08-15) | G1 — passed |
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
-| 3 | ECC triage + claude-mem extraction | Not started (next) | G3 |
-| 4 | Remaining sources | Not started | G4 |
+| 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
+| 4 | Remaining sources | Not started (next) — widened to ECC `commands/` + `agents/` at SPEC v2.6 (D-26) | G4 |
 | 5 | Evaluation matrix consolidation | Not started | **G5 — independent-reviewer gate + owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
 
-Before Phase 2 begins, the governance, evaluation, schema, template, and legal foundation must be committed. The foundation is the 28 authored files plus `SPEC.md` shipped verbatim (D-16) — the count is historical, taken at Phase-2 entry; the tree has since gained `eval/gate-review-protocol.md` (SPEC v2.4) and `.github/workflows/validate.yml` (SPEC v2.5):
+Before Phase 2 begins, the governance, evaluation, schema, template, and legal foundation must be committed. The foundation is the 28 authored files plus `SPEC.md` shipped verbatim (D-16) — the count is historical, taken at Phase-2 entry; the tree has since gained `eval/gate-review-protocol.md` (SPEC v2.4), `.github/workflows/validate.yml` (SPEC v2.5) and `eval/claude-mem-rebuild.md` (SPEC v2.6):
 
 | Group | Contents |
 |---|---|
@@ -92,7 +92,7 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 
 ---
 
-## 5. Phase 3 — ECC Triage + claude-mem Extraction
+## 5. Phase 3 — ECC Triage + claude-mem Extraction ✔ Complete
 
 **Objective.** Two-pass ECC reduction — breadth triage of the full skill set, then deep reading of the shortlist only — and extraction of claude-mem's memory concepts into a documented file-based rebuild design for `rinnegan`.
 
@@ -116,7 +116,11 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 | V3.6 | Rebuild completeness | The design specifies storage layout (plain files), capture flow, recall/search flow, and an explicit dropped-features map (sqlite, bun, workers, docker, cloud sync → each mapped to a file-based replacement or an intentional omission) |
 | V3.7 | Policy proof | The design demonstrates zero daemons, databases, or network calls, checked line by line against HR-1…HR-8, and states its hook's write targets under D-18 |
 
-**Gate G3 (human review):** owner approves the ECC shortlist and the rinnegan rebuild design; approves Phase 4.
+**Delivered (evidence: PR #10, merged `5cf3087`).** 285 canonical ECC skills dispositioned exactly once — 40 deep-read, 245 in nine aggregate classes; `eval/matrix.csv` 55 → 97 rows; `eval/triage-log.md` T-028 → T-063; `eval/claude-mem-rebuild.md` written. ECC carries 897 `SKILL.md` files at the pin, of which 285 are canonical and 612 are translation and cross-harness duplicates; the arithmetic is recorded in the triage-log Phase-3 preamble.
+
+**Verification (passed).** V3.1 285/285 dispositioned, nine classes. V3.2 exactly 40 rows — the cap bound, and the margin was named rather than silently dropped. V3.3 scored ECC rows exist only for deep-read components. V3.4 9/9 classes carry rule-ID triggers. V3.5 the file exists at exactly that path. V3.6 all four parts present, the dropped-features map covering the five named features and twelve more. V3.7 §6 checks HR-1…HR-8 one row each, states the hook's D-18 write targets, and declares the 10-second timeout.
+
+**Gate G3:** **APPROVED** 2026-08-22 under standing delegation D11 (D-25 moved only G5). Review record: PR #10; scope change arising at the gate recorded as D-26 / ADR-026 per §10 rule 4.
 
 ---
 
@@ -126,12 +130,16 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 
 > **Exit criteria (`SPEC.md` §10, verbatim):** Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`.
 
+**Scope note (SPEC v2.6, D-26).** §10 Phase 4's scope column gained ECC `commands/` and `agents/`. Phase 3 established that four of the seven §8 mining targets — the `sessions` family, `build-fix`, `code-review` and `project-init` — exist only under `commands/`, and that §4 names ECC's `agents/` as `bankai`'s lineage; without this widening no phase would audit them.
+
 **Deliverables.**
 
 - **wshobson/agents:** the shortlisted general-purpose categories audited and scored; agent candidates annotated with proposed restricted tool allowlists (C-2).
 - **anthropics/skills:** reference patterns reviewed; skill-creator lineage findings recorded for `instinct`; NOTICE-relevant close adaptations flagged.
 - **davila7/claude-code-templates:** components directory only; the npm CLI and analytics surfaces are out of scope per §8 and HR-6/HR-7.
 - **hesreallyhim/awesome-claude-code:** gap scan — discovery only, not merge material. Output is a capability-gap list, each gap mapped to an owning plugin or marked out of scope, appended to `eval/triage-log.md`.
+- **affaan-m/ECC `commands/` (94 files):** audited and scored at the pinned SHA. §8's mining targets that exist only here are prioritized — `sessions.md`, `save-session.md`, `resume-session.md`, `build-fix.md`, `code-review.md`, `project-init.md`, the `plan*`/`prp-*` family, `hookify*.md`, `security-scan.md`.
+- **affaan-m/ECC `agents/` (68 files):** the general-purpose candidates audited and scored, annotated with proposed restricted tool allowlists (C-2) alongside wshobson's.
 
 **Verification criteria.**
 
@@ -142,6 +150,8 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 | V4.3 | Agent safety annotations | 100% of agent candidates carry a proposed restricted allowlist with no bare `Bash(*)` or unrestricted `Write(*)` |
 | V4.4 | Gap scan output | Gap findings appended to `eval/triage-log.md`; every entry mapped to one owning plugin or explicitly out of scope; zero merge candidates sourced from awesome-claude-code |
 | V4.5 | NOTICE flags | Apache-2.0 close-adaptation candidates flagged for `NOTICE` |
+| V4.6 | ECC command coverage | Every §8 mining target that exists only under ECC `commands/` carries a matrix row or a triage-log entry; zero named targets unaccounted for |
+| V4.7 | ECC id disambiguation | ECC rows use an `id` convention that separates a command from a same-named skill (`security-scan`, `plan-canvas`, the `orch-*` family collide), so `eval/rubric.md` §5's one-effective-row-per-`id` rule holds |
 
 **Gate G4 (human review):** owner approves the full candidate pool; approves Phase 5.
 
@@ -235,6 +245,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 |---|---|---|---|
 | G1 | 2026-08-15 | APPROVED | Structural inventory ratified via `SPEC.md` §8 and §10 |
 | G2 | 2026-08-18 | APPROVED | Phase-2 audit complete: V2.1–V2.10 all discharged (V2.8–V2.10 by SPEC v2.3, PR #2). Reviewed and approved under standing delegation D11 (2026-08-18); review record: PR #4 |
+| G3 | 2026-08-22 | APPROVED | Phase-3 complete: V3.1–V3.7 all discharged. Reviewed and approved under standing delegation D11 (D-25 moved only G5); review record: PR #10. Scope change arising at the gate landed as D-26 / ADR-026 (SPEC v2.6) per §10 rule 4 |
 
 G5 occupies two rows, not one: `APPROVED (reviewer) — pending owner ack` when the independent reviewer returns its verdict, then `OWNER ACK` with the date and the comment URL when the owner acknowledges it. Phase 6 opens on the second row (D-25 as amended at SPEC v2.5).
 

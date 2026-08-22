@@ -1,6 +1,6 @@
 # CONTEXT.md — Awakened System Overview
 
-**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.5 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
+**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.6 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
 
 ---
 
@@ -87,7 +87,7 @@ Awakened is deliberately **not**:
 
 ## 9. Current State
 
-- **Spec:** v2.5 governing (`SPEC.md`), dated 2026-08-21. It ships verbatim at repository root and is never regenerated (D-16).
+- **Spec:** v2.6 governing (`SPEC.md`), dated 2026-08-22. It ships verbatim at repository root and is never regenerated (D-16).
 - **Phase 1 (structural inventory):** complete per `SPEC.md` §10 — all ten source repos crawled, structure, counts, and licenses mapped into §8.
 - **Phase 2 (Tier-1 deep audit):** complete 2026-08-18 — 55 scored `eval/matrix.csv` rows, 27 shortlist / 25 reject / 3 merge, triage T-001…T-028; gate G2 approved.
 - **Foundation suite:** governance, evaluation harness, schemas, validation scripts, templates, the legal framework, and the CI workflow (`.github/workflows/validate.yml`, v2.5) are committed. See `ROADMAP.md` §2.
@@ -100,4 +100,4 @@ Awakened is deliberately **not**:
 2. `SPEC.md` — the governing specification (§0–§14).
 3. `CLAUDE.md` — operating rules for sessions working in this repo.
 4. `ROADMAP.md` — current phase, deliverables, verification gates.
-5. `DECISIONS.md` — ADR-001…ADR-025 when rationale or enforcement detail is needed.
+5. `DECISIONS.md` — ADR-001…ADR-026 when rationale or enforcement detail is needed.

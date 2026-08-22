@@ -1,10 +1,10 @@
 # DECISIONS.md — Architecture Decision Records
 
-**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-025 formalize the twenty-five decisions ratified in `SPEC.md` §12 (D-01…D-25), mirroring that table 1:1 as D-16 requires.
+**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-026 formalize the twenty-six decisions ratified in `SPEC.md` §12 (D-01…D-26), mirroring that table 1:1 as D-16 requires.
 
 **Conventions**
 
-- **IDs** are sequential and never reused. Next available: **ADR-026**.
+- **IDs** are sequential and never reused. Next available: **ADR-027**.
 - **Statuses:** `Proposed` → `Accepted` → (`Superseded by ADR-0NN` | `Deprecated`). Accepted ADRs are **immutable** — to change course, write a new ADR that supersedes the old one. One carve-out, codified at SPEC v2.5: when a spec PR amends an existing `SPEC.md` §12 cell, the ADR that mirrors it is amended **in place** — a dated `Amended` row in its field table plus a dated italic note at every changed passage, `Status` staying `Accepted` — because D-16 requires the mirror to stay 1:1 and a superseding ADR would break that mapping. Superseding remains the route for *reversing* a decision.
 - **Format:** field table (Status, Date, Spec ref, Supersedes, plus `Amended` where an in-place amendment has landed), Context, Decision, Alternatives Considered, Consequences, Enforcement.
 - **Spec ref** cites the `D-NN` rule ID from `SPEC.md` §12, so the 1:1 mapping is mechanically checkable.
@@ -39,6 +39,7 @@
 | 023 | `aura` statuslines: `plugins/aura/statuslines/`, `.sh`/`.ps1` twin pairs | Accepted | D-23 |
 | 024 | Phase-2 §0 verification: licenses at first pin, hook dispatch, assumption adjudication | Accepted | D-24 |
 | 025 | Gate G5 adjudicated by an independent reviewer (amended 2026-08-21: owner-ack tripwire, clean room, loader pin) | Accepted | D-25 |
+| 026 | Phase-4 scope covers ECC `commands/` and `agents/`; `eval/claude-mem-rebuild.md` enters the §3 tree | Accepted | D-26 |
 
 ---
 
@@ -554,7 +555,7 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 - (+) ADR/decision parity is mechanically checkable — the validator counts ADRs and matches `Spec ref` fields against §12.
 - (−) Correcting an external fact, such as an upstream license, costs a spec PR rather than an ADR. Accepted: that cost is the control.
 
-**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* *(Amended 2026-08-18 by ADR-024 / SPEC v2.3 §14: check D2 now asserts exactly 24 ADR headings covering D-01…D-24.)* *(Amended 2026-08-18 by ADR-025 / SPEC v2.4 §14: check D2 now asserts exactly 25 ADR headings covering D-01…D-25, and check D1 the v2.4 version line.)* *(Amended 2026-08-21 by ADR-025 / SPEC v2.5 §14: check D1 now asserts the v2.5 version line and check S2 now requires `.github/workflows/validate.yml` and `eval/gate-review-protocol.md`; check D2 is unchanged at 25 ADR headings covering D-01…D-25. A spec PR that amends an existing `SPEC.md` §12 cell amends the mirroring ADR in place — a dated `Amended` field row plus dated italic notes at each changed passage, `Status` unchanged — because D-16 requires the mirror to stay 1:1; superseding is for reversing a decision.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
+**Enforcement.** `scripts/validate.*` check D1 asserts `SPEC.md` is present at root and carries the governing version string; check D2 asserts `DECISIONS.md` contains exactly 18 `## ADR-` headings whose `Spec ref` fields cover D-01…D-18 without duplication. *(Amended 2026-08-16 by ADR-019…ADR-023 / SPEC v2.2 §14: check D2 now asserts exactly 23 ADR headings covering D-01…D-23.)* *(Amended 2026-08-18 by ADR-024 / SPEC v2.3 §14: check D2 now asserts exactly 24 ADR headings covering D-01…D-24.)* *(Amended 2026-08-18 by ADR-025 / SPEC v2.4 §14: check D2 now asserts exactly 25 ADR headings covering D-01…D-25, and check D1 the v2.4 version line.)* *(Amended 2026-08-21 by ADR-025 / SPEC v2.5 §14: check D1 now asserts the v2.5 version line and check S2 now requires `.github/workflows/validate.yml` and `eval/gate-review-protocol.md`; check D2 is unchanged at 25 ADR headings covering D-01…D-25. A spec PR that amends an existing `SPEC.md` §12 cell amends the mirroring ADR in place — a dated `Amended` field row plus dated italic notes at each changed passage, `Status` unchanged — because D-16 requires the mirror to stay 1:1; superseding is for reversing a decision.)* *(Amended 2026-08-22 by ADR-026 / SPEC v2.6 §14: check D1 now asserts the v2.6 version line, check D2 exactly 26 ADR headings covering D-01…D-26, and check S2 now additionally requires `eval/claude-mem-rebuild.md`.)* PR review rejects any ADR whose `Supersedes` field names a `SPEC.md` section.
 
 ---
 
@@ -972,6 +973,72 @@ in place rather than superseded. `.github/workflows/validate.yml` runs both vali
 HD-12 twin-parity diff on every pull request and every push to `main`, required on `main` by
 repository ruleset. A recorded G5 approval is no longer sufficient on its own: the owner's
 acknowledgement comment on the sign-off pull request is the second half of the authorization.)*
+
+---
+
+## ADR-026 — Phase-4 Scope Covers ECC Commands and Agents
+
+| Field | Value |
+|---|---|
+| Status | Accepted |
+| Date | 2026-08-22 |
+| Spec ref | D-26 |
+| Supersedes | — |
+
+**Context.** `SPEC.md` §8 ratified seven mining targets for `affaan-m/ECC` — "sessions, plan/prp
+family, build-fix, code-review, hookify, security-scan, project-init" — and §10 then wrote Phase 3
+as "270 ECC skills → shortlist → deep-read shortlist only". Phase 4 enumerates the remaining
+sources — wshobson, anthropics/skills, davila7, awesome-claude-code — and names no ECC.
+
+Phase 3 read the repository at the pinned commit `06c5e118c4d3e6c3b7f9445f973a2194c82de193` and the
+two statements turned out not to cover the same ground. Four of the seven ratified targets exist
+**only** under `commands/`, which holds 94 files: `sessions.md`, `save-session.md` and
+`resume-session.md`; `build-fix.md`; `code-review.md`; `project-init.md`. `agents/` holds a further
+68 files. §4 names ECC's agents as part of `bankai`'s lineage ("wshobson (curated) × ECC agents")
+and the sessions commands as part of `kaioken`'s ("ECC sessions × mattpocock handoff").
+
+A skills-only Phase 3 with an ECC-free Phase 4 therefore leaves four of seven ratified mining
+targets, and `kaioken`'s primary named source, with no phase that would ever audit them. The
+evidence is visible in the matrix: after Phase 3, `kaioken` holds one shortlisted row from any
+source, and none from ECC.
+
+**Decision.** `SPEC.md` §10 Phase 4's scope gains ECC's `commands/` and `agents/`. Phase 3 is
+executed exactly as ratified — skills only — and the widening lands at the G3 boundary, which is
+what `ROADMAP.md` §10 rule 4 ("scope changes at a gate become ADRs before the next phase begins")
+exists for. The same spec PR adds `eval/claude-mem-rebuild.md` to the §3 tree: §10 Phase 3 already
+required that file by exact path, and a canonical tree that omits a file the exit criteria name is
+an internal contradiction rather than a deliberate omission.
+
+**Alternatives Considered.**
+
+1. **Widen Phase 3 instead, before doing the work.** Rejected by the project owner in favour of
+   this option. It would have put the §10 Phase-3 deep-read cap of 40 rows against 285 skills plus
+   94 commands combined, and it would have meant editing the phase that was about to be executed —
+   the reverse of the discipline that keeps a ratified phase stable while it runs.
+2. **Record a SPEC-GAP and leave it to a later phase.** Rejected: the gap would stay unowned
+   through G4 and would surface at the G5 clean-room review, where a reviewer reading §8 against
+   the matrix would find four ratified targets with no rows and no explanation.
+3. **Give ECC commands and agents a phase of their own.** Rejected as ceremony. Phase 4 is already
+   the sweep-up phase and already carries V4.3, the requirement that every agent candidate be
+   annotated with a restricted tool allowlist under C-2; ECC's agents belong beside wshobson's
+   there.
+
+**Consequences.**
+
+- Phase 4 grows by two component classes. `ROADMAP.md` §6 gains the corresponding deliverable and
+  verification rows, and its verbatim §10 quote is re-synced.
+- ECC command ids will collide with skill ids — `security-scan`, `plan-canvas` and the `orch-*`
+  family exist under both `skills/` and `commands/`. Phase 4 must adopt a disambiguating `id`
+  convention before appending rows, because `eval/rubric.md` §5 requires one effective row per `id`.
+- `kaioken`'s roster gap is not closed by this ADR; it is given a phase in which it *can* close.
+  Whether the sessions commands survive their audit is a Phase-4 question.
+- Nothing about Phase 3's output changes. Its 40 ECC rows and T-029…T-063 stand as audited.
+
+**Enforcement.** `scripts/validate.*` check D1 asserts the v2.6 version line and check D2 exactly 26
+`## ADR-` headings whose `Spec ref` fields cover D-01…D-26; check S2 additionally requires
+`eval/claude-mem-rebuild.md`, so the new §3 entry cannot go untracked the way
+`eval/gate-review-protocol.md` did until D-31. Both twins carry the identical checks and CI
+byte-diffs their output.
 
 ---
 
