@@ -284,8 +284,6 @@ Four candidates were screened as hard-reject hits and **cleared on the evidence*
 
 ---
 
----
-
 **Phase 3 — ECC triage + claude-mem extraction, 2026-08-22.** Both sources were read at their
 `upstream.json` pinned SHAs — `affaan-m/ECC` `06c5e118c4d3`, `thedotmack/claude-mem`
 `fae697a45d10` — with each clone's `git rev-parse HEAD` compared to the pin before any component
@@ -298,7 +296,8 @@ file was read. 2/2 matched.
 = 519) and for other agent harnesses (`.kiro` 43, `.agents` 39, `.cursor` 11 = 93). §8's figure is
 a dated role note and is left as written; **285** is the Phase-3 denominator. Every one of the 285
 is dispositioned exactly once: 40 deep-read (T-038…T-062) plus 245 in the seven classes
-T-030…T-036 — 40 + 94 + 40 + 33 + 20 + 24 + 20 + 14 = 285.
+T-030…T-036 — 40 + 93 + 40 + 33 + 20 + 24 + 20 + 15 = 285. *(Class sizes updated 2026-08-22 by
+T-064, which moved one skill between two of them; the total and the partition are unchanged.)*
 
 **Procedural difference from Phase 2, stated because it inverts the earlier rule.** Phase 2 wrote
 one `eval/matrix.csv` row per skill file. `ROADMAP.md` V3.3 requires the opposite here: fully
@@ -316,7 +315,9 @@ class rejects rather than being carried as `defer` — a `defer` needs a scored 
 V3.3 forbids for anything not deep-read. `token-budget-advisor`, `contract-first`,
 `hexagonal-architecture`, `product-capability`, `product-lens`, `benchmark`,
 `benchmark-optimization-loop`, `security-bounty-hunter`, `dev-team`, `team-builder`, `agent-eval`
-and `eval-harness` are the named margin cuts; they sit in T-035 and T-036.
+and `eval-harness` are the named margin cuts; they sit in T-035 and T-036. *(Corrected 2026-08-22
+by T-064: eleven of the twelve do. `hexagonal-architecture` was filed in T-030, which does not fit
+it; T-064 moves it to T-036's ground.)*
 
 **Two screening adjudications, recorded because a screen that varies silently is not a screen.**
 
@@ -354,9 +355,9 @@ be its own data directory, so HR-8 does **not** fire there — it is rejected on
 ### T-030 — language-and-framework-packs
 
 - **Source:** affaan-m/ECC
-- **Path:** skills/ (94 skills)
-- **HR/axis trigger IDs:** `HR-3,axis:user_scope_fit=1`
-- **Rationale:** A `SPEC.md` §8 named reject class, disposed without deep reads under §10 Phase 3 and §2 rule 2 of this log. 94 skills whose value is bound to one language, framework, runtime or UI stack — language-specific tooling at user scope (HR-3) and project- or language-specific reach (user_scope_fit 1). Members: accessibility, android-clean-architecture, angular-developer, api-design, backend-patterns, browser-qa, bun-runtime, click-path-audit, clickhouse-io, compose-multiplatform-patterns, content-hash-cache-pattern, cpp-coding-standards, cpp-testing, csharp-testing, dart-flutter-patterns, database-migrations, deployment-patterns, design-system, django-celery, django-patterns, django-security, django-tdd, django-verification, docker-patterns, dotnet-patterns, e2e-testing, fastapi-patterns, flutter-dart-code-review, foundation-models-on-device, frontend-a11y, frontend-design-direction, frontend-patterns, fsharp-testing, generating-python-installer, golang-patterns, golang-testing, hexagonal-architecture, ios-icon-gen, java-coding-standards, jpa-patterns, kotlin-coroutines-flows, kotlin-exposed-patterns, kotlin-ktor-patterns, kotlin-patterns, kotlin-testing, kubernetes-patterns, laravel-patterns, laravel-security, laravel-tdd, laravel-verification, liquid-glass-design, make-interfaces-feel-better, mcp-server-patterns, motion-advanced, motion-foundations, motion-patterns, motion-ui, mysql-patterns, nestjs-patterns, nextjs-turbopack, nodejs-keccak256, nuxt4-patterns, perl-patterns, perl-security, perl-testing, postgres-patterns, prisma-patterns, python-patterns, python-testing, pytorch-patterns, quarkus-patterns, quarkus-security, quarkus-tdd, quarkus-verification, react-native-patterns, react-patterns, react-performance, react-testing, redis-patterns, rust-patterns, rust-testing, springboot-patterns, springboot-security, springboot-tdd, springboot-verification, swift-actor-persistence, swift-concurrency-6-2, swift-protocol-di-testing, swiftui-patterns, tinystruct-patterns, ui-to-vue, vite-patterns, vue-patterns, windows-desktop-e2e.
+- **Path:** skills/ (93 skills)
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** A `SPEC.md` §8 named reject class, disposed without deep reads under §10 Phase 3 and §2 rule 2 of this log. 93 skills whose value is bound to one language, framework, runtime or UI stack — language-specific tooling at user scope (HR-3) and project- or language-specific reach (user_scope_fit 1). *(Amended 2026-08-22 by T-066: the HR-3 trigger is withdrawn — HR-3 names "LSP servers or language-specific tooling at user scope", and these 94 are prompt-only pattern documents, not tooling. The axis floor carries the class alone, as it did for T-012 in Phase 2. T-064 additionally removes `hexagonal-architecture` from the membership below, leaving 93.)* Members: accessibility, android-clean-architecture, angular-developer, api-design, backend-patterns, browser-qa, bun-runtime, click-path-audit, clickhouse-io, compose-multiplatform-patterns, content-hash-cache-pattern, cpp-coding-standards, cpp-testing, csharp-testing, dart-flutter-patterns, database-migrations, deployment-patterns, design-system, django-celery, django-patterns, django-security, django-tdd, django-verification, docker-patterns, dotnet-patterns, e2e-testing, fastapi-patterns, flutter-dart-code-review, foundation-models-on-device, frontend-a11y, frontend-design-direction, frontend-patterns, fsharp-testing, generating-python-installer, golang-patterns, golang-testing, ios-icon-gen, java-coding-standards, jpa-patterns, kotlin-coroutines-flows, kotlin-exposed-patterns, kotlin-ktor-patterns, kotlin-patterns, kotlin-testing, kubernetes-patterns, laravel-patterns, laravel-security, laravel-tdd, laravel-verification, liquid-glass-design, make-interfaces-feel-better, mcp-server-patterns, motion-advanced, motion-foundations, motion-patterns, motion-ui, mysql-patterns, nestjs-patterns, nextjs-turbopack, nodejs-keccak256, nuxt4-patterns, perl-patterns, perl-security, perl-testing, postgres-patterns, prisma-patterns, python-patterns, python-testing, pytorch-patterns, quarkus-patterns, quarkus-security, quarkus-tdd, quarkus-verification, react-native-patterns, react-patterns, react-performance, react-testing, redis-patterns, rust-patterns, rust-testing, springboot-patterns, springboot-security, springboot-tdd, springboot-verification, swift-actor-persistence, swift-concurrency-6-2, swift-protocol-di-testing, swiftui-patterns, tinystruct-patterns, ui-to-vue, vite-patterns, vue-patterns, windows-desktop-e2e.
 - **Date:** 2026-08-22
 
 ### T-031 — domain-niche-skills
@@ -372,7 +373,7 @@ be its own data directory, so HR-8 does **not** fire there — it is rejected on
 - **Source:** affaan-m/ECC
 - **Path:** skills/ (33 skills)
 - **HR/axis trigger IDs:** `HR-1,HR-2,HR-6`
-- **Rationale:** A `SPEC.md` §8 named reject class ("dashboards"), widened to the third-party hosted surfaces that share its policy ground. 33 skills each requiring a named external account, API key, hosted endpoint or non-sanctioned MCP server: HR-1 on the accounts, HR-2 on MCP servers beyond Obsidian, Context7 and Claude Code, HR-6 on the network calls a shipped component would make. Members: agent-payment-x402, canary-watch, claude-devfleet, codehealth-mcp, council-multi-model, dashboard-builder, data-scraper-agent, deep-research, dmux-workflows, email-ops, exa-search, fal-ai-media, flox-environments, github-ops, google-workspace-ops, ito-compute, ito-inference, ito-training, jira-integration, knowledge-ops, laravel-plugin-discovery, mailtrap-email-integration, messages-ops, nasiko-control-plane, nutrient-document-processing, plankton-code-quality, project-flow-ops, repo-scan, social-publisher, uncloud, unified-notifications-ops, videodb, x-api.
+- **Rationale:** A `SPEC.md` §8 named reject class ("dashboards"), widened to the third-party hosted surfaces that share its policy ground. 33 skills each requiring a named external account, API key, hosted endpoint or non-sanctioned MCP server: HR-1 on the accounts, HR-2 on MCP servers beyond Obsidian, Context7 and Claude Code, HR-6 on the network calls a shipped component would make. *(Amended 2026-08-22 by T-065: "each requiring" overstates it. `dmux-workflows` requires no account, endpoint or MCP — it is a local tmux pane manager — and `flox-environments`' hosted FloxHub path is optional. Both still reject, on `axis:dependencies=1`, not on an HR trigger.)* Members: agent-payment-x402, canary-watch, claude-devfleet, codehealth-mcp, council-multi-model, dashboard-builder, data-scraper-agent, deep-research, dmux-workflows, email-ops, exa-search, fal-ai-media, flox-environments, github-ops, google-workspace-ops, ito-compute, ito-inference, ito-training, jira-integration, knowledge-ops, laravel-plugin-discovery, mailtrap-email-integration, messages-ops, nasiko-control-plane, nutrient-document-processing, plankton-code-quality, project-flow-ops, repo-scan, social-publisher, uncloud, unified-notifications-ops, videodb, x-api.
 - **Date:** 2026-08-22
 
 ### T-033 — ecc-installation-specific-skills
@@ -402,9 +403,9 @@ be its own data directory, so HR-8 does **not** fire there — it is rejected on
 ### T-036 — general-purpose-without-an-owning-plugin
 
 - **Source:** affaan-m/ECC
-- **Path:** skills/ (14 skills)
+- **Path:** skills/ (15 skills)
 - **HR/axis trigger IDs:** `B-1..B-8`
-- **Rationale:** 14 skills that are genuinely general but that no single Tier-1 plugin owns under B-1…B-8 — product discovery, API contract governance, paradigm-level architecture references, performance benchmarking, response-budget control, terminal launching. §9 rule 2 forbids shortlisting a component with no owner or two equally plausible owners. This class also absorbs the margin cut by the §10 Phase-3 deep-read cap; the cut is named in the Phase-3 preamble above rather than left implicit. Members: agentic-engineering, ai-first-engineering, api-connector-builder, benchmark, benchmark-optimization-loop, contract-first, data-throughput-accelerator, latency-critical-systems, product-capability, product-lens, regex-vs-llm-structured-text, security-bounty-hunter, terminal-opener, token-budget-advisor.
+- **Rationale:** 15 skills that are genuinely general but that no single Tier-1 plugin owns under B-1…B-8 — product discovery, API contract governance, paradigm-level architecture references, performance benchmarking, response-budget control, terminal launching. §9 rule 2 forbids shortlisting a component with no owner or two equally plausible owners. This class also absorbs the margin cut by the §10 Phase-3 deep-read cap; the cut is named in the Phase-3 preamble above rather than left implicit. *(Amended 2026-08-22 by T-064: gains `hexagonal-architecture`, moved from T-030 — it spans four languages, so a single-stack class never fitted it.)* Members: agentic-engineering, ai-first-engineering, api-connector-builder, benchmark, benchmark-optimization-loop, contract-first, data-throughput-accelerator, hexagonal-architecture, latency-critical-systems, product-capability, product-lens, regex-vs-llm-structured-text, security-bounty-hunter, terminal-opener, token-budget-advisor.
 - **Date:** 2026-08-22
 
 ### T-037 — hooks-json-monolith
@@ -508,7 +509,7 @@ be its own data directory, so HR-8 does **not** fire there — it is rejected on
 - **Source:** affaan-m/ECC
 - **Path:** skills/orch-pipeline/SKILL.md
 - **HR/axis trigger IDs:** `axis:dependencies=1,B-1..B-8`
-- **Rationale:** The shared engine behind the five `orch-*` wrappers (T-033). Every phase delegates to a named ECC agent or slash command — `code-explorer`, `planner`, `tdd-guide`, `code-reviewer`, security-reviewer,/feature-dev,/gan-build,rules/common/*.md — and to ECC's `rules/common/*.md`. Outside thatinstall it does nothing (dependencies 1), and no §4 plugin owns an orchestration engine bound to another marketplace's catalog. The blast-radius size classifier and the two human gates (after Plan, before Commit) re-donate.
+- **Rationale:** The shared engine behind the five `orch-*` wrappers (T-033). Every phase delegates to a named ECC agent or slash command — `code-explorer`, `planner`, `tdd-guide`, `code-reviewer`, `security-reviewer`, `/feature-dev`, `/gan-build` — and to ECC's `rules/common/*.md`. Outside that install it does nothing (dependencies 1), and no §4 plugin owns an orchestration engine bound to another marketplace's catalog. The blast-radius size classifier and the two human gates (after Plan, before Commit) re-donate.
 - **Date:** 2026-08-22
 
 ### T-050 — plan-canvas
@@ -572,7 +573,7 @@ be its own data directory, so HR-8 does **not** fire there — it is rejected on
 - **Source:** affaan-m/ECC
 - **Path:** skills/skill-stocktake/SKILL.md
 - **HR/axis trigger IDs:** `axis:dependencies=2`
-- **Rationale:** `scan.sh`, `quick-diff.sh` and `save-results.sh` are the mandated Phase-1 and persistence steps and all three use `jq` unconditionally (dependencies 2). The results cache is written to ~/.claude/skills/skill-stocktake/results.json — inside another component's skill directoryrather than an owning plugin's data directory. Quick-Scan-versus-Full-Stocktake re-donates.
+- **Rationale:** `scan.sh`, `quick-diff.sh` and `save-results.sh` are the mandated Phase-1 and persistence steps and all three use `jq` unconditionally (dependencies 2). The results cache is written to ~/.claude/skills/skill-stocktake/results.json — inside another component's skill directory rather than an owning plugin's data directory. Quick-Scan-versus-Full-Stocktake re-donates.
 - **Date:** 2026-08-22
 
 ### T-058 — strategic-compact
@@ -620,33 +621,101 @@ be its own data directory, so HR-8 does **not** fire there — it is rejected on
 - **Source:** thedotmack/claude-mem
 - **Path:** plugin/hooks/hooks.json
 - **HR/axis trigger IDs:** `HR-1,HR-2,HR-4,HR-5,HR-6,D-15,D-24`
-- **Rationale:** The shipped implementation, read at the pin. `plugin/hooks/hooks.json` registers seven command-handler entries across six lifecycle events (Setup, SessionStart ×2, UserPromptSubmit, PostToolUse, PreToolUse, Stop), each a bash one-liner that rewrites `PATH`, locates the plugin cache and runs `node scripts/bun-runner.js scripts/worker-service.cjs`. That worker is a per-user Express daemon on port `37700+(uid%100)` with a session manager, a process registry and a five-minute orphan reaper (**HR-4**). Storage is SQLite plus ChromaDB, and the package trusts `esbuild` and eleven tree-sitter native grammars while `engines` requires `bun` (**HR-5**). `plugin/.mcp.json` ships an `mcp-search` MCP server (**HR-2**). Dependencies include `posthog-node` (**HR-6**). `plugin/skills/cloud-sync` writes a cmem.ai Pro account token to `~/.claude-mem/settings.json` (**HR-1**). D-15 budgets one hook per plugin; this is seven, all command handlers, which D-24 bars. This is `eval/rubric.md` §7 Example A met in the field: the concept survives as `claude-mem/session-memory` and the file-based design in `eval/claude-mem-rebuild.md`; the implementation does not.
+- **Rationale:** The shipped implementation, read at the pin. `plugin/hooks/hooks.json` registers seven command-handler entries across six lifecycle events (Setup, SessionStart ×2, UserPromptSubmit, PostToolUse, PreToolUse, Stop), each a bash one-liner that rewrites `PATH`, locates the plugin cache and runs `node scripts/bun-runner.js scripts/worker-service.cjs`. That worker is a per-user Express daemon on port `37700+(uid%100)` with a session manager, a process registry and a five-minute orphan reaper (**HR-4**). Storage is SQLite plus ChromaDB, and the package trusts `esbuild` and ten tree-sitter entries — nine grammars plus `tree-sitter-cli` — while `engines` requires `bun` (**HR-5**). `plugin/.mcp.json` ships an `mcp-search` MCP server (**HR-2**). Dependencies include `posthog-node` (**HR-6**). `plugin/skills/cloud-sync` writes a cmem.ai Pro account token to `~/.claude-mem/settings.json` (**HR-1**). D-15 budgets one hook per plugin; this is seven, all command handlers, which D-24 bars. This is `eval/rubric.md` §7 Example A met in the field: the concept survives as `claude-mem/session-memory` and the file-based design in `eval/claude-mem-rebuild.md`; the implementation does not.
 - **Date:** 2026-08-22
 
 
+---
+
+**Phase-3 review corrections, 2026-08-22.** An independent Fable-5 reviewer read the Phase-3
+artifacts and both pinned clones cold — artifacts-only, no executor reasoning — and returned ten
+findings. All ten were re-verified against the sources before anything was changed here. Nine are
+recorded below or fixed in place; the tenth (`SPEC.md`'s header date and supersedes line, and a
+`D-31` citation that resolves to a session decision outside the repository) is a governance defect
+and is fixed in `SPEC.md`, `DECISIONS.md` and `ROADMAP.md` rather than in this log.
+
+Four defects were **transcription damage from this session's own tooling**, not judgments, and are
+corrected in place rather than by re-audit: a regex pass that normalised the trigger-ID fields also
+stripped backticks and spaces inside two rationales (T-049, T-057), the claude-mem grammar count in
+T-063 read eleven where the manifest holds ten entries of which nine are grammars, and a doubled
+horizontal rule preceded the Phase-3 preamble. Correcting a mangled character is not rewriting a
+verdict; §2 rule 4 governs the latter, and every judgment change is an appended entry below.
+
+No verdict changes. The matrix stays at 97 rows, 43 shortlist / 49 reject / 5 merge.
+
+### T-064 — hexagonal-architecture
+
+- **Source:** affaan-m/ECC
+- **Path:** skills/hexagonal-architecture/SKILL.md
+- **HR/axis trigger IDs:** `B-1..B-8`
+- **Rationale:** **Re-audit of a class filing.** Previously: a member of T-030, the language-and-framework-pack class, whose definition is "94 skills whose value is bound to **one** language, framework, runtime or UI stack". Now: T-036's ground, `B-1..B-8`. The skill's own frontmatter reads "across TypeScript, Java, Kotlin, and Go services" — it is not bound to one stack, so the class definition does not fit it. T-045 handled the exactly parallel case, `error-handling` across three languages, individually and on `B-1..B-8` at `user_scope_fit` 3; filing this one under a single-stack class was inconsistent with the log's own reasoning one entry later. The disposition is unchanged — reject, no owning plugin for a paradigm-level architecture reference — and no matrix row exists or is created, because it was never deep-read. T-030's membership falls to 93 and T-036's rises to 15; the 285 partition is unaffected.
+- **Date:** 2026-08-22
+
+### T-065 — dashboards-and-hosted-services-class-grounds
+
+- **Source:** affaan-m/ECC
+- **Path:** skills/ (T-032 class)
+- **HR/axis trigger IDs:** `axis:dependencies=1`
+- **Rationale:** **Re-audit of a class trigger set.** T-032 asserts its 33 members "each" require a named external account, API key, hosted endpoint or non-sanctioned MCP server, and stamps the class `HR-1,HR-2,HR-6`. Two members do not. `dmux-workflows` is a local tmux pane manager installed from its own repository (`SKILL.md` line 26) with no account, endpoint or MCP anywhere in the file — its only install lines are `brew install tmux` / `apt install tmux`, and its "token" matches are LLM context tokens, not credentials. `flox-environments` is a local CLI whose FloxHub hosted path is optional rather than required. Both still reject, on `axis:dependencies=1` — a third-party CLI outside the P-5 exceptions — and the class disposition for the other 31 members stands. Recorded because stamping a component with an HR trigger it does not fire is the same defect the `ck` HR-8 clearance in T-039 was careful to avoid, and a bulk entry is the one place it can go unnoticed.
+- **Date:** 2026-08-22
+
+### T-066 — language-and-framework-pack-class-grounds
+
+- **Source:** affaan-m/ECC
+- **Path:** skills/ (T-030 class)
+- **HR/axis trigger IDs:** `axis:user_scope_fit=1`
+- **Rationale:** **Re-audit of a class trigger set.** T-030 carried `HR-3,axis:user_scope_fit=1`. The HR-3 trigger is withdrawn: `SPEC.md` §6 defines HR-3 as "LSP servers or language-specific **tooling** at user scope", and the class members are prompt-only pattern and convention documents that ship no tooling at all. The Phase-2 precedent is T-012, which rejected a TypeScript-specific skill on the axis floor alone. The axis floor carries the class unchanged, every member's disposition is unchanged, and no matrix row is affected — but the trigger-ID field is the field `SPEC.md` §10 checks, so an unsupported ID in it is a defect in the audit record even when the outcome is right.
+- **Date:** 2026-08-22
+
+### T-067 — risk-axis-recalibration
+
+- **Source:** affaan-m/ECC
+- **Path:** skills/architecture-decision-records, skills/codebase-onboarding, skills/living-docs-governance
+- **HR/axis trigger IDs:** `n/a` — re-audit of three shortlisted rows; no verdict change
+- **Rationale:** **Re-audit.** Three shortlisted rows scored `risk = 5` while their own rationales cite a C-3 file-write trigger. `SPEC.md` §9 anchors 5 at "Pure skills/commands; read-only; no shell side effects" and 3 at "Conditional behaviors passing all C-1…C-3 checks"; a component that writes files in the project raises C-3 and cannot be read-only. The same session scored the identical situation at 3 twice — `ecc/inherit-legacy-style` ("C-3, risk 3") and `ecc/config-gc` in T-042 — so the file contradicted itself. Previous scores: `architecture-decision-records` 4,4,**5**,5,5; `codebase-onboarding` 5,4,**5**,5,5; `living-docs-governance` 4,4,**5**,5,5. New: risk **3** on all three. Every axis stays >= 3 and all three remain `shortlist`; matrix rows replaced in place per `eval/rubric.md` §22, ids unchanged.
+- **Date:** 2026-08-22
+
+### T-068 — search-first
+
+- **Source:** affaan-m/ECC
+- **Path:** skills/search-first/SKILL.md
+- **HR/axis trigger IDs:** `n/a` — re-audit of a shortlisted row's rationale; no verdict change
+- **Rationale:** **Re-audit.** The original rationale defended the skill's remote-search channels against HR-6 but never addressed its MCP surface: workflow step 5 is "Install package / **Configure MCP**" (`SKILL.md` line 49) and Quick Mode step 2 is "Is there an MCP for this? -> Check `~/.claude/settings.json` and search" (line 84). `CLAUDE.md` §10 prohibits a shipped component from adding MCP server configuration beyond Obsidian, Context7 and Claude Code. This is a deficiency synthesis can fix by striking one branch and one line, so under `eval/rubric.md` §4 it does not force a reject; the verdict and all five axis scores stand. The rationale is replaced in place to name the surface and carry the synthesis constraint, so the obligation is not lost between here and Phase 6.
+- **Date:** 2026-08-22
+
+### T-069 — phase-3-statistics-and-class-counts
+
+- **Source:** affaan-m/ECC
+- **Path:** eval/triage-log.md §4, ROADMAP.md §5
+- **HR/axis trigger IDs:** `n/a` — record correction, no component affected
+- **Rationale:** **Record correction.** Two counting defects. (1) §4's stated precedence rule — "`n/a` is its own row" — was not what the published table implemented: T-026 and T-027 carry the trigger `n/a (re-audit)` and were counted under other-rule, giving 14/3 where the rule yields 12/5. The rule now names the re-audit case explicitly and the table is recomputed from the file. (2) `ROADMAP.md` §5's G3 evidence read "245 in nine aggregate classes" and "9/9 classes carry rule-ID triggers". The 245 canonical skills sit in **seven** classes, T-030…T-036; T-029 covers the 612 duplicates outside the denominator and T-037 covers `hooks.json`, which is not a skill. And T-029's trigger is a stated `n/a`, so nine of nine do not carry rule IDs. Corrected in `ROADMAP.md`; the underlying dispositions and the 285 partition are unchanged.
+- **Date:** 2026-08-22
+
 ## 4. Statistics
 
-Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; `n/a` is its own row. 22 + 24 + 14 + 3 = 63.
+Recomputed at each gate from the entries in §3, so the table can be checked against the file rather than trusted. The first four rows partition the entries by their trigger field under one stated precedence rule: an entry carrying **any** `HR-N` counts as hard-reject; otherwise any `axis:` trigger counts as axis-floor; otherwise a rule ID such as `B-1..B-8`, `D-15` or `D-24` counts as other-rule; a field beginning `n/a` is its own row **including the `n/a (re-audit)` form**, which the v2.6 table wrongly filed under other-rule (T-069). 21 + 27 + 13 + 8 = 69.
 
 | Metric | Count |
 |---|---|
-| Total entries | 63 |
-| Hard-reject entries | 22 |
-| Axis-floor entries | 24 |
-| Other-rule entries | 14 |
-| `n/a` entries | 3 |
+| Total entries | 69 |
+| Hard-reject entries | 21 |
+| Axis-floor entries | 27 |
+| Other-rule entries | 13 |
+| `n/a` entries | 8 |
 | Bulk-reject classes | 9 |
 | Gap-scan entries | 0 |
-| Re-audit / re-pin entries | 3 |
+| Re-audit / re-pin entries | 9 |
 
-The last three rows **overlap** the partition above and are not added to it: the nine bulk-reject classes are T-029…T-037, and seven of them also carry an `HR-N` or `axis:` trigger; the three re-audit entries are T-026…T-028.
+The last three rows **overlap** the partition above and are not added to it: the nine bulk-reject classes are T-029…T-037, seven of which also carry an `HR-N` or `axis:` trigger; the nine re-audit entries are T-026…T-028 (the 2026-08-18 G5 rehearsal) and T-064…T-069 (the 2026-08-22 review corrections).
 
-Reconciliation with the v2.5 table, which read 28 / 12 / 7 / 0 / 0 / 3 after Phase 2: those numbers are unchanged under this rule. The Phase-2 entries still contribute 12 hard-reject and 7 axis-floor; the eight Phase-2 entries in the other-rule row are the six the paragraph below describes plus T-026 and T-027, which the v2.5 table counted only in the re-audit row.
+Reconciliation with the v2.5 table, which read 28 / 12 / 7 / 0 / 0 / 3 after Phase 2: the Phase-2 entries still contribute 12 hard-reject and 7 axis-floor. Six sit in the other-rule row, described below, and T-026 / T-027 sit in the `n/a` row rather than the other-rule row — the correction T-069 records. The v2.6 table published 22 / 24 / 14 / 3; the differences are that fix plus T-066's withdrawal of `HR-3` from T-030, which moves that class from hard-reject to axis-floor.
 
 The six Phase-2 entries counted in neither the hard-reject nor the axis-floor row are rejections on a rule that is neither an HR trigger nor an axis floor: five on `B-1..B-8` (no owning plugin exists, so `SPEC.md` §4 forbids shortlisting) and one on `D-15,D-24` (a hook whose dispatch and budget no plugin can carry). Their trigger-ID fields carry those rule IDs, which is what the §10 Phase-2 exit criterion checks.
 
-The three re-audit entries (T-026…T-028) arose from the **G5 rehearsal review** of 2026-08-18: an independent reviewer, running the `eval/gate-review-protocol.md` standard against the artifacts and the pinned sources, returned `REJECTED` and named three defects the Phase-2 self-checks could not see, because all three were internally consistent and wrong about the source. None changed a verdict to `reject`, so the hard-reject and axis-floor counts are unchanged; T-027 moved a `merge` to `shortlist`, which is why the matrix read 27 / 25 / 3 at the end of Phase 2.
+The three Phase-2 re-audit entries (T-026…T-028) arose from the **G5 rehearsal review** of 2026-08-18: an independent reviewer, running the `eval/gate-review-protocol.md` standard against the artifacts and the pinned sources, returned `REJECTED` and named three defects the Phase-2 self-checks could not see, because all three were internally consistent and wrong about the source. None changed a verdict to `reject`; T-027 moved a `merge` to `shortlist`, which is why the matrix read 27 / 25 / 3 at the end of Phase 2.
 
 **Phase 3 (2026-08-22) added T-029…T-063**: nine bulk-reject classes covering 245 of ECC's 285 canonical skills plus its 41KB `hooks.json`, twenty-three individual rejects and two `merge` entries from the forty deep reads, and one reject for the shipped `thedotmack/claude-mem` implementation. `eval/matrix.csv` grew by 42 rows — 40 ECC (the §10 Phase-3 cap, which bound exactly) and 2 claude-mem — and now reads 97 rows, 43 shortlist / 49 reject / 5 merge.
+
+**The 2026-08-22 review corrections added T-064…T-069**, from an independent Fable-5 artifacts-only read of the Phase-3 output against both pinned clones. Same shape as the G5 rehearsal and the same lesson: the findings that mattered were claims that were internally coherent and wrong about the source or the standard. No verdict changed; three shortlisted rows were rescored on the §9 risk anchor, one rationale was completed, two class trigger sets were re-grounded, one skill moved between classes, and the counting rule in this section was made to match what it implements.
 
 The verdict vocabulary is `SPEC.md` §9 rule 3 — `shortlist`, `reject`, `merge`, `defer`. This log carries entries for `reject` (mandatory) and may carry them for `merge` and `defer` where the reasoning is worth preserving; `shortlist` rows need no entry.

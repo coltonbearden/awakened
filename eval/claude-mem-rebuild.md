@@ -155,11 +155,31 @@ is nothing to recall.
 
 | Property | Value |
 |---|---|
-| Event | `Stop` (session end) |
+| Event | **`SessionEnd`** — "When a session terminates" |
 | Handler type | **`prompt`** — shell-free, per the §6 Hook Dispatch rule (D-24). No `command` handler exists in this design, so no interpreter is required on either platform |
-| Declared timeout | **10 seconds** — the repo standard ceiling (C-1, ADR-022; every hook declares a timeout regardless of handler type) |
+| Declared timeout | **10 seconds** — the repo standard ceiling (C-1, ADR-022; every hook declares a timeout regardless of handler type). See the budget note below: on `SessionEnd` the declared value is also what raises the shared budget |
 | Failure mode | Warn and continue. A memory failure never blocks the user's session (C8, `CLAUDE.md` §6.4) |
 | Writes | Only under §2's two scope roots |
+
+**The event is `SessionEnd`, not `Stop`, and the distinction is load-bearing.** Verified against the
+official hooks reference at `https://code.claude.com/docs/en/hooks` on 2026-08-22 (§0 standard of
+record): `Stop` fires **"When Claude finishes responding"** — once per turn — while `SessionEnd`
+fires **"When a session terminates"**. An earlier draft of this design named `Stop` and described it
+as session end. Every "written once" and "one pass" premise below depends on the correct event: on
+`Stop` the hook would fire on every turn, the session note would be rewritten mid-session with
+different content each time, and §3.3's idempotence argument would not hold. claude-mem's own
+`plugin/hooks/hooks.json` registers `Stop` for summarization while its
+`docs/architecture-overview.md` table lists `SessionEnd` separately — the two disagree, which is
+part of why this was worth checking rather than inheriting.
+
+**`SessionEnd` timeout budget.** The same reference records that `SessionEnd` hooks **share a
+1.5-second budget**, and that a longer per-hook `timeout` raises that budget to match, up to 60
+seconds. The declared 10 seconds is therefore doing two jobs: it is the C-1 ceiling *and* the value
+that lifts the shared budget from 1.5 s to 10 s. A design that declared nothing would be cut off at
+1.5 seconds shared with every other `SessionEnd` hook on the machine. Whether 10 seconds is
+sufficient in practice is a Phase-6 execution check (§7 item 1), not something a static read can
+close; if it is not, the fallback is to write the `index.jsonl` lines first and the prose note
+second, so a truncated run still leaves the searchable surface intact.
 
 The handler injects a short instruction; the session's own model then writes the session note and
 appends the `index.jsonl` lines with the tools it already has. Nothing is spawned, nothing is
@@ -169,8 +189,8 @@ and the pending queue.
 ### 3.2 Sequence
 
 ```text
-Stop
- └─ prompt hook fires (<= 10s budget)
+SessionEnd
+ └─ prompt hook fires (<= 10s declared; raises the 1.5s shared SessionEnd budget to match)
      1. Resolve <project-key> from the project root; create it in projects.json if new.
      2. Draft the session note: Request / Completed / Learned, then the typed records.
      3. For each record compute hash = sha256(session + title + body)[:16].
@@ -189,12 +209,20 @@ duplicate. This is C-1's idempotence requirement satisfied in the design rather 
 though whether the implementation honours it is a Phase-6 execution check, not something a static
 read can close (`eval/rubric.md` §7 Example C).
 
+The argument depends on the event firing **once per session**. On a per-turn event the content
+would differ between firings, the hashes would differ with it, and the second firing would append
+rather than no-op — so `SessionEnd` is not a cosmetic correction to §3.1, it is what makes this
+paragraph true. A resumed session (`SessionStart` fires "when a session begins **or resumes**")
+produces a second `SessionEnd` with a superset of the first run's records; the hash check makes the
+overlap a no-op and only the new records append.
+
 ### 3.4 What is deliberately not captured
 
 Tool-call-level observations. claude-mem captures on `PostToolUse` with a 120-second async hook,
 which is the single largest source of its volume and the reason it needs a queue and a worker. One
 end-of-session pass writes fewer, better records and needs neither. The cost is that a session that
-crashes without a `Stop` leaves no record; the mitigation is the unsaved-session detection in §4.4.
+crashes without a clean `SessionEnd` leaves no record; the mitigation is the unsaved-session
+detection in §4.4.
 
 ---
 
@@ -294,7 +322,7 @@ hook's write targets under D-18, and to demonstrate zero daemons, databases or n
 | HR-1 | Third-party API keys, external services, or accounts | **None.** No account, no key, no endpoint. Cloud sync is dropped in §5 |
 | HR-2 | MCP servers beyond Obsidian, Context7 and Claude Code | **None.** `mcp-search` is dropped; search is `Grep` over a local file |
 | HR-3 | LSP servers or language-specific tooling at user scope | **None.** The store is language-agnostic Markdown and JSONL |
-| HR-4 | Background daemons, workers, watchers, or services | **None.** One `Stop`-event prompt hook that returns within its 10-second budget. Nothing is spawned, detached, scheduled or left running; there is no PID file, no port, and no process to reap |
+| HR-4 | Background daemons, workers, watchers, or services | **None.** One `SessionEnd` prompt hook that returns within its 10-second budget. Nothing is spawned, detached, scheduled or left running; there is no PID file, no port, and no process to reap |
 | HR-5 | sqlite/native binary dependencies | **None.** JSONL and Markdown, read and written with the tools Claude Code already ships. No SQLite, no ChromaDB, no bun, no tree-sitter, no esbuild |
 | HR-6 | Telemetry, analytics, or network calls of any kind | **None.** Every operation is a local file read or append. No fetch, no host name, no counter |
 | HR-7 | Auto-installing packages or runtime dependency fetching | **None.** Nothing to install: no `package.json`, no runtime, no installer, no version-check hook |
@@ -332,7 +360,7 @@ acknowledgement.
 | # | Item |
 |---|---|
 | 1 | C-1 idempotence and the 10-second timeout must be *executed* on Windows 11 PowerShell 7 and WSL2 before the hook ships; a static design cannot close them (`eval/rubric.md` §7 Example C) |
-| 2 | `SPEC.md` §6 and ADR-024 record that `agent`-type hooks are experimental upstream. This design uses a `prompt` handler, so it does not depend on that; the choice must be re-verified against the official hook reference at the Phase-6 gate under §0 |
+| 2 | *(Partly discharged 2026-08-22.)* The official hooks reference was read at `https://code.claude.com/docs/en/hooks` and confirms `prompt` as one of five handler types, `SessionEnd` as a distinct event, and the 1.5-second shared `SessionEnd` budget — all folded into §3.1. `SPEC.md` §6 and ADR-024 record that `agent`-type hooks are experimental upstream; this design uses `prompt`, so it does not depend on that. §0 still requires re-verification at the Phase-6 gate |
 | 3 | Retention. `index.jsonl` grows without bound. A rotation rule — by age, by line count, or none — is a Phase-6 decision; nothing here depends on which is chosen |
 | 4 | Whether the recall skill or the capture hook owns unsaved-session detection (§4.4) |
 | 5 | The lexical-search cost in §5 is the one accepted quality regression against claude-mem. If it proves too costly in practice, the answer is better titles and tags, not a vector store — that path is closed by HR-5 and HR-6 |
