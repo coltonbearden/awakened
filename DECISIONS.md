@@ -1037,7 +1037,7 @@ an internal contradiction rather than a deliberate omission.
 **Enforcement.** `scripts/validate.*` check D1 asserts the v2.6 version line and check D2 exactly 26
 `## ADR-` headings whose `Spec ref` fields cover D-01…D-26; check S2 additionally requires
 `eval/claude-mem-rebuild.md`, so the new §3 entry cannot go untracked the way
-`eval/gate-review-protocol.md` did until D-31. Both twins carry the identical checks and CI
+`eval/gate-review-protocol.md` did until SPEC v2.5 §14 row 8 listed it. Both twins carry the identical checks and CI
 byte-diffs their output.
 
 ---

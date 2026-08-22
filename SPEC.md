@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
 **Version:** 2.6
-**Date:** 2026-08-21
-**Status:** Governing spec — supersedes SPEC.md v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Date:** 2026-08-22
+**Status:** Governing spec — supersedes SPEC.md v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -486,6 +486,7 @@ Rationale of record: the Phase-2 audit shortlisted two components that violate h
 Rationale of record: a reviewer is independent only if its inputs and its own definition are. v2.4 made the reviewer independent of the executing agent's reasoning; it still read a live checkout it could walk out of, and it was loaded from a file that nothing pinned. The clean room and the Step-0 digest close both gaps. The owner acknowledgement is the other half of the trade: delegation moved routine judgment off the owner's desk, and the one irreversible step — the commitment to build — returns to a human at the cost of a single comment.
 
 Open items after v2.5: SPEC-GAP-001 (ADR-024) remains open — the official sub-agents reference documents an agent's `tools` as a comma-separated string while `templates/agent.md` standardizes the YAML list; resolve before any agent ships. HD-12 is closed by row 5, enforced now rather than honoured. `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen, and ADR-009, ADR-021 and ADR-025's own Context keep the historical phrasing: they record what was true when they were written.
+
 ### v2.5 → v2.6 (2026-08-22) — Phase-4 scope covers ECC commands and agents (D-26); the Phase-3 rebuild design enters §3
 
 | # | Change | Kind |
@@ -493,7 +494,7 @@ Open items after v2.5: SPEC-GAP-001 (ADR-024) remains open — the official sub-
 | 1 | §10 Phase 4: scope widened to include ECC `commands/` and `agents/`. Phase 3's read of ECC at the pinned commit established the gap — of the seven mining targets §8 ratifies, `sessions` / `save-session` / `resume-session`, `build-fix`, `code-review` and `project-init` exist **only** under `commands/` (94 files), and §4 names ECC's 68 `agents/` as `bankai`'s lineage and the sessions commands as `kaioken`'s. §10 Phase 3 is skills-only and Phase 4 named no ECC, so four of the seven ratified targets, and one plugin's primary source, had no phase that would ever audit them. Raised and landed at the G3 boundary, which is what `ROADMAP.md` §10 rule 4 exists for | Semantic → D-26 |
 | 2 | §3: `eval/claude-mem-rebuild.md` added to the tree as a scaffold-stage (non-`[P6]`) entry — the Phase-3 file-based memory design for `rinnegan`. §10 Phase 3 already required the file *by path*; §3 did not list it, and a tree that omits a file the exit criteria name is an internal contradiction | Additive → D-26 |
 | 3 | §12 decisions extended D-26; §3 comment updated to ADR-001…ADR-026 | Additive |
-| 4 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md`, `README.md` and `DECISIONS.md`; validators re-bound — check D1 to the v2.6 version line, check D2 to exactly 26 ADR headings covering D-01…D-26, and check S2 to require `eval/claude-mem-rebuild.md`. That last item is explicit rather than incidental: `eval/gate-review-protocol.md` was a tracked §3 entry that S2 did not list until D-31 caught it, and adding a §3 entry without adding it to S2 repeats that gap one version later. `DECISIONS.md` gains an ADR-026 Index row and "Next available" advances to ADR-027 | Additive |
+| 4 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md`, `README.md` and `DECISIONS.md`; validators re-bound — check D1 to the v2.6 version line, check D2 to exactly 26 ADR headings covering D-01…D-26, and check S2 to require `eval/claude-mem-rebuild.md`. That last item is explicit rather than incidental: `eval/gate-review-protocol.md` was a tracked §3 entry that S2 did not list until v2.5 §14 row 8 added it, and adding a §3 entry without adding it to S2 repeats that gap one version later. `DECISIONS.md` gains an ADR-026 Index row and "Next available" advances to ADR-027 | Additive |
 
 Rationale of record: the widening is not new appetite, it is a hole Phase 3 measured. §8 ratified seven ECC mining targets in v2.0 and §10 then wrote Phase 3 as "270 ECC skills"; nobody noticed that four of the seven are commands until the tree was read at the pin. Phase 4 is the phase that sweeps up the remaining sources, and it is the phase that already annotates agent candidates with C-2 allowlists, so ECC's 68 agents belong beside wshobson's there rather than in a phase of their own. Phase 3 itself was executed exactly as ratified — skills only, 285 dispositioned, 40 deep-read — and the scope change lands at the gate afterwards, in the open, rather than being absorbed silently into the phase that found it.
 
