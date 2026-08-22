@@ -12,7 +12,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 1 | Structural inventory | **Complete** (2026-08-15) | G1 — passed |
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
-| 4 | Remaining sources | Not started (next) — widened to ECC `commands/` + `agents/` at SPEC v2.6 (D-26) | G4 |
+| 4 | Remaining sources | **In progress** — pass 1 of 3 complete (2026-08-22): ECC `commands/` + `agents/`, 102 rows, T-070…T-148. Passes 2–3 remain; widened to ECC at SPEC v2.6 (D-26) | G4 |
 | 5 | Evaluation matrix consolidation | Not started | **G5 — independent-reviewer gate + owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
