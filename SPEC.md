@@ -1,6 +1,6 @@
 # Awakened — Project Specification
 
-**Version:** 2.5
+**Version:** 2.6
 **Date:** 2026-08-21
 **Status:** Governing spec — supersedes SPEC.md v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
@@ -85,7 +85,8 @@ awakened/
 │   ├── rubric.json               # Machine-readable rubric (§9)
 │   ├── matrix.csv                # Candidate scoring log (normative header: §9)
 │   ├── triage-log.md             # Rejection log with rule-ID rationales
-│   └── gate-review-protocol.md   # G5 independent-reviewer standard (§10, D-25)
+│   ├── gate-review-protocol.md   # G5 independent-reviewer standard (§10, D-25)
+│   └── claude-mem-rebuild.md     # Phase-3 file-based memory design for rinnegan (§10, D-26)
 ├── templates/
 │   ├── plugin/plugin.json        # Base plugin manifest template
 │   ├── skill.md                  # Skill template (frontmatter + trigger-description rules)
@@ -100,7 +101,7 @@ awakened/
 ├── .gitattributes                # LF line endings enforced for *.sh, *.ps1, *.json, *.md
 ├── CLAUDE.md                     # Repo-session execution rules for Claude Code
 ├── CONTEXT.md                    # System overview, non-goals, user profile
-├── DECISIONS.md                  # ADR-001…ADR-025, 1:1 with §12
+├── DECISIONS.md                  # ADR-001…ADR-026, 1:1 with §12
 ├── ROADMAP.md                    # Phases 1–6 with exit criteria (§10)
 ├── SPEC.md                       # THIS FILE — canonical, shipped verbatim
 ├── upstream.json                 # Source repo registry; SHAs pinned via scripts/pin-upstream.*
@@ -348,7 +349,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | 1 — Structural inventory | ✅ Complete 2026-08-15 | All 10 repos crawled; structure, counts, licenses mapped. |
 | 2 — Tier-1 deep audit | ✅ Complete 2026-08-18 — Read every skill file in superpowers, mattpocock/skills, kepano/obsidian-skills, vercel-labs/skills | `upstream.json` SHAs pinned (no nulls); one `matrix.csv` row per skill file in all four repos; every `reject` has a triage-log entry citing rule IDs; §0 official-docs verification complete — the five `UNVERIFIED-EXTERNAL` assumptions (synthesis HD-9) adjudicated, the hook dispatch mechanism decided (HD-5) via a §14 changelog row, and all ten §8 licenses re-verified against the pinned commits (HD-10). |
 | 3 — ECC triage + claude-mem extraction | 270 ECC skills → shortlist → deep-read shortlist only; extract claude-mem memory concepts | ECC shortlist ≤ 40 rows deep-read (bulk rejects logged in aggregate); file-based rebuild design written to `eval/claude-mem-rebuild.md`. |
-| 4 — Remaining sources | wshobson shortlisted plugins (~12–15), anthropics/skills, davila7 components dir, awesome-claude-code gap scan | Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`. |
+| 4 — Remaining sources | wshobson shortlisted plugins (~12–15), anthropics/skills, davila7 components dir, awesome-claude-code gap scan, **and ECC `commands/` + `agents/`** (D-26) | Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`. |
 | 5 — Evaluation matrix | Full scored matrix | Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). A reviewer `APPROVED` is provisional: the `ROADMAP.md` gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind is barred until the owner posts an acknowledgement comment on the sign-off PR (D-25, amended v2.5). |
 | 6 — Scaffold & synthesize | Repo structure, marketplace.json, synthesized components, validation + CI, docs | Tree matches §3 exactly; `scripts/validate.sh` and `validate.ps1` both exit 0; CI green; a `SOURCES.md` row exists for every shipped component. |
 
@@ -392,6 +393,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | D-23 | aura statuslines | `plugins/aura/statuslines/` added to the per-plugin layout, scoped to `aura` only; preset scripts ship as `.sh`/`.ps1` twin pairs (resolves A-GAP-006) |
 | D-24 | Phase-2 §0 verification | §8 licenses corrected at the first pin (HD-10); hook dispatch decided — shell-free `prompt`/`agent` handlers, command handlers barred pending a P-5-sanctioned dual-platform interpreter (HD-5, resolves B-GAP-002); five HD-9 assumptions adjudicated against the live official docs — outcomes in ADR-024 |
 | D-25 | G5 adjudication | Gate G5 is decided by an **independent reviewer** on a different model from the executing agent, artifact-only, against the versioned `eval/gate-review-protocol.md`; a mandatory source spot-check, uncertainty resolving to `REJECTED`, and escalation to the owner on a second `REJECTED`. Scope is G5 alone — G3, G4 and G6 remain review gates. Amended v2.5 (ADR-025 in place): a reviewer `APPROVED` is provisional until the owner acknowledges it on the sign-off PR — no Phase 6 work before the ack; reviews run clean-room from a `git archive` workspace under an explicit MUST-NOT-read list; the reviewer loader is sha256-pinned in the protocol (§0, verified at Step 0 — mismatch ⇒ automatic `REJECTED`); a non-Anthropic second pass is a non-binding SHOULD at the real G5, REQUIRED where the executing agent's model equals the reviewer's. Outcomes in ADR-025 |
+| D-26 | Phase-4 ECC scope | `SPEC.md` §10 Phase 4 covers ECC's `commands/` and `agents/` alongside the four sources it already names. Of the seven mining targets §8 ratifies, the `sessions` family, `build-fix`, `code-review` and `project-init` exist **only** under `commands/`; §4 names ECC's `agents/` as `bankai`'s lineage and the sessions commands as `kaioken`'s. §10 Phase 3 is skills-only and no other phase named ECC, so those components had no phase that would audit them. Landed at the G3 boundary under `ROADMAP.md` §10 rule 4. Outcomes in ADR-026 |
 
 ---
 
@@ -484,3 +486,15 @@ Rationale of record: the Phase-2 audit shortlisted two components that violate h
 Rationale of record: a reviewer is independent only if its inputs and its own definition are. v2.4 made the reviewer independent of the executing agent's reasoning; it still read a live checkout it could walk out of, and it was loaded from a file that nothing pinned. The clean room and the Step-0 digest close both gaps. The owner acknowledgement is the other half of the trade: delegation moved routine judgment off the owner's desk, and the one irreversible step — the commitment to build — returns to a human at the cost of a single comment.
 
 Open items after v2.5: SPEC-GAP-001 (ADR-024) remains open — the official sub-agents reference documents an agent's `tools` as a comma-separated string while `templates/agent.md` standardizes the YAML list; resolve before any agent ships. HD-12 is closed by row 5, enforced now rather than honoured. `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen, and ADR-009, ADR-021 and ADR-025's own Context keep the historical phrasing: they record what was true when they were written.
+### v2.5 → v2.6 (2026-08-22) — Phase-4 scope covers ECC commands and agents (D-26); the Phase-3 rebuild design enters §3
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §10 Phase 4: scope widened to include ECC `commands/` and `agents/`. Phase 3's read of ECC at the pinned commit established the gap — of the seven mining targets §8 ratifies, `sessions` / `save-session` / `resume-session`, `build-fix`, `code-review` and `project-init` exist **only** under `commands/` (94 files), and §4 names ECC's 68 `agents/` as `bankai`'s lineage and the sessions commands as `kaioken`'s. §10 Phase 3 is skills-only and Phase 4 named no ECC, so four of the seven ratified targets, and one plugin's primary source, had no phase that would ever audit them. Raised and landed at the G3 boundary, which is what `ROADMAP.md` §10 rule 4 exists for | Semantic → D-26 |
+| 2 | §3: `eval/claude-mem-rebuild.md` added to the tree as a scaffold-stage (non-`[P6]`) entry — the Phase-3 file-based memory design for `rinnegan`. §10 Phase 3 already required the file *by path*; §3 did not list it, and a tree that omits a file the exit criteria name is an internal contradiction | Additive → D-26 |
+| 3 | §12 decisions extended D-26; §3 comment updated to ADR-001…ADR-026 | Additive |
+| 4 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md`, `README.md` and `DECISIONS.md`; validators re-bound — check D1 to the v2.6 version line, check D2 to exactly 26 ADR headings covering D-01…D-26, and check S2 to require `eval/claude-mem-rebuild.md`. That last item is explicit rather than incidental: `eval/gate-review-protocol.md` was a tracked §3 entry that S2 did not list until D-31 caught it, and adding a §3 entry without adding it to S2 repeats that gap one version later. `DECISIONS.md` gains an ADR-026 Index row and "Next available" advances to ADR-027 | Additive |
+
+Rationale of record: the widening is not new appetite, it is a hole Phase 3 measured. §8 ratified seven ECC mining targets in v2.0 and §10 then wrote Phase 3 as "270 ECC skills"; nobody noticed that four of the seven are commands until the tree was read at the pin. Phase 4 is the phase that sweeps up the remaining sources, and it is the phase that already annotates agent candidates with C-2 allowlists, so ECC's 68 agents belong beside wshobson's there rather than in a phase of their own. Phase 3 itself was executed exactly as ratified — skills only, 285 dispositioned, 40 deep-read — and the scope change lands at the gate afterwards, in the open, rather than being absorbed silently into the phase that found it.
+
+Open items after v2.6: SPEC-GAP-001 (ADR-024) remains open — the official sub-agents reference documents an agent's `tools` as a comma-separated string while `templates/agent.md` standardizes the YAML list; resolve before any agent ships. `SPEC.md` §8's "~270 skills" figure for ECC is left as written: it is a dated role note from Phase 1, and `eval/triage-log.md` records the measured 897 / 285 split rather than restating it here. `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen, and ADR-009, ADR-021 and ADR-025's own Context keep the historical phrasing: they record what was true when they were written.

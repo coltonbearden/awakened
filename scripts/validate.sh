@@ -40,7 +40,7 @@ set -euo pipefail
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
-#   D2  DECISIONS.md has exactly 25 ADR headings covering D-01..D-25, no dupes
+#   D2  DECISIONS.md has exactly 26 ADR headings covering D-01..D-26, no dupes
 #   N1  Plugin directory names are drawn from the nine Tier-1 names
 #   N3  Machine-facing names match ^[a-z0-9]+(-[a-z0-9]+)*$ (case-sensitive)
 #   N4  No plugin, and no command namespace, named for the marketplace
@@ -72,7 +72,7 @@ NINE_PLUGINS="super-saiyan sharingan rinnegan kaioken bankai domain instinct pon
 HOOK_PLUGINS="super-saiyan rinnegan"
 MARKETPLACE_NAME="awakened"
 KEBAB='^[a-z0-9]+(-[a-z0-9]+)*$'
-SPEC_VERSION_LINE='**Version:** 2.5'
+SPEC_VERSION_LINE='**Version:** 2.6'
 MATRIX_HEADER='id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 usage() {
@@ -157,7 +157,7 @@ for d in eval schemas scripts templates templates/plugin; do
   [ -d "$d" ] || s2_missing="$s2_missing $d"
 done
 for f in eval/rubric.md eval/rubric.json eval/matrix.csv eval/triage-log.md \
-         eval/gate-review-protocol.md \
+         eval/gate-review-protocol.md eval/claude-mem-rebuild.md \
          schemas/marketplace.schema.json schemas/plugin.schema.json \
          schemas/skill.schema.json schemas/agent.schema.json \
          scripts/validate.sh scripts/validate.ps1 \
@@ -233,12 +233,12 @@ import re, sys
 text = open(sys.argv[1], encoding='utf-8').read()
 heads = re.findall(r'^## ADR-(\d{3})\b', text, re.M)
 refs  = re.findall(r'^\|\s*Spec ref\s*\|\s*(D-\d{2})\s*\|', text, re.M)
-if len(heads) != 25:
-    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 25 (D-16)")
-expected_adr = [f"{n:03d}" for n in range(1, 26)]
+if len(heads) != 26:
+    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 26 (D-16)")
+expected_adr = [f"{n:03d}" for n in range(1, 27)]
 if sorted(heads) != expected_adr:
-    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-025")
-expected_ref = [f"D-{n:02d}" for n in range(1, 26)]
+    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-026")
+expected_ref = [f"D-{n:02d}" for n in range(1, 27)]
 if sorted(refs) != expected_ref:
     missing = sorted(set(expected_ref) - set(refs))
     dupes = sorted({r for r in refs if refs.count(r) > 1})
@@ -247,9 +247,9 @@ if sorted(refs) != expected_ref:
     if dupes:
         print("ERROR\tD2\tSpec ref fields are duplicated: " + ", ".join(dupes))
     if not missing and not dupes:
-        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-25")
-if len(heads) == 25 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
-    print("OK\tD2\t25 ADRs mapping 1:1 onto D-01..D-25")
+        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-26")
+if len(heads) == 26 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
+    print("OK\tD2\t26 ADRs mapping 1:1 onto D-01..D-26")
 PY
 )
 fi
