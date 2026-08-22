@@ -2309,14 +2309,16 @@ Three of our own rules bite: D-24 bars command handlers; D-15 caps hooks at one 
 `hooks` are **not supported for plugin-shipped agents for security reasons** — so shipped from a
 plugin the enforcement would silently not exist while the description still promised it.
 
-Checking that against our own schema surfaced a real gap: `schemas/agent.schema.json`'s `$comment`
-states that `hooks` (D-15) and `mcpServers` (HR-2) are prohibited, but **only `permissionMode` is
-actually declared with `"not": {}`**. `hooks` and `mcpServers` are undeclared and
-`additionalProperties` is `true`, so an agent carrying either would pass validation today. It is
-recorded **here and in the handoff's open items rather than as a `T-` entry**, because this log
-records component audits and the finding is about this repository's own schema. The fix is a small
-schema PR kept **separate from this audit** so it is reviewable on its own. This is the D-31 pattern —
-a stated policy that the mechanical check did not actually enforce.
+~~Checking that against our own schema surfaced a real gap…~~ **RETRACTED, same day.** This preamble
+as merged in PR #17 claimed that `schemas/agent.schema.json` prohibits `hooks` and `mcpServers` in its
+`$comment` while declaring only `permissionMode`. **That claim was false.** All three fields are
+declared and enforced: `hooks` and `mcpServers` use the JSON Schema boolean form `false`, which
+validates no instance and is semantically identical to `permissionMode`'s `{"not": {}}`. Verified
+with `jsonschema` 4.19.2 — an agent carrying any of the three is rejected, a clean agent validates.
+The error was in the checking script, which treated the falsy value `false` as an absent declaration.
+No schema change was needed and none was made. Corrected in place rather than appended, because it is
+a factual claim in a preamble rather than a verdict in an entry (the D-49 precedent), and the
+retraction is stated rather than silent.
 
 **The re-donation worth keeping:** `read-only-auditor`'s guarantee needs no hook at all.
 `tools: Read, Grep, Glob` — which that agent already declares — *is* the enforcement, and it is what

@@ -224,11 +224,17 @@ duplicate ids across 322 rows, under three source-specific conventions settled b
 written — `ecc/cmd-*` and `ecc/agent-*`, `wshobson/<plugin>-<component>`, `davila7/<category>-<name>`.
 
 **Gate G4:** **APPROVED** 2026-08-22 under standing delegation D11 (§10 rule 2; D-25 moved only G5).
-Review record: PR #13, PR #16 and this PR. Two findings are carried into Phase 5 rather than closed
-here: the three capability gaps the scan surfaced (T-223, T-232, T-235), and a gap in this
-repository's own `schemas/agent.schema.json`, whose `$comment` claims `hooks` and `mcpServers` are
-prohibited for agents while only `permissionMode` is actually declared — the D-31 pattern, fixed in
-a separate schema PR.
+Review record: PR #13, PR #16 and PR #17. One finding is carried into Phase 5 rather than closed
+here: the three capability gaps the V4.4 scan surfaced (T-223, T-232, T-235).
+
+**Correction (2026-08-22, same day).** PR #17 as merged also claimed a gap in this repository's own
+`schemas/agent.schema.json` — that its `$comment` prohibits `hooks` and `mcpServers` for agents while
+only `permissionMode` was actually declared. **That claim is false and is retracted.** All three
+fields *are* declared and *are* enforced: `hooks` and `mcpServers` use the JSON Schema boolean form
+`false`, which is semantically identical to `permissionMode`'s `{"not": {}}` and validates no
+instance. Verified empirically with `jsonschema` 4.19.2: an agent carrying `hooks`, `mcpServers` or
+`permissionMode` is rejected, and a clean agent validates. The error was in the probe, which treated
+the falsy value `false` as an absent declaration. No schema change is needed and none was made.
 
 **Verification criteria.**
 
@@ -335,7 +341,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 | G1 | 2026-08-15 | APPROVED | Structural inventory ratified via `SPEC.md` §8 and §10 |
 | G2 | 2026-08-18 | APPROVED | Phase-2 audit complete: V2.1–V2.10 all discharged (V2.8–V2.10 by SPEC v2.3, PR #2). Reviewed and approved under standing delegation D11 (2026-08-18); review record: PR #4 |
 | G3 | 2026-08-22 | APPROVED | Phase-3 complete: V3.1–V3.7 all discharged. Reviewed and approved under standing delegation D11 (D-25 moved only G5); review record: PR #10. Scope change arising at the gate landed as D-26 / ADR-026 (SPEC v2.6) per §10 rule 4 |
-| G4 | 2026-08-22 | APPROVED | Phase-4 complete across three passes: V4.1–V4.7 all discharged. Reviewed and approved under standing delegation D11 (§10 rule 2; D-25 moved only G5); review record: PR #13, PR #16 and PR #17. Two open findings carried to Phase 5 rather than closed at the gate: the three capability gaps from the V4.4 scan, and the `schemas/agent.schema.json` enforcement gap on `hooks`/`mcpServers` |
+| G4 | 2026-08-22 | APPROVED | Phase-4 complete across three passes: V4.1–V4.7 all discharged. Reviewed and approved under standing delegation D11 (§10 rule 2; D-25 moved only G5); review record: PR #13, PR #16 and PR #17. One open finding carried to Phase 5 rather than closed at the gate: the three capability gaps from the V4.4 scan. A second finding asserted in PR #17 — a `schemas/agent.schema.json` enforcement gap on `hooks`/`mcpServers` — was **retracted the same day as false**; see the correction in §6 |
 
 G5 occupies two rows, not one: `APPROVED (reviewer) — pending owner ack` when the independent reviewer returns its verdict, then `OWNER ACK` with the date and the comment URL when the owner acknowledges it. Phase 6 opens on the second row (D-25 as amended at SPEC v2.5).
 
