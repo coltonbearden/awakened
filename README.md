@@ -65,13 +65,13 @@ Plugin content lands after those audits, after the independent-reviewer approval
 
 | Path | What it is |
 |---|---|
-| `SPEC.md` | The ratified specification (v2.7) — the authority, shipped verbatim |
+| `SPEC.md` | The ratified specification (v2.8) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
 | `DECISIONS.md` | ADR-001…ADR-026 — every resolved decision, mirroring `SPEC.md` §12 one to one |
 | `ROADMAP.md` | Build phases, verification criteria, approval gates, gate log |
 | `upstream.json` | The ten source repositories: URL, license, role, and the commit pin |
-| `eval/` | Scoring rubric (Markdown and JSON), the evaluation matrix, the triage log |
+| `eval/` | Scoring rubric (Markdown and JSON), the evaluation matrix, the triage log, the G5 review protocol, the `rinnegan` memory design, and the Phase-5 shortlist report |
 | `schemas/` | JSON Schemas for marketplace, plugin, skill, and agent files |
 | `scripts/` | `validate.sh` / `validate.ps1` and `pin-upstream.sh` / `pin-upstream.ps1` twins |
 | `templates/` | Slot-bearing starting points for every component type, each with a worked example |
