@@ -13,7 +13,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
 | 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
-| 5 | Evaluation matrix consolidation | Not started | **G5 — independent-reviewer gate + owner ack** |
+| 5 | Evaluation matrix consolidation | **In progress** (2026-08-25) — matrix consolidated at 322 rows, 100 shortlist / 207 reject / 15 merge / **0 defer**; `eval/shortlist.md` written (SPEC v2.8); T-274…T-276; V5.1–V5.7 re-derived, awaiting the independent reviewer | **G5 — independent-reviewer gate + owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
@@ -280,6 +280,29 @@ the falsy value `false` as an absent declaration. No schema change is needed and
 | V5.7 | Roster balance | Every core plugin has ≥ 1 shortlisted component or a recorded plan for original work (for example `aura`) |
 
 **Gate G5 — MANDATORY INDEPENDENT APPROVAL (D-25).** No scaffolding, no synthesis, no component authoring until an **independent reviewer** — running on a different model from the executing agent, reading the matrix, shortlist report, triage log and the pinned sources, and receiving none of the executing agent's reasoning — returns `APPROVED` under `eval/gate-review-protocol.md`, and the approval is **recorded as an ADR in `DECISIONS.md`**. That `APPROVED` is provisional: the §11 gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind stays barred until the project owner posts an acknowledgement comment on the sign-off PR and an `OWNER ACK` row joins it. That ADR, together with the owner's acknowledgement, is the authorization; the §11 gate-log rows below index it, they are not the record. A first `REJECTED` loops the phase; a **second `REJECTED` on this gate escalates to the project owner**, who decides it. Scope changes demanded at this gate become superseding ADRs before Phase 6 starts.
+
+**Delivered (evidence: PR #20 `782eabd`, and this PR).** The matrix is consolidated as-is: no Phase-5 row was added or
+removed, and no verdict or score moved. `eval/shortlist.md` entered the §3 tree at SPEC v2.8 and carries the per-plugin
+rosters with lineage and synthesis constraints, the fifteen merge absorptions, the V5.6 hook-budget preview, the V5.7
+recorded plans for original work, the two knowingly-contested rows, thirty re-donated concepts listed unscored, and the
+proposed Phase-6 build plan. `eval/triage-log.md` gained T-274 and T-275 — both contested rows re-read at their pinned
+commits, both holding, their matrix rationales replaced in place with the contested flags closed — and T-276, the
+consolidation record. The three capability gaps carried out of G4 (T-223, T-232, T-235) are dispositioned as recorded
+original-work plans; `aura`'s stays closed by authoring, never by sourcing. **Zero `defer` rows exist**, so the sign-off
+ADR's enumeration of open defers is empty.
+
+**Verification (executor's re-derivation; the reviewer re-derives every value independently under
+`eval/gate-review-protocol.md` §3.1, and this paragraph is not evidence for it).** V5.1 0 empty `verdict` cells and
+0 values outside the §9 enum across 322 rows. V5.2 0 duplicate `id` values. V5.3 0 axis cells outside the
+integers 1–5 across 322 × 5 cells. V5.4 across the 100 shortlist rows: 0 carry a `hard_reject`, 0 axis cells sit
+below 3, 0 lack exactly one owning plugin. V5.5 all ten `upstream.json` repositories: nine carry matrix rows and
+`hesreallyhim/awesome-claude-code` carries zero by design, dispositioned at T-221…T-238 (V4.4). V5.6 the shortlist
+implies exactly two hooks — `super-saiyan` and `rinnegan`, the two §6 budgets — and the matrix's one `hook`-type row is
+a `reject`. V5.7 every core plugin holds ≥ 1 shortlisted component (`super-saiyan` 28, `sharingan` 8, `rinnegan` 3, `kaioken` 6, `bankai` 36, `domain` 9, `instinct` 6, `poneglyph` 4, `aura` 0); `aura` holds zero and its
+recorded plan is `eval/shortlist.md` §5, grounded in `SPEC.md` §4 and T-235.
+
+**Gate G5:** not yet run. The next step is the invocation `eval/gate-review-protocol.md` §1 prescribes, from a
+`git archive` of the `main` commit that carries this record.
 
 ---
 

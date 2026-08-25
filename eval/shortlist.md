@@ -237,13 +237,13 @@ scan carried out of G4 (`ROADMAP.md` §6), and `aura`'s roster; each names its i
 
 Two shortlisted rows were self-marked *knowingly contested — re-examine at G5* when they were scored. Phase 5
 re-read both at the pinned commit before this report went to the gate; the re-audits are T-274 and T-275 in
-`eval/triage-log.md`, and the reviewer's own spot-check (`eval/gate-review-protocol.md` §3.2) is expected to land on
-them.
+`eval/triage-log.md`. Both hold. The reviewer's own spot-check (`eval/gate-review-protocol.md` §3.2) is expected to
+land on them regardless.
 
 | id | plugin | why contested | Phase-5 disposition |
 |---|---|---|---|
-| `mattpocock/code-review` | `sharingan` | Line 13 tells the user to run `/setup-matt-pocock-skills`, an HR-1 reject (T-005), when the issue-tracker doc is absent; `dependencies` sits on the floor at 3 (T-026) | T-274 |
-| `ecc/cmd-plan` | `super-saiyan` | Offers `/plan-canvas` as a confirmation gate; that surface is an HR-4 reject (T-050) | T-275 |
+| `mattpocock/code-review` | `sharingan` | Line 13 tells the user to run `/setup-matt-pocock-skills`, an HR-1 reject (T-005), when the issue-tracker doc is absent; `dependencies` sits on the floor at 3 (T-026) | **T-274 — holds.** Re-read at the pin: scores `5,4,5,3,5` and `shortlist` unchanged; contested flag closed. Synthesis drops line 13 and keeps an inline sequential fallback for the two axes |
+| `ecc/cmd-plan` | `super-saiyan` | Offers `/plan-canvas` as a confirmation gate; that surface is an HR-4 reject (T-050) | **T-275 — holds.** Re-read at the pin: scores `4,3,5,5,5` and `shortlist` unchanged; contested flag closed. Synthesis drops both `/plan-canvas` references and keeps the typed gate |
 
 ## 7. Re-donated concepts — Phase-6 synthesis inputs, unscored
 
