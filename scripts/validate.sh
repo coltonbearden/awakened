@@ -72,7 +72,7 @@ NINE_PLUGINS="super-saiyan sharingan rinnegan kaioken bankai domain instinct pon
 HOOK_PLUGINS="super-saiyan rinnegan"
 MARKETPLACE_NAME="awakened"
 KEBAB='^[a-z0-9]+(-[a-z0-9]+)*$'
-SPEC_VERSION_LINE='**Version:** 2.7'
+SPEC_VERSION_LINE='**Version:** 2.8'
 MATRIX_HEADER='id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 usage() {
@@ -157,7 +157,7 @@ for d in eval schemas scripts templates templates/plugin; do
   [ -d "$d" ] || s2_missing="$s2_missing $d"
 done
 for f in eval/rubric.md eval/rubric.json eval/matrix.csv eval/triage-log.md \
-         eval/gate-review-protocol.md eval/claude-mem-rebuild.md \
+         eval/gate-review-protocol.md eval/claude-mem-rebuild.md eval/shortlist.md \
          schemas/marketplace.schema.json schemas/plugin.schema.json \
          schemas/skill.schema.json schemas/agent.schema.json \
          scripts/validate.sh scripts/validate.ps1 \

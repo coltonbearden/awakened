@@ -79,7 +79,7 @@ $NinePlugins = @('super-saiyan', 'sharingan', 'rinnegan', 'kaioken', 'bankai',
 $HookPlugins = @('super-saiyan', 'rinnegan')
 $MarketplaceName = 'awakened'
 $Kebab = '^[a-z0-9]+(-[a-z0-9]+)*$'
-$SpecVersionLine = '**Version:** 2.7'
+$SpecVersionLine = '**Version:** 2.8'
 $MatrixHeader = 'id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 function Write-Usage {
@@ -173,7 +173,7 @@ foreach ($d in @('eval', 'schemas', 'scripts', 'templates', 'templates/plugin'))
     if (-not (Test-Path -LiteralPath $d -PathType Container)) { $s2Missing += $d }
 }
 foreach ($f in @('eval/rubric.md', 'eval/rubric.json', 'eval/matrix.csv', 'eval/triage-log.md',
-                 'eval/gate-review-protocol.md', 'eval/claude-mem-rebuild.md',
+                 'eval/gate-review-protocol.md', 'eval/claude-mem-rebuild.md', 'eval/shortlist.md',
                  'schemas/marketplace.schema.json', 'schemas/plugin.schema.json',
                  'schemas/skill.schema.json', 'schemas/agent.schema.json',
                  'scripts/validate.sh', 'scripts/validate.ps1',

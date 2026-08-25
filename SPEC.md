@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.7
-**Date:** 2026-08-22
-**Status:** Governing spec — supersedes SPEC.md v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Version:** 2.8
+**Date:** 2026-08-25
+**Status:** Governing spec — supersedes SPEC.md v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -86,7 +86,8 @@ awakened/
 │   ├── matrix.csv                # Candidate scoring log (normative header: §9)
 │   ├── triage-log.md             # Rejection log with rule-ID rationales
 │   ├── gate-review-protocol.md   # G5 independent-reviewer standard (§10, D-25)
-│   └── claude-mem-rebuild.md     # Phase-3 file-based memory design for rinnegan (§10, D-26)
+│   ├── claude-mem-rebuild.md     # Phase-3 file-based memory design for rinnegan (§10, D-26)
+│   └── shortlist.md              # Phase-5 per-plugin roster proposed for synthesis (§10; ROADMAP.md §7)
 ├── templates/
 │   ├── plugin/plugin.json        # Base plugin manifest template
 │   ├── skill.md                  # Skill template (frontmatter + trigger-description rules)
@@ -510,5 +511,16 @@ Rationale of record: the widening is not new appetite, it is a hole Phase 3 meas
 Rationale of record: the gap was opened by ADR-024 with the instruction "resolve before any agent ships", and Phase 4 is the phase that annotates every agent candidate with a C-2 allowlist — the first moment the question stops being theoretical. The direction was **not** predetermined: the plan of record recommended ratifying the list form, and the live fetch reversed it. That is the D48 pattern from Phase 3, where a fetch of the hooks reference overturned a design assumption, and it is why §0 requires re-verification at a gate rather than trusting a dated reading. The second residue was found by the same fetch and is deliberately left open rather than resolved by inference, because documentation silence is evidence of nothing.
 
 Open items after v2.6: SPEC-GAP-001 (ADR-024) remains open — the official sub-agents reference documents an agent's `tools` as a comma-separated string while `templates/agent.md` standardizes the YAML list; resolve before any agent ships. `SPEC.md` §8's "~270 skills" figure for ECC is left as written: it is a dated role note from Phase 1, and `eval/triage-log.md` records the measured 897 / 285 split rather than restating it here. `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen, and ADR-009, ADR-021 and ADR-025's own Context keep the historical phrasing: they record what was true when they were written.
+
+### v2.7 → v2.8 (2026-08-25) — `eval/shortlist.md` enters the §3 tree (Phase-5 deliverable)
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §3: `eval/shortlist.md` added to the tree as a scaffold-stage (non-`[P6]`) entry — the Phase-5 shortlist report, the per-plugin roster proposed for synthesis with lineage. `ROADMAP.md` §7 names it as a Phase-5 deliverable and §10 Phase 5 and `eval/gate-review-protocol.md` §3.4 make it a G5 input, but §3 admitted no file to hold it; a tree that omits a file the phase's exit path names is the same internal contradiction v2.6 row 2 corrected for `eval/claude-mem-rebuild.md`, and it is corrected the same way | Additive |
+| 2 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validators re-bound — check D1 to the v2.8 version line and check S2 to require `eval/shortlist.md`, in both twins, for the reason v2.6 row 4 records. **Check D2 is untouched and the ADR count stays 26**: no §12 cell changes at this version, so D-16's §12↔ADR mapping is unaffected and no ADR is written | Additive |
+
+Rationale of record: this version adds a file and nothing else. The Phase-5 sign-off itself — the approved shortlist and build plan — lands as a §12 decision and its mirroring ADR only after the independent reviewer returns `APPROVED`, in the sign-off pull request D-25 names; writing that cell before the verdict would pre-decide the gate.
+
+Open items after v2.8: unchanged from v2.7 — **SPEC-GAP-002 (ADR-024) is open**, settled empirically at the Phase-6 gate before any agent ships; §8's "~270 skills" figure and §10 Phase 3's missing `✅` marker are left as recorded below; `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen.
 
 Open items after v2.7: **SPEC-GAP-002 (ADR-024, opened v2.7) is open** — the repo expresses C-2 through parameterised grants such as `Bash(git ls-files:*)` inside an agent's `tools` field, but the official sub-agents reference documents a parenthesised form there only for `Agent(agent_type)`; `Tool(specifier)` is otherwise documented as permission-rule syntax for `settings.json`. Settle it empirically at the Phase-6 gate, before any agent ships. SPEC-GAP-001 is **closed** at v2.7. `SPEC.md` §8's "~270 skills" figure for ECC is left as written: it is a dated role note from Phase 1, and `eval/triage-log.md` records the measured 897 / 285 split rather than restating it here. §10 Phase 3's scope cell carries no `✅ Complete` marker although Phases 1 and 2 do; that inconsistency is recorded here rather than fixed outside a phase that touches §10. `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen, and ADR-009, ADR-021 and ADR-025's own Context keep the historical phrasing: they record what was true when they were written.
