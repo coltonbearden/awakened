@@ -6,9 +6,10 @@ row there, and no component appears here that the matrix did not shortlist (`eva
 Lineage is `source_repo` at the `upstream.json` pinned commit; scores are
 `value,bloat,risk,dependencies,user_scope_fit`.
 
-**Revised 2026-08-25 after Gate G5 round 1 (`REJECTED`).** The reviewer's source spot-check contradicted four
+**Revised 2026-08-25 after Gate G5 rounds 1 and 2 (both `REJECTED`; escalated to the owner).** Round 1 contradicted four
 shortlisted rows and the disposition of one; the re-audits are T-277…T-281 in `eval/triage-log.md` and the gate record
-is `ROADMAP.md` §7. Three rows left the shortlist, one was rescored and retained, and one moved to `defer`.
+is `ROADMAP.md` §7. Three rows left the shortlist, one was rescored and retained, and one moved to `defer`. Round 2
+corrected three more rows in place (T-282…T-284) and left two boundary questions to the owner, marked in §2.
 
 This file proposes; it does not approve. Approval is Gate G5's, adjudicated by the independent reviewer under
 `eval/gate-review-protocol.md` and acknowledged by the project owner (D-25). Nothing in it is built before that.
@@ -54,7 +55,7 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `ecc/cmd-plan` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/plan.md` | 4,3,5,5,5 | **Knowingly contested — re-examined at T-275, holds.** Drop the `/plan-canvas` confirmation-gate coupling: that surface is an HR-4 reject (T-050). Keep the inline, no-subagent path primary so B-1 holds; replace the stack-specific worked example |
 | `ecc/cmd-plan-prd` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/plan-prd.md` | 4,4,5,5,5 | — |
 | `ecc/cmd-prp-commit` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/prp-commit.md` | 3,5,4,4,5 | Show the staging plan before committing; no `--force`, no push |
-| `ecc/cmd-prp-implement` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/prp-implement.md` | 4,3,4,4,4 | Kept beside `superpowers/executing-plans`: this row carries the validation ladder and package-manager detection, that one carries plan execution. The `&`…`kill`/`wait` dev-server fixture stays bounded to one script (HR-4 cleared on that ground) |
+| `ecc/cmd-prp-implement` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/prp-implement.md` | 4,3,4,4,4 | Kept beside `superpowers/executing-plans`: this row carries the validation ladder and package-manager detection, that one carries plan execution. The `&`…`kill`/`wait` dev-server fixture stays bounded to one script (HR-4 cleared on that ground). **T-283:** replace the silent `git pull --rebase … \|\| true` at line 92 with a confirmed, non-silent sync, or drop the step |
 | `ecc/cmd-test-coverage` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/test-coverage.md` | 4,5,4,4,4 | Detection table runs the project's own installed runner; no `npx` fetch of a tool (HR-7) |
 | `wshobson/tdd-workflows-tdd-green` | command | `wshobson/agents` @ `367cb6a4a182` | `plugins/tdd-workflows/commands/tdd-green.md` | 4,4,4,5,4 | Keep the five behavioural rules; the subagent clause must not create an agent dependency for `super-saiyan` (B-1) — inline only |
 | `wshobson/tdd-workflows-tdd-red` | command | `wshobson/agents` @ `367cb6a4a182` | `plugins/tdd-workflows/commands/tdd-red.md` | 4,4,4,5,4 | As for `tdd-green`: inline only, no agent dependency (B-1) |
@@ -62,7 +63,7 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `davila7/productivity-requirements-clarity` | skill | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/skills/productivity/requirements-clarity/SKILL.md` | 4,3,5,5,5 | — |
 | `ecc/documentation-lookup` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/documentation-lookup/SKILL.md` | 4,5,5,3,4 | Must degrade gracefully when Context7 is absent (P-5 exception); keep the three-call cap and secret redaction |
 | `ecc/intent-driven-development` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/intent-driven-development/SKILL.md` | 4,3,5,5,5 | — |
-| `ecc/search-first` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/search-first/SKILL.md` | 4,4,4,5,4 | Strip step 5's Configure-MCP branch and the Quick-Mode MCP check (`CLAUDE.md` §10 bars a shipped component from adding MCP configuration); inline path stays primary |
+| `ecc/search-first` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/search-first/SKILL.md` | 4,4,4,5,4 | Strip step 5's Configure-MCP branch and the Quick-Mode MCP check (`CLAUDE.md` §10 bars a shipped component from adding MCP configuration); inline path stays primary. **T-284:** an explicit confirmation gate before any install directed by step 5 or the Adopt/Extend rows |
 | `mattpocock/diagnosing-bugs` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/diagnosing-bugs/SKILL.md` | 5,4,4,5,5 | `scripts/hitl-loop.template.sh` cannot ship (`CLAUDE.md` §5.5) — fold the human-in-the-loop prompt into prose; drop `agents/openai.yaml` (display metadata) |
 | `mattpocock/grilling` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/productivity/grilling/SKILL.md` | 4,5,5,5,5 | — |
 | `mattpocock/prototype` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/prototype/SKILL.md` | 4,5,4,5,5 | — |
@@ -116,10 +117,10 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `davila7/development-tools-codebase-explorer` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/development-tools/codebase-explorer.md` | 4,4,4,5,4 | — |
 | `davila7/development-tools-codebase-pattern-finder` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/development-tools/codebase-pattern-finder.md` | 5,4,5,5,5 | — |
 | `davila7/documentation-diagram-architect` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/documentation/diagram-architect.md` | 3,4,4,5,4 | — |
-| `davila7/git-commit-guardian` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/git/commit-guardian.md` | 4,4,5,5,5 | — |
+| `davila7/git-commit-guardian` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/git/commit-guardian.md` | 4,4,4,5,5 | **T-282, `risk` 5→4.** As shipped it builds, tests, auto-fixes and commits; the proposed allowlist cannot do any of that, so the synthesized agent is the verification *report* (checks 1, 2, 6, Conventional-Commits validation) and the commit stays with the user or `ecc/cmd-prp-commit` |
 | `davila7/security-ai-agent-audit-specialist` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/security/ai-agent-audit-specialist.md` | 4,4,5,5,4 | — |
 | `davila7/security-llm-redteam-specialist` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/security/llm-redteam-specialist.md` | 4,4,4,5,4 | — |
-| `ecc/agent-agent-evaluator` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/agent-evaluator.md` | 4,3,5,5,4 | — |
+| `ecc/agent-agent-evaluator` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/agent-evaluator.md` | 4,3,5,5,4 | Inline the five axes it takes from `ecc/agent-self-evaluation`, a `merge` row that will not ship |
 | `ecc/agent-code-architect` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/code-architect.md` | 4,5,5,5,5 | — |
 | `ecc/agent-code-explorer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/code-explorer.md` | 4,5,5,5,5 | — |
 | `ecc/agent-code-reviewer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/code-reviewer.md` | 5,3,4,4,3 | Drop the two React/Next.js and Node.js checklist sections (user_scope_fit 3); apply the proposed allowlist |
@@ -127,7 +128,7 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `ecc/agent-comment-analyzer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/comment-analyzer.md` | 3,5,5,5,5 | — |
 | `ecc/agent-planner` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/planner.md` | 4,3,5,5,5 | — |
 | `ecc/agent-pr-test-analyzer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/pr-test-analyzer.md` | 4,5,4,5,5 | — |
-| `ecc/agent-security-reviewer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/security-reviewer.md` | 4,4,4,4,3 | The `npm audit` step is npm-only — make it a conditional branch with a stated skip for other stacks; apply the proposed allowlist |
+| `ecc/agent-security-reviewer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/security-reviewer.md` | 4,4,4,4,3 | **Open at G5 round 2 (owner decision pending):** whether the unconditional `npx eslint . --plugin security` step fires HR-7 under T-279's any-trigger reading. Verdict unchanged until the owner decides. The `npm audit` step is npm-only — conditional branch with a stated skip; apply the proposed allowlist |
 | `ecc/agent-silent-failure-hunter` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/silent-failure-hunter.md` | 4,5,4,5,5 | — |
 | `ecc/agent-type-design-analyzer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/type-design-analyzer.md` | 3,5,5,5,4 | — |
 | `wshobson/code-documentation-docs-architect` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/code-documentation/agents/docs-architect.md` | 3,4,5,5,4 | — |
@@ -136,14 +137,14 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `wshobson/debugging-toolkit-debugger` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/debugging-toolkit/agents/debugger.md` | 4,5,4,5,5 | — |
 | `wshobson/error-debugging-error-detective` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/error-debugging/agents/error-detective.md` | 4,5,5,5,4 | — |
 | `wshobson/operating-kit-code-review-preshipment` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/operating-kit/agents/code-review-preshipment.md` | 5,4,4,5,4 | — |
-| `wshobson/operating-kit-session-end` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/operating-kit/agents/session-end.md` | 4,5,4,5,4 | Placeholders substituted per project; apply the proposed allowlist |
+| `wshobson/operating-kit-session-end` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/operating-kit/agents/session-end.md` | 4,5,4,5,4 | Placeholders substituted per project; apply the proposed allowlist; drop the reference to a `deploy-with-verification` agent, which is not shortlisted |
 | `wshobson/operating-kit-session-start` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/operating-kit/agents/session-start.md` | 4,5,4,5,4 | As for `session-end` |
 | `wshobson/plugin-eval-eval-judge` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/plugin-eval/agents/eval-judge.md` | 4,4,5,5,4 | — |
 | `ecc/council` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/council/SKILL.md` | 4,4,5,5,5 | Keep the ban on shadow writes to `~/.claude/notes` |
 | `ecc/iterative-retrieval` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/iterative-retrieval/SKILL.md` | 3,3,5,5,4 | The JavaScript is pseudocode; nothing executable ships |
 | `ecc/parallel-execution-optimizer` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/parallel-execution-optimizer/SKILL.md` | 4,5,4,5,5 | Keep the rule that no background process outlives the turn (HR-4 boundary) |
 | `ecc/santa-method` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/santa-method/SKILL.md` | 4,3,5,5,4 | The Python is illustrative and stays illustrative — no shipped script (`CLAUDE.md` §5.5) |
-| `mattpocock/research` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/research/SKILL.md` | 4,5,4,5,5 | — |
+| `mattpocock/research` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/research/SKILL.md` | 4,5,4,5,5 | **Open at G5 round 2 (owner decision pending):** whether its session-scoped background agent falls under HR-4 as T-280 applied it to a detached `claude --bg` process. Verdict unchanged until the owner draws the line |
 | `superpowers/dispatching-parallel-agents` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/dispatching-parallel-agents/SKILL.md` | 4,4,5,5,5 | — |
 | `superpowers/subagent-driven-development` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/subagent-driven-development/SKILL.md` | 4,3,4,5,5 | Slim from 32KB; the three bash helpers cannot ship (`CLAUDE.md` §5.5) — express the `.superpowers/sdd/` state handling in prose or drop it |
 
@@ -170,7 +171,7 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `ecc/context-budget` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/context-budget/SKILL.md` | 4,5,5,5,5 | — |
 | `ecc/skill-scout` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/skill-scout/SKILL.md` | 4,5,4,4,5 | `gh` and web channels stay conditional and degrade; keep the vet step for installs, shell and network in any candidate |
 | `mattpocock/writing-for-agents` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/productivity/writing-for-agents/SKILL.md` | 5,3,5,5,5 | Tighten against `superpowers/writing-skills` (bloat 3 at 11KB) |
-| `superpowers/writing-skills` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/writing-skills/SKILL.md` | 5,3,4,3,5 | Slim from 26KB plus six siblings; `render-graphs.js` cannot ship (`CLAUDE.md` §5.5) and its node/graphviz need is dropped with it |
+| `superpowers/writing-skills` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/writing-skills/SKILL.md` | 5,3,4,3,5 | Slim from 26KB plus six siblings; `render-graphs.js` cannot ship (`CLAUDE.md` §5.5) and its node/graphviz need is dropped with it; line 12 links `../using-superpowers/references/*`, files the shortlist drops — inline or remove |
 
 ### 2.8 `poneglyph` — 4 components
 

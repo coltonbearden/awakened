@@ -13,7 +13,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
 | 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
-| 5 | Evaluation matrix consolidation | **In progress** (2026-08-25) — matrix consolidated at 322 rows, **96 shortlist / 210 reject / 15 merge / 1 defer** after G5 round 1; `eval/shortlist.md` written (SPEC v2.8); T-274…T-281 | **G5 — independent-reviewer gate + owner ack** — round 1 `REJECTED`, remediated, resubmitted |
+| 5 | Evaluation matrix consolidation | **Escalated to the owner** (2026-08-25) — matrix at 322 rows, **96 shortlist / 210 reject / 15 merge / 1 defer**; `eval/shortlist.md` written (SPEC v2.8); T-274…T-284 | **G5 — independent-reviewer gate + owner ack** — `REJECTED` twice (rounds 1 and 2); escalated under protocol §5 rule 2; two boundary questions await the owner |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
@@ -323,7 +323,30 @@ matrix's one `hook`-type row is a `reject`. V5.7 every core plugin holds ≥ 1 s
 `sharingan` 8, `rinnegan` 2, `kaioken` 5, `bankai` 35, `domain` 9, `instinct` 6, `poneglyph` 4, `aura` 0); `aura`'s
 recorded plan is `eval/shortlist.md` §6, grounded in `SPEC.md` §4 and T-235.
 
-**Gate G5 — round 2:** resubmitted from a fresh `git archive` of the `main` commit that carries this record.
+**Gate G5 — round 2 (2026-08-25): `REJECTED` — escalated to the owner.** Resubmitted as a whole gate from a fresh
+`git archive` of `main` @ `e4e5881e0212add3bea3d2e9e5b5f247f442cbad`, same ten pins, loader digest MATCH, a fresh
+reviewer instance on `claude-fable-5`. V5.1–V5.7 re-derived by the reviewer agreed with the values above (96 / 210 /
+15 / 1; §3.3 all 210 rejects matched to a rule-ID entry; §3.4 the 96 roster ids equal the 96 shortlist ids). The
+spot-check read twenty-two shortlisted rows and raised five findings, all confirmed on the source:
+
+| # | Finding (reviewer) | Row | Disposition |
+|---|---|---|---|
+| 1 | Line 6 "Spin up a **background agent** … so you keep working while it reads" — on T-280's stated standard this is HR-4; the artifacts draw no line between a detached `claude --bg` process and a session-scoped background subagent | `mattpocock/research` | **Escalated — owner decides the HR-4 boundary.** Not re-audited: the same line governs every `bankai` dispatch row and `superpowers/dispatching-parallel-agents`, and drawing it is a policy call a second `REJECTED` hands to the owner |
+| 2 | `npx eslint . --plugin security` is the unconditional Initial Scan (lines 33–34, 40); T-136 named `npx eslint` as an HR-7 ground and T-279 said a hard reject fires on any trigger | `ecc/agent-security-reviewer` | **Escalated — owner decides the HR-7 reading.** T-106's "every step is npx" and T-279's "any trigger" cannot both stand; the row keeps its verdict until the owner picks one, and the choice is applied uniformly |
+| 3 | `risk` 5 ("read-only") false: it builds, tests, auto-fixes and makes the commit; the proposed allowlist cannot do any of that | `davila7/git-commit-guardian` | **T-282** — `risk` 4, retained; rationale states the as-shipped behaviour and that the synthesized agent is the verification report only |
+| 4 | Undisclosed `git pull --rebase origin <branch> 2>/dev/null \|\| true` at line 92 | `ecc/cmd-prp-implement` | **T-283** — disclosed; constraint: confirmed, non-silent sync or drop the step; no score moved |
+| 5 | Undisclosed unconfirmed install in step 5 / decision matrix (lines 49, 58–59) | `ecc/search-first` | **T-284** — disclosed; constraint: explicit confirmation before any install; no score moved |
+
+Observations the reviewer recorded as non-failures are carried into `eval/shortlist.md` synthesis constraints:
+`ecc/agent-agent-evaluator` must inline the axes of the merged `ecc/agent-self-evaluation`;
+`wshobson/operating-kit-session-start`/`-end` reference a `deploy-with-verification` agent that is not shortlisted;
+`superpowers/writing-skills` links reference files the shortlist drops.
+
+**Escalation (protocol §5 rule 2; standing authority).** Two `REJECTED` verdicts on the same gate. The executor does
+not invoke the reviewer a third time. Both review records and the round-1 remediation are attached to the owner
+escalation (`G5-ESCALATION-2026-08-25.md` at the project root, outside this repository). The owner decides the two
+boundary questions above and the gate's next step; the ten matrix rows of remediation (T-277…T-284) stand as audited
+regardless. **No Phase 6 work of any kind.**
 
 ---
 
@@ -389,6 +412,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 | G3 | 2026-08-22 | APPROVED | Phase-3 complete: V3.1–V3.7 all discharged. Reviewed and approved under standing delegation D11 (D-25 moved only G5); review record: PR #10. Scope change arising at the gate landed as D-26 / ADR-026 (SPEC v2.6) per §10 rule 4 |
 | G4 | 2026-08-22 | APPROVED | Phase-4 complete across three passes: V4.1–V4.7 all discharged. Reviewed and approved under standing delegation D11 (§10 rule 2; D-25 moved only G5); review record: PR #13, PR #16 and PR #17. One open finding carried to Phase 5 rather than closed at the gate: the three capability gaps from the V4.4 scan. A second finding asserted in PR #17 — a `schemas/agent.schema.json` enforcement gap on `hooks`/`mcpServers` — was **retracted the same day as false**; see the correction in §6 |
 | G5 | 2026-08-25 | **REJECTED** (reviewer, round 1) | Independent review under `eval/gate-review-protocol.md` v1.1 from a clean-room archive of `046f066`; four spot-check contradictions and one disposition finding, all confirmed on the source and remediated as T-277…T-281 (§7). First `REJECTED` on this gate; whole gate resubmitted |
+| G5 | 2026-08-25 | **REJECTED** (reviewer, round 2) — **escalated to the owner** | Whole gate resubmitted from a clean-room archive of `e4e5881`; five spot-check findings, three corrected as T-282…T-284, two (an HR-4 boundary for session-scoped background subagents; an HR-7 reading for single `npx` analysis-tool steps) escalated under `eval/gate-review-protocol.md` §5 rule 2. Phase 6 stays barred |
 
 G5 occupies two rows, not one: `APPROVED (reviewer) — pending owner ack` when the independent reviewer returns its verdict, then `OWNER ACK` with the date and the comment URL when the owner acknowledges it. Phase 6 opens on the second row (D-25 as amended at SPEC v2.5).
 
