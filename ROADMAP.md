@@ -13,7 +13,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
 | 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
-| 5 | Evaluation matrix consolidation | **In progress** (2026-08-25) — matrix consolidated at 322 rows, 100 shortlist / 207 reject / 15 merge / **0 defer**; `eval/shortlist.md` written (SPEC v2.8); T-274…T-276; V5.1–V5.7 re-derived, awaiting the independent reviewer | **G5 — independent-reviewer gate + owner ack** |
+| 5 | Evaluation matrix consolidation | **In progress** (2026-08-25) — matrix consolidated at 322 rows, **96 shortlist / 210 reject / 15 merge / 1 defer** after G5 round 1; `eval/shortlist.md` written (SPEC v2.8); T-274…T-281 | **G5 — independent-reviewer gate + owner ack** — round 1 `REJECTED`, remediated, resubmitted |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
@@ -281,28 +281,49 @@ the falsy value `false` as an absent declaration. No schema change is needed and
 
 **Gate G5 — MANDATORY INDEPENDENT APPROVAL (D-25).** No scaffolding, no synthesis, no component authoring until an **independent reviewer** — running on a different model from the executing agent, reading the matrix, shortlist report, triage log and the pinned sources, and receiving none of the executing agent's reasoning — returns `APPROVED` under `eval/gate-review-protocol.md`, and the approval is **recorded as an ADR in `DECISIONS.md`**. That `APPROVED` is provisional: the §11 gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind stays barred until the project owner posts an acknowledgement comment on the sign-off PR and an `OWNER ACK` row joins it. That ADR, together with the owner's acknowledgement, is the authorization; the §11 gate-log rows below index it, they are not the record. A first `REJECTED` loops the phase; a **second `REJECTED` on this gate escalates to the project owner**, who decides it. Scope changes demanded at this gate become superseding ADRs before Phase 6 starts.
 
-**Delivered (evidence: PR #20 `782eabd`, and this PR).** The matrix is consolidated as-is: no Phase-5 row was added or
-removed, and no verdict or score moved. `eval/shortlist.md` entered the §3 tree at SPEC v2.8 and carries the per-plugin
-rosters with lineage and synthesis constraints, the fifteen merge absorptions, the V5.6 hook-budget preview, the V5.7
-recorded plans for original work, the two knowingly-contested rows, thirty re-donated concepts listed unscored, and the
-proposed Phase-6 build plan. `eval/triage-log.md` gained T-274 and T-275 — both contested rows re-read at their pinned
-commits, both holding, their matrix rationales replaced in place with the contested flags closed — and T-276, the
-consolidation record. The three capability gaps carried out of G4 (T-223, T-232, T-235) are dispositioned as recorded
-original-work plans; `aura`'s stays closed by authoring, never by sourcing. **Zero `defer` rows exist**, so the sign-off
-ADR's enumeration of open defers is empty.
+**Delivered (evidence: PR #20 `782eabd`, PR #21 `046f066`, and this PR).** `eval/shortlist.md` entered the §3 tree
+at SPEC v2.8 and carries the per-plugin rosters with lineage and synthesis constraints, the fifteen merge
+absorptions, the one deferred row, the V5.6 hook-budget preview, the V5.7 recorded plans for original work, the two
+knowingly-contested rows, the re-donated concepts listed unscored, and the proposed Phase-6 build plan.
+`eval/triage-log.md` gained T-274 and T-275 (both contested rows re-read at their pinned commits, both holding),
+T-276 (the consolidation record), and T-277…T-281 (the G5 round-1 remediation, below). The three capability gaps
+carried out of G4 (T-223, T-232, T-235) are dispositioned as recorded original-work plans; `aura`'s stays closed by
+authoring, never by sourcing. The matrix holds 322 rows — **96 shortlist / 210 reject / 15 merge / 1 defer** — and the
+one `defer` (`claude-mem/session-memory`, C-1, Phase 6) is what the sign-off ADR enumerates.
 
-**Verification (executor's re-derivation; the reviewer re-derives every value independently under
-`eval/gate-review-protocol.md` §3.1, and this paragraph is not evidence for it).** V5.1 0 empty `verdict` cells and
-0 values outside the §9 enum across 322 rows. V5.2 0 duplicate `id` values. V5.3 0 axis cells outside the
-integers 1–5 across 322 × 5 cells. V5.4 across the 100 shortlist rows: 0 carry a `hard_reject`, 0 axis cells sit
-below 3, 0 lack exactly one owning plugin. V5.5 all ten `upstream.json` repositories: nine carry matrix rows and
+**Gate G5 — round 1 (2026-08-25): `REJECTED`.** Invoked per `eval/gate-review-protocol.md` §1 from a `git archive`
+of `main` @ `046f066c2783a098966965959d0c7351e0286a89`, ten upstream clones at their pins, loader digest
+`466587e5…586ec` MATCH. Executing agent model `claude-fable-5`; reviewer model `claude-fable-5` — so §3.5's
+non-Anthropic second pass is REQUIRED on any `APPROVED`. The reviewer's V5.1–V5.7 values agreed with the executor's;
+the verdict turned on the §3.2 source spot-check, which contradicted four shortlisted rows and the disposition of a
+fifth. Every finding held on re-reading the source, and each is remediated in place:
+
+| # | Finding (reviewer) | Row | Disposition |
+|---|---|---|---|
+| 1 | Write target `~/.claude/session-data/` is fixed by the command and the file is shown *after* writing; the rationale's "shown for confirmation (C-3)" was wrong | `ecc/cmd-save-session` | **T-277** — `risk` 4→3, `shortlist` retained; distinguished from T-020 on D-18's own-data-directory clause (the T-042 shape); rationale replaced |
+| 2 | Lines 142–200 are a MANDATORY section running fourteen `python ~/.claude/skills/<other-skill>/scripts/*.py` commands; `dependencies` 5 and "no shell side effects" false; section undisclosed | `davila7/development-clean-code` | **T-278** — `dependencies` 1, **`reject`**; standards content re-donated to `super-saiyan` |
+| 3 | HR-7 clearance ground false: the JS/TS branch is `npx depcheck` / `npx ts-unused-exports`, the T-106 / T-136 ground | `davila7/development-tools-unused-code-cleaner` | **T-279** — `HR-7`, **`reject`**; Dynamic Usage Safety re-donated to `sharingan` |
+| 4 | The whole mechanism is `claude --bg`, a background agent outliving the turn; HR-4 never adjudicated | `mattpocock/claude-handoff` | **T-280** — `HR-4`, **`reject`**; handoff discipline re-donated to `kaioken` |
+| 5 | `risk` 3 asserts C-1 passes while the scored design says C-1 must be executed before ship — rubric §7 Example C | `claude-mem/session-memory` | **T-281** — `risk` 2, **`defer`** naming C-1 and Phase 6 |
+| 6 | Process: executing and reviewer models equal ⇒ §3.5 second pass REQUIRED | — | Owner runs it from the package the executor prepared; output accompanies the ack request |
+
+Escalation state: this is the **first** `REJECTED` on G5. The 2026-08-18 review the triage log calls the G5
+rehearsal was run against Phase-2 artifacts before the gate existed and is distinguished from the real gate by
+`eval/gate-review-protocol.md` §3.5 itself; §11 carried no G5 row before this one. Per §5 rule 1 the executor
+remediated and resubmits the **whole gate**; a second `REJECTED` escalates to the owner.
+
+**Verification (executor's re-derivation after remediation; the reviewer re-derives every value independently under
+`eval/gate-review-protocol.md` §3.1, and this paragraph is not evidence for it).** V5.1 0 empty `verdict` cells and 0
+values outside the §9 enum across 322 rows. V5.2 0 duplicate `id` values. V5.3 0 axis cells outside the integers 1–5
+across 322 × 5 cells. V5.4 across the 96 shortlist rows: 0 carry a `hard_reject`, 0 axis cells sit below 3, 0 lack
+exactly one owning plugin. V5.5 all ten `upstream.json` repositories: nine carry matrix rows and
 `hesreallyhim/awesome-claude-code` carries zero by design, dispositioned at T-221…T-238 (V4.4). V5.6 the shortlist
-implies exactly two hooks — `super-saiyan` and `rinnegan`, the two §6 budgets — and the matrix's one `hook`-type row is
-a `reject`. V5.7 every core plugin holds ≥ 1 shortlisted component (`super-saiyan` 28, `sharingan` 8, `rinnegan` 3, `kaioken` 6, `bankai` 36, `domain` 9, `instinct` 6, `poneglyph` 4, `aura` 0); `aura` holds zero and its
-recorded plan is `eval/shortlist.md` §5, grounded in `SPEC.md` §4 and T-235.
+implies at most two hooks — `super-saiyan` and, once its `defer` closes, `rinnegan`, the two §6 budgets — and the
+matrix's one `hook`-type row is a `reject`. V5.7 every core plugin holds ≥ 1 shortlisted component (`super-saiyan` 27,
+`sharingan` 8, `rinnegan` 2, `kaioken` 5, `bankai` 35, `domain` 9, `instinct` 6, `poneglyph` 4, `aura` 0); `aura`'s
+recorded plan is `eval/shortlist.md` §6, grounded in `SPEC.md` §4 and T-235.
 
-**Gate G5:** not yet run. The next step is the invocation `eval/gate-review-protocol.md` §1 prescribes, from a
-`git archive` of the `main` commit that carries this record.
+**Gate G5 — round 2:** resubmitted from a fresh `git archive` of the `main` commit that carries this record.
 
 ---
 
@@ -367,6 +388,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 | G2 | 2026-08-18 | APPROVED | Phase-2 audit complete: V2.1–V2.10 all discharged (V2.8–V2.10 by SPEC v2.3, PR #2). Reviewed and approved under standing delegation D11 (2026-08-18); review record: PR #4 |
 | G3 | 2026-08-22 | APPROVED | Phase-3 complete: V3.1–V3.7 all discharged. Reviewed and approved under standing delegation D11 (D-25 moved only G5); review record: PR #10. Scope change arising at the gate landed as D-26 / ADR-026 (SPEC v2.6) per §10 rule 4 |
 | G4 | 2026-08-22 | APPROVED | Phase-4 complete across three passes: V4.1–V4.7 all discharged. Reviewed and approved under standing delegation D11 (§10 rule 2; D-25 moved only G5); review record: PR #13, PR #16 and PR #17. One open finding carried to Phase 5 rather than closed at the gate: the three capability gaps from the V4.4 scan. A second finding asserted in PR #17 — a `schemas/agent.schema.json` enforcement gap on `hooks`/`mcpServers` — was **retracted the same day as false**; see the correction in §6 |
+| G5 | 2026-08-25 | **REJECTED** (reviewer, round 1) | Independent review under `eval/gate-review-protocol.md` v1.1 from a clean-room archive of `046f066`; four spot-check contradictions and one disposition finding, all confirmed on the source and remediated as T-277…T-281 (§7). First `REJECTED` on this gate; whole gate resubmitted |
 
 G5 occupies two rows, not one: `APPROVED (reviewer) — pending owner ack` when the independent reviewer returns its verdict, then `OWNER ACK` with the date and the comment URL when the owner acknowledges it. Phase 6 opens on the second row (D-25 as amended at SPEC v2.5).
 

@@ -6,6 +6,10 @@ row there, and no component appears here that the matrix did not shortlist (`eva
 Lineage is `source_repo` at the `upstream.json` pinned commit; scores are
 `value,bloat,risk,dependencies,user_scope_fit`.
 
+**Revised 2026-08-25 after Gate G5 round 1 (`REJECTED`).** The reviewer's source spot-check contradicted four
+shortlisted rows and the disposition of one; the re-audits are T-277…T-281 in `eval/triage-log.md` and the gate record
+is `ROADMAP.md` §7. Three rows left the shortlist, one was rescored and retained, and one moved to `defer`.
+
 This file proposes; it does not approve. Approval is Gate G5's, adjudicated by the independent reviewer under
 `eval/gate-review-protocol.md` and acknowledged by the project owner (D-25). Nothing in it is built before that.
 
@@ -13,25 +17,24 @@ This file proposes; it does not approve. Approval is Gate G5's, adjudicated by t
 
 | Plugin | Tier | Shortlisted | Skills | Commands | Agents | Concepts |
 |---|---|---|---|---|---|---|
-| `super-saiyan` | core | **28** | 19 | 9 | 0 | 0 |
+| `super-saiyan` | core | **27** | 18 | 9 | 0 | 0 |
 | `sharingan` | core | **8** | 7 | 1 | 0 | 0 |
-| `rinnegan` | core | **3** | 2 | 0 | 0 | 1 |
-| `kaioken` | core | **6** | 2 | 4 | 0 | 0 |
-| `bankai` | core | **36** | 7 | 0 | 29 | 0 |
+| `rinnegan` | core | **2** | 2 | 0 | 0 | 0 |
+| `kaioken` | core | **5** | 1 | 4 | 0 | 0 |
+| `bankai` | core | **35** | 7 | 0 | 28 | 0 |
 | `domain` | core | **9** | 7 | 2 | 0 | 0 |
 | `instinct` | core | **6** | 4 | 2 | 0 | 0 |
 | `poneglyph` | optional satellite (B-8) | **4** | 4 | 0 | 0 | 0 |
 | `aura` | optional satellite (B-8) | **0** | 0 | 0 | 0 | 0 |
-| **Total** | | **100** | 52 | 18 | 29 | 1 |
+| **Total** | | **96** | 50 | 18 | 28 | 0 |
 
-Matrix state this report was derived from: 322 rows — 100 `shortlist` / 207 `reject` / 15 `merge` / 0 `defer`.
-**There are zero `defer` rows**, so the enumeration of open
-defers that `SPEC.md` §9 rule 3 requires of the Phase-5 sign-off ADR is empty, and is stated as empty rather than
-left to inference.
+Matrix state this report was derived from: 322 rows — 96 `shortlist` / 210 `reject` / 15 `merge` / 1 `defer`.
+**Exactly one `defer` row exists** (§4 below); `SPEC.md` §9 rule 3 requires the Phase-5 sign-off ADR to enumerate it,
+and it is enumerated there rather than left to inference.
 
 `aura` holds zero shortlisted rows **by design**: `SPEC.md` §4 records its Source Lineage as *Original work*, and
 T-235 records that two upstream candidates (`anthropics/theme-factory`, davila7's statusline family) were rejected on
-exactly that ground. Its recorded plan is §5 below, which is what V5.7 asks for.
+exactly that ground. Its recorded plan is §6 below, which is what V5.7 asks for.
 
 ## 2. Per-plugin rosters
 
@@ -42,20 +45,19 @@ rationale is folded into prose or dropped, never shipped. Every `agent` row addi
 allowlist** its rationale names, which was replayed against `schemas/agent.schema.json` (C-2); the SPEC-GAP-002
 question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically at the Phase-6 gate before any agent ships.
 
-### 2.1 `super-saiyan` — 28 components
+### 2.1 `super-saiyan` — 27 components
 
 | id | type | lineage | upstream path | scores | synthesis constraints |
 |---|---|---|---|---|---|
 | `davila7/utilities-ultra-think` | command | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/commands/utilities/ultra-think.md` | 4,4,5,5,5 | — |
 | `ecc/cmd-build-fix` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/build-fix.md` | 4,5,4,4,4 | Detection table runs the project's own tooling only; the `need npm install` guardrail must stay a stop-and-ask, never an install (HR-7) |
-| `ecc/cmd-plan` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/plan.md` | 4,3,5,5,5 | **Knowingly contested — re-examined at T-275.** Drop the `/plan-canvas` confirmation-gate coupling: that surface is an HR-4 reject (T-050). Keep the inline, no-subagent path primary so B-1 holds |
+| `ecc/cmd-plan` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/plan.md` | 4,3,5,5,5 | **Knowingly contested — re-examined at T-275, holds.** Drop the `/plan-canvas` confirmation-gate coupling: that surface is an HR-4 reject (T-050). Keep the inline, no-subagent path primary so B-1 holds; replace the stack-specific worked example |
 | `ecc/cmd-plan-prd` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/plan-prd.md` | 4,4,5,5,5 | — |
 | `ecc/cmd-prp-commit` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/prp-commit.md` | 3,5,4,4,5 | Show the staging plan before committing; no `--force`, no push |
 | `ecc/cmd-prp-implement` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/prp-implement.md` | 4,3,4,4,4 | Kept beside `superpowers/executing-plans`: this row carries the validation ladder and package-manager detection, that one carries plan execution. The `&`…`kill`/`wait` dev-server fixture stays bounded to one script (HR-4 cleared on that ground) |
 | `ecc/cmd-test-coverage` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/test-coverage.md` | 4,5,4,4,4 | Detection table runs the project's own installed runner; no `npx` fetch of a tool (HR-7) |
 | `wshobson/tdd-workflows-tdd-green` | command | `wshobson/agents` @ `367cb6a4a182` | `plugins/tdd-workflows/commands/tdd-green.md` | 4,4,4,5,4 | Keep the five behavioural rules; the subagent clause must not create an agent dependency for `super-saiyan` (B-1) — inline only |
 | `wshobson/tdd-workflows-tdd-red` | command | `wshobson/agents` @ `367cb6a4a182` | `plugins/tdd-workflows/commands/tdd-red.md` | 4,4,4,5,4 | As for `tdd-green`: inline only, no agent dependency (B-1) |
-| `davila7/development-clean-code` | skill | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/skills/development/clean-code/SKILL.md` | 4,4,5,5,5 | — |
 | `davila7/productivity-reducing-entropy` | skill | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/skills/productivity/reducing-entropy/SKILL.md` | 5,5,5,5,5 | — |
 | `davila7/productivity-requirements-clarity` | skill | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/skills/productivity/requirements-clarity/SKILL.md` | 4,3,5,5,5 | — |
 | `ecc/documentation-lookup` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/documentation-lookup/SKILL.md` | 4,5,5,3,4 | Must degrade gracefully when Context7 is absent (P-5 exception); keep the three-call cap and secret redaction |
@@ -82,32 +84,30 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `ecc/cmd-code-review` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/code-review.md` | 4,3,4,4,4 | Keep the explicit `No gh CLI: fall back to local-only review` path — the `gh` channel must stay optional |
 | `anthropics/discernment-nudge` | skill | `anthropics/skills` @ `0a64e398ec6b` | `skills/discernment-nudge/SKILL.md` | 4,4,5,5,5 | — |
 | `ecc/production-audit` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/production-audit/SKILL.md` | 4,4,5,5,4 | — |
-| `mattpocock/code-review` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/code-review/SKILL.md` | 5,4,5,3,5 | **Knowingly contested — re-examined at T-274.** Drop the line-13 `/setup-matt-pocock-skills` coupling (the command is an HR-1 reject, T-005); the Spec axis degrades to asking the user or skipping |
+| `mattpocock/code-review` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/code-review/SKILL.md` | 5,4,5,3,5 | **Knowingly contested — re-examined at T-274, holds.** Drop the line-13 `/setup-matt-pocock-skills` coupling (the command is an HR-1 reject, T-005); the Spec axis degrades to asking the user or skipping; keep an inline sequential fallback for the two axes |
 | `superpowers/receiving-code-review` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/receiving-code-review/SKILL.md` | 4,4,5,5,5 | — |
 | `superpowers/requesting-code-review` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/requesting-code-review/SKILL.md` | 4,5,5,5,5 | — |
 | `wshobson/avoid-ai-writing-avoid-ai-writing` | skill | `wshobson/agents` @ `367cb6a4a182` | `plugins/avoid-ai-writing/skills/avoid-ai-writing/SKILL.md` | 4,4,5,5,5 | — |
 | `wshobson/skill-forge-essentials-ai-debt-detector` | skill | `wshobson/agents` @ `367cb6a4a182` | `plugins/skill-forge-essentials/skills/ai-debt-detector/SKILL.md` | 5,5,5,5,5 | — |
 
-### 2.3 `rinnegan` — 3 components
+### 2.3 `rinnegan` — 2 components
 
 | id | type | lineage | upstream path | scores | synthesis constraints |
 |---|---|---|---|---|---|
-| `claude-mem/session-memory` | concept | `thedotmack/claude-mem` @ `fae697a45d10` | `docs/architecture-overview.md` | 5,4,3,5,5 | Built from `eval/claude-mem-rebuild.md` as designed: one prompt-handler hook, declared 10s timeout, writes only to `rinnegan`'s plugin data directory (D-15, D-18, D-24). This is `rinnegan`'s one budgeted hook |
 | `ecc/architecture-decision-records` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/architecture-decision-records/SKILL.md` | 4,4,3,5,5 | — |
 | `ecc/growth-log` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/growth-log/SKILL.md` | 4,4,5,5,5 | — |
 
-### 2.4 `kaioken` — 6 components
+### 2.4 `kaioken` — 5 components
 
 | id | type | lineage | upstream path | scores | synthesis constraints |
 |---|---|---|---|---|---|
 | `ecc/cmd-aside` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/aside.md` | 4,4,5,5,5 | — |
 | `ecc/cmd-checkpoint` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/checkpoint.md` | 3,5,4,4,4 | Fix the dangling `/verify quick` reference (no such command exists) and add an explicit confirmation before any stash or commit |
-| `ecc/cmd-resume-session` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/resume-session.md` | 4,4,5,5,5 | — |
-| `ecc/cmd-save-session` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/save-session.md` | 4,4,4,5,5 | The write target must be D-18-compliant at synthesis — `kaioken`'s own plugin data directory or the project, never a bare `~/.claude/` path |
-| `mattpocock/claude-handoff` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/in-progress/claude-handoff/SKILL.md` | 4,5,4,5,5 | — |
+| `ecc/cmd-resume-session` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/resume-session.md` | 4,4,5,5,5 | Reads the session file `ecc/cmd-save-session` writes; the read location follows the write location to `kaioken`'s plugin data directory (D-18). Carry the handoff-summary discipline re-donated at T-280 (reference other artifacts by path, redact secrets, name suggested skills) |
+| `ecc/cmd-save-session` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/save-session.md` | 4,4,3,5,5 | **Re-audited at T-277 (G5 round 1), `risk` 4→3, retained.** The write target becomes `kaioken`'s own plugin data directory (D-18) — as shipped it is the sessions family's dedicated `~/.claude/session-data/`, a fixed location; synthesis also moves the review step *before* the write (the source shows the file after writing) and drops the `session-manager.js` filename-regex reference in favour of a stated naming rule |
 | `wshobson/skill-forge-essentials-session-guard` | skill | `wshobson/agents` @ `367cb6a4a182` | `plugins/skill-forge-essentials/skills/session-guard/SKILL.md` | 5,5,5,5,5 | — |
 
-### 2.5 `bankai` — 36 components
+### 2.5 `bankai` — 35 components
 
 | id | type | lineage | upstream path | scores | synthesis constraints |
 |---|---|---|---|---|---|
@@ -115,7 +115,6 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `davila7/deep-research-team-research-synthesizer` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/deep-research-team/research-synthesizer.md` | 4,4,5,5,4 | `WebSearch`/`WebFetch` are the harness's own tools — no component-shipped endpoint may be added (HR-6) |
 | `davila7/development-tools-codebase-explorer` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/development-tools/codebase-explorer.md` | 4,4,4,5,4 | — |
 | `davila7/development-tools-codebase-pattern-finder` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/development-tools/codebase-pattern-finder.md` | 5,4,5,5,5 | — |
-| `davila7/development-tools-unused-code-cleaner` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/development-tools/unused-code-cleaner.md` | 4,4,4,5,4 | — |
 | `davila7/documentation-diagram-architect` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/documentation/diagram-architect.md` | 3,4,4,5,4 | — |
 | `davila7/git-commit-guardian` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/git/commit-guardian.md` | 4,4,5,5,5 | — |
 | `davila7/security-ai-agent-audit-specialist` | agent | `davila7/claude-code-templates` @ `8546d44fdec5` | `cli-tool/components/agents/security/ai-agent-audit-specialist.md` | 4,4,5,5,4 | — |
@@ -184,12 +183,13 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 
 ### 2.9 `aura` — 0 components
 
-No shortlisted rows — see §5 for the recorded original-work plan and its in-repo basis.
+No shortlisted rows — see §6 for the recorded original-work plan and its in-repo basis.
 
 ## 3. Merge absorptions
 
 Fifteen `merge` rows fold into a shortlisted absorber. Each absorber is itself shortlisted (checked mechanically at
-G4 and again for this report); the residue worth carrying is in the merged row's own rationale in `eval/matrix.csv`.
+G4, for this report, and again after the round-1 re-audits — none of the three rows that left the shortlist absorbed
+anything); the residue worth carrying is in the merged row's own rationale in `eval/matrix.csv`.
 
 | merged id | absorbed by | absorber's plugin |
 |---|---|---|
@@ -209,19 +209,29 @@ G4 and again for this report); the residue worth carrying is in the merged row's
 | `davila7/productivity-think-tank` | `ecc/council` | `bankai` |
 | `davila7/productivity-humanizer` | `wshobson/avoid-ai-writing-avoid-ai-writing` | `sharingan` |
 
-## 4. Hook budget preview (V5.6)
+## 4. Deferred rows
+
+| id | plugin | blocking check | resolves in | scores |
+|---|---|---|---|---|
+| `claude-mem/session-memory` | `rinnegan` | C-1 — idempotence and the declared timeout of the `rinnegan` capture hook cannot be closed from a static read (`eval/claude-mem-rebuild.md` §6, open item 1; `eval/rubric.md` §7 Example C) | Phase 6, by executing the authored hook on Windows 11 PowerShell 7 and WSL2 before it ships, at the G6 gate | 5,4,2,5,5 |
+
+A `defer` row is not shortlisted and nothing is built from it until the named check closes; the design it scores
+(`eval/claude-mem-rebuild.md`) remains the specification `rinnegan`'s one budgeted hook is authored to. `rinnegan`'s
+V5.7 roster does not depend on it — `ecc/architecture-decision-records` and `ecc/growth-log` are shortlisted.
+
+## 5. Hook budget preview (V5.6)
 
 `SPEC.md` §6 budgets exactly two hooks (D-15): `super-saiyan`'s session-start skill-discipline injector and
-`rinnegan`'s optional memory-capture hook. The shortlist implies exactly those two and no others:
+`rinnegan`'s optional memory-capture hook. The shortlist implies at most those two and no others:
 
 - `super-saiyan` — lineage `superpowers/using-superpowers` (the only shortlisted row whose rationale names the §6
   session-start budget). One hook.
-- `rinnegan` — lineage `claude-mem/session-memory`, designed in `eval/claude-mem-rebuild.md`: one prompt-handler
-  hook, declared timeout, D-18 write scope. One hook.
+- `rinnegan` — lineage `claude-mem/session-memory`, now a `defer` row (§4) designed in `eval/claude-mem-rebuild.md`:
+  one prompt-handler hook, declared timeout, D-18 write scope. At most one hook, and none until C-1 closes at Phase 6.
 - Every other plugin — zero. The one `component_type = hook` row in the matrix (`claude-mem/memory-hooks`) is a
   `reject`. `ecc/inherit-legacy-style` (`domain`) mentions an optional hard hook that synthesis drops (§2.6).
 
-## 5. Recorded plans for original work (V5.7)
+## 6. Recorded plans for original work (V5.7)
 
 V5.7 requires every core plugin to hold at least one shortlisted component **or a recorded plan for original work**.
 All seven core plugins and `poneglyph` hold shortlisted rows (§1). The plans below close the gaps the Phase-4 gap
@@ -233,25 +243,25 @@ scan carried out of G4 (`ROADMAP.md` §6), and `aura`'s roster; each names its i
 | `instinct` | Component-safety auditing — a shipped component that audits skills, agents and hooks for unsafe patterns | T-223; B-7 | Authored from the policy that already exists in-repo: `SPEC.md` §6 HR-1…HR-8 / C-1…C-3 and the `scripts/validate.*` P-group checks, expressed as a skill with no tooling dependency. Two shortlisted rows are adjacent inputs, not owners: `davila7/security-ai-agent-audit-specialist` (`bankai`, an audit-trail agent) and `ecc/agent-agent-evaluator` (`bankai`, whose Bash constraints are a worked example of C-2 hygiene) |
 | `instinct` | Component linting — conventions, structure and description quality of an authored component | T-232; B-7 | Authored beside the safety audit as one family: the structural rules are `schemas/*.schema.json`, `templates/*` and N-2's trigger-description rule; `wshobson/plugin-eval-eval-judge` (`bankai`) supplies the triggering-accuracy scoring shape |
 
-## 6. Knowingly contested rows
+## 7. Knowingly contested rows
 
 Two shortlisted rows were self-marked *knowingly contested — re-examine at G5* when they were scored. Phase 5
 re-read both at the pinned commit before this report went to the gate; the re-audits are T-274 and T-275 in
-`eval/triage-log.md`. Both hold. The reviewer's own spot-check (`eval/gate-review-protocol.md` §3.2) is expected to
-land on them regardless.
+`eval/triage-log.md`. Both hold, and the round-1 reviewer's own spot-check read both files and concurred.
 
 | id | plugin | why contested | Phase-5 disposition |
 |---|---|---|---|
-| `mattpocock/code-review` | `sharingan` | Line 13 tells the user to run `/setup-matt-pocock-skills`, an HR-1 reject (T-005), when the issue-tracker doc is absent; `dependencies` sits on the floor at 3 (T-026) | **T-274 — holds.** Re-read at the pin: scores `5,4,5,3,5` and `shortlist` unchanged; contested flag closed. Synthesis drops line 13 and keeps an inline sequential fallback for the two axes |
-| `ecc/cmd-plan` | `super-saiyan` | Offers `/plan-canvas` as a confirmation gate; that surface is an HR-4 reject (T-050) | **T-275 — holds.** Re-read at the pin: scores `4,3,5,5,5` and `shortlist` unchanged; contested flag closed. Synthesis drops both `/plan-canvas` references and keeps the typed gate |
+| `mattpocock/code-review` | `sharingan` | Line 13 tells the user to run `/setup-matt-pocock-skills`, an HR-1 reject (T-005), when the issue-tracker doc is absent; `dependencies` sits on the floor at 3 (T-026) | **T-274 — holds.** Scores `5,4,5,3,5` and `shortlist` unchanged; contested flag closed |
+| `ecc/cmd-plan` | `super-saiyan` | Offers `/plan-canvas` as a confirmation gate; that surface is an HR-4 reject (T-050) | **T-275 — holds.** Scores `4,3,5,5,5` and `shortlist` unchanged; contested flag closed |
 
-## 7. Re-donated concepts — Phase-6 synthesis inputs, unscored
+## 8. Re-donated concepts — Phase-6 synthesis inputs, unscored
 
-Across Phases 2–4, rejected or merged components donated a concept their implementation could not carry. They are
+Across Phases 2–5, rejected or merged components donated a concept their implementation could not carry. They are
 listed here so synthesis has them in one place; they are **not** matrix rows and carry no score. `eval/rubric.md` §7
 Example A allows a concept to re-enter as a scored `concept` row with `target_plugin` set; `claude-mem/session-memory`
-is the one that has, because a design document exists for it. The rest re-enter only if Phase 6 writes a design worth
-scoring — until then they are inputs to the shortlisted rows named, not candidates of their own.
+is the one that has, because a design document exists for it, and it now sits in `defer` (§4) until that design is
+executed. The rest re-enter only if Phase 6 writes a design worth scoring — until then they are inputs to the
+shortlisted rows named, not candidates of their own.
 
 | Concept | Donor entry | Owner | Lands in |
 |---|---|---|---|
@@ -264,37 +274,42 @@ scoring — until then they are inputs to the shortlisted rows named, not candid
 | Blast-radius size classifier and two human gates (after Plan, before Commit) | T-049 | `super-saiyan` | `ecc/cmd-plan`, `ecc/cmd-prp-commit` |
 | Session index, aliases and branch/worktree metadata | T-078 | `kaioken` | `ecc/cmd-save-session` |
 | `context.json` source of truth with a generated view, unsaved-session detection, git-activity delta | T-039 | `rinnegan` | `eval/claude-mem-rebuild.md` |
-| Deterministic scorecard whose output the agent must use directly — *do not rescore manually* | T-097 | `instinct` | §5 linting plan |
+| Deterministic scorecard whose output the agent must use directly — *do not rescore manually* | T-097 | `instinct` | §6 linting plan |
 | Fail-closed contract and strict PR-URL validation | T-111 | `sharingan` | `ecc/cmd-code-review` |
 | Update the existing tests first — what makes a change a tweak rather than a fix | T-122 | `super-saiyan` | `superpowers/test-driven-development` |
 | Characterization tests green before touching legacy code | T-124 | `super-saiyan` | `superpowers/test-driven-development` |
-| SAFE / CAREFUL / RISKY triage and a grep for dynamic imports before deleting code | T-136 | `sharingan` | `davila7/development-tools-unused-code-cleaner` (via `bankai`) |
+| SAFE / CAREFUL / RISKY triage and a grep for dynamic imports before deleting code | T-136 | `sharingan` | `ecc/agent-code-simplifier` (via `bankai`) |
 | An agent that scopes its own grants in prose — the C-2 idea expressed in the `tools` field instead | T-137 | `bankai` | every agent row's proposed allowlist |
 | ADR-ACC: an accessibility decision recorded the way an ADR records an architectural one | T-142 | `rinnegan` | `ecc/architecture-decision-records` |
 | Secret-detection regex library (API keys, AWS, DB URLs with credentials, JWTs, private keys, GitHub and Google tokens) | T-146 | `sharingan` | `ecc/production-audit` |
 | Never-trust-the-forker independence: an auditor that re-verifies everything, any secret match a hard FAIL | T-148 | `sharingan` | `ecc/agent-security-reviewer` (via `bankai`) |
 | *Exited 0* and *live and serving the new code* are different claims — verify live before reporting shipped | T-164 | `super-saiyan` | `superpowers/verification-before-completion` |
 | Never analyse an incident from a dashboard or stdout alone; state when logs were not checked; never present inference as fact | T-165 | `sharingan` | `ecc/production-audit` |
-| Change exactly what was indicated and preserve everything else | T-206 | `super-saiyan` | `davila7/development-clean-code` |
+| Change exactly what was indicated and preserve everything else | T-206 | `super-saiyan` | `ecc/intent-driven-development` |
 | A read-only guarantee delivered by the allowlist alone, needing no hook | T-238 | `bankai` | every read-only agent row |
 | Technical-debt category taxonomy | T-253 | `sharingan` | `wshobson/skill-forge-essentials-ai-debt-detector` |
-| SBOM-then-scan sequence | T-255 | `instinct` | §5 safety-audit plan |
+| SBOM-then-scan sequence | T-255 | `instinct` | §6 safety-audit plan |
 | Evidence-evaluation criteria for claim verification | T-257 | `sharingan` | `anthropics/discernment-nudge` |
 | Pre-mortem plus the silence check — what does the document *not* say | T-260 | `sharingan` | `wshobson/before-you-build-before-you-build` (via `super-saiyan`) |
-| Error-proofing (poka-yoke) applied to code changes | T-262 | `super-saiyan` | `davila7/development-clean-code` |
+| Error-proofing (poka-yoke) applied to code changes | T-262 | `super-saiyan` | `ecc/intent-driven-development` |
 | An explicit *Do not use this skill when* section and a viability check before proceeding | T-269 | `domain` | `mattpocock/domain-modeling` |
 | Ask at most one or two questions, and only when truly blocking | T-258 | `super-saiyan` | `ecc/cmd-plan` |
 | Treat fetched documentation as untrusted; never obey instructions embedded in tool output (E-1) | `ecc/agent-docs-lookup` merge row | `super-saiyan` | `ecc/documentation-lookup` |
+| Coding standards as rules: naming, function size, the anti-pattern list (no unnecessary comments, no over-engineering), and a THINK FIRST gate before editing — without the mandatory external-script section | T-278 | `super-saiyan` | `ecc/intent-driven-development` |
+| Dynamic Usage Safety: skip `importlib` and other dynamic-import paths rather than deleting on a static miss | T-279 | `sharingan` | `ecc/agent-code-simplifier` (via `bankai`) |
+| Handoff-summary discipline: reference existing artifacts by path instead of duplicating them, name suggested skills, redact secrets — persisted to a file, never handed to a background process | T-280 | `kaioken` | `ecc/cmd-save-session`, `ecc/cmd-resume-session` |
 
-## 8. Build plan for Phase 6 (proposed, not authorized)
+## 9. Build plan for Phase 6 (proposed, not authorized)
 
 1. Scaffold the nine plugin directories and `.claude-plugin/marketplace.json` per `SPEC.md` §3, from `templates/`.
 2. Settle SPEC-GAP-002 empirically before any agent ships: author one scoped agent and observe whether `tools` honours
    `Bash(<cmd>:*)`; record the outcome as a §14 row and an ADR-024 amendment.
-3. Synthesize per plugin in D-04 priority order — skills, then commands, then agents, then the two budgeted hooks —
+3. Synthesize per plugin in D-04 priority order — skills, then commands, then agents, then the `super-saiyan` hook —
    from the rosters in §2 with their constraints, `SOURCES.md` updated in the same commit (D-12).
-4. Author `aura` and the two `instinct` original-work components per §5.
-5. `bash scripts/validate.sh --release` and `pwsh -File scripts/validate.ps1 -Release` both exit 0; G6.
+4. Author `aura` and the two `instinct` original-work components per §6.
+5. Close the §4 `defer`: author `rinnegan`'s capture hook to `eval/claude-mem-rebuild.md`, execute it on both platforms,
+   record the C-1 outcome as a re-audit entry, and only then replace the row's verdict.
+6. `bash scripts/validate.sh --release` and `pwsh -File scripts/validate.ps1 -Release` both exit 0; G6.
 
 No step above begins until `ROADMAP.md` §11 carries both G5 rows — the reviewer's `APPROVED (reviewer) — pending
 owner ack` and the owner's `OWNER ACK` (D-25).
