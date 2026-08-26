@@ -13,7 +13,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
 | 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
-| 5 | Evaluation matrix consolidation | **Escalated to the owner** (2026-08-25) — matrix at 322 rows, **96 shortlist / 210 reject / 15 merge / 1 defer**; `eval/shortlist.md` written (SPEC v2.8); T-274…T-284 | **G5 — independent-reviewer gate + owner ack** — `REJECTED` twice (rounds 1 and 2); escalated under protocol §5 rule 2; two boundary questions await the owner |
+| 5 | Evaluation matrix consolidation | **Awaiting the owner's G5 verdict** (2026-08-25) — matrix at 322 rows, **95 shortlist / 211 reject / 15 merge / 1 defer**; `eval/shortlist.md` (SPEC v2.8); T-274…T-286; the two escalated boundary questions decided by the owner (SPEC v2.9) | **G5 — independent-reviewer gate + owner ack** — `REJECTED` twice; escalated; owner chose route (a), adjudicating personally on the corrected artifacts |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
@@ -347,6 +347,15 @@ not invoke the reviewer a third time. Both review records and the round-1 remedi
 escalation (`G5-ESCALATION-2026-08-25.md` at the project root, outside this repository). The owner decides the two
 boundary questions above and the gate's next step; the ten matrix rows of remediation (T-277…T-284) stand as audited
 regardless. **No Phase 6 work of any kind.**
+
+**Owner decisions (2026-08-25), recorded.** The owner chose **route (a)** — to adjudicate G5 personally on the
+corrected artifacts, which `eval/gate-review-protocol.md` §5 rule 2 places with the owner after two `REJECTED`
+rounds — and answered both boundary questions. **Q1, HR-4: no** — a session-scoped subagent the harness runs is not a
+background worker; the line is the session boundary, now `SPEC.md` §6's HR-4 note (v2.9). `mattpocock/research`
+retained with the line stated (T-285); T-280 stands. **Q2, HR-7: yes** — the test is whether the invocation would
+fetch, now §6's HR-7 note (v2.9); `ecc/agent-security-reviewer` moves to `reject` (T-286), `bankai` 34. Matrix:
+**95 shortlist / 211 reject / 15 merge / 1 defer**. Both notes bind from this date and reopen no earlier verdict.
+The owner's verdict on the gate is recorded below and in §11 when given; until then Phase 6 stays barred.
 
 ---
 

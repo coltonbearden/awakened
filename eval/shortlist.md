@@ -6,10 +6,12 @@ row there, and no component appears here that the matrix did not shortlist (`eva
 Lineage is `source_repo` at the `upstream.json` pinned commit; scores are
 `value,bloat,risk,dependencies,user_scope_fit`.
 
-**Revised 2026-08-25 after Gate G5 rounds 1 and 2 (both `REJECTED`; escalated to the owner).** Round 1 contradicted four
+**Revised 2026-08-25 after Gate G5 rounds 1 and 2 (both `REJECTED`) and the owner's escalation decisions.** Round 1 contradicted four
 shortlisted rows and the disposition of one; the re-audits are T-277…T-281 in `eval/triage-log.md` and the gate record
 is `ROADMAP.md` §7. Three rows left the shortlist, one was rescored and retained, and one moved to `defer`. Round 2
-corrected three more rows in place (T-282…T-284) and left two boundary questions to the owner, marked in §2.
+corrected three more rows in place (T-282…T-284) and left two boundary questions to the owner, who decided both
+(`SPEC.md` v2.9 §6 notes; T-285 retained `mattpocock/research`, T-286 moved `ecc/agent-security-reviewer` to
+`reject`) and chose to adjudicate the gate personally.
 
 This file proposes; it does not approve. Approval is Gate G5's, adjudicated by the independent reviewer under
 `eval/gate-review-protocol.md` and acknowledged by the project owner (D-25). Nothing in it is built before that.
@@ -22,14 +24,14 @@ This file proposes; it does not approve. Approval is Gate G5's, adjudicated by t
 | `sharingan` | core | **8** | 7 | 1 | 0 | 0 |
 | `rinnegan` | core | **2** | 2 | 0 | 0 | 0 |
 | `kaioken` | core | **5** | 1 | 4 | 0 | 0 |
-| `bankai` | core | **35** | 7 | 0 | 28 | 0 |
+| `bankai` | core | **34** | 7 | 0 | 27 | 0 |
 | `domain` | core | **9** | 7 | 2 | 0 | 0 |
 | `instinct` | core | **6** | 4 | 2 | 0 | 0 |
 | `poneglyph` | optional satellite (B-8) | **4** | 4 | 0 | 0 | 0 |
 | `aura` | optional satellite (B-8) | **0** | 0 | 0 | 0 | 0 |
-| **Total** | | **96** | 50 | 18 | 28 | 0 |
+| **Total** | | **95** | 50 | 18 | 27 | 0 |
 
-Matrix state this report was derived from: 322 rows — 96 `shortlist` / 210 `reject` / 15 `merge` / 1 `defer`.
+Matrix state this report was derived from: 322 rows — 95 `shortlist` / 211 `reject` / 15 `merge` / 1 `defer`.
 **Exactly one `defer` row exists** (§4 below); `SPEC.md` §9 rule 3 requires the Phase-5 sign-off ADR to enumerate it,
 and it is enumerated there rather than left to inference.
 
@@ -108,7 +110,7 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `ecc/cmd-save-session` | command | `affaan-m/ECC` @ `06c5e118c4d3` | `commands/save-session.md` | 4,4,3,5,5 | **Re-audited at T-277 (G5 round 1), `risk` 4→3, retained.** The write target becomes `kaioken`'s own plugin data directory (D-18) — as shipped it is the sessions family's dedicated `~/.claude/session-data/`, a fixed location; synthesis also moves the review step *before* the write (the source shows the file after writing) and drops the `session-manager.js` filename-regex reference in favour of a stated naming rule |
 | `wshobson/skill-forge-essentials-session-guard` | skill | `wshobson/agents` @ `367cb6a4a182` | `plugins/skill-forge-essentials/skills/session-guard/SKILL.md` | 5,5,5,5,5 | — |
 
-### 2.5 `bankai` — 35 components
+### 2.5 `bankai` — 34 components
 
 | id | type | lineage | upstream path | scores | synthesis constraints |
 |---|---|---|---|---|---|
@@ -128,7 +130,6 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `ecc/agent-comment-analyzer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/comment-analyzer.md` | 3,5,5,5,5 | — |
 | `ecc/agent-planner` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/planner.md` | 4,3,5,5,5 | — |
 | `ecc/agent-pr-test-analyzer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/pr-test-analyzer.md` | 4,5,4,5,5 | — |
-| `ecc/agent-security-reviewer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/security-reviewer.md` | 4,4,4,4,3 | **Open at G5 round 2 (owner decision pending):** whether the unconditional `npx eslint . --plugin security` step fires HR-7 under T-279's any-trigger reading. Verdict unchanged until the owner decides. The `npm audit` step is npm-only — conditional branch with a stated skip; apply the proposed allowlist |
 | `ecc/agent-silent-failure-hunter` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/silent-failure-hunter.md` | 4,5,4,5,5 | — |
 | `ecc/agent-type-design-analyzer` | agent | `affaan-m/ECC` @ `06c5e118c4d3` | `agents/type-design-analyzer.md` | 3,5,5,5,4 | — |
 | `wshobson/code-documentation-docs-architect` | agent | `wshobson/agents` @ `367cb6a4a182` | `plugins/code-documentation/agents/docs-architect.md` | 3,4,5,5,4 | — |
@@ -144,7 +145,7 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `ecc/iterative-retrieval` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/iterative-retrieval/SKILL.md` | 3,3,5,5,4 | The JavaScript is pseudocode; nothing executable ships |
 | `ecc/parallel-execution-optimizer` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/parallel-execution-optimizer/SKILL.md` | 4,5,4,5,5 | Keep the rule that no background process outlives the turn (HR-4 boundary) |
 | `ecc/santa-method` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/santa-method/SKILL.md` | 4,3,5,5,4 | The Python is illustrative and stays illustrative — no shipped script (`CLAUDE.md` §5.5) |
-| `mattpocock/research` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/research/SKILL.md` | 4,5,4,5,5 | **Open at G5 round 2 (owner decision pending):** whether its session-scoped background agent falls under HR-4 as T-280 applied it to a detached `claude --bg` process. Verdict unchanged until the owner draws the line |
+| `mattpocock/research` | skill | `mattpocock/skills` @ `9c9f36ccd399` | `skills/engineering/research/SKILL.md` | 4,5,4,5,5 | **T-285:** HR-4 adjudicated under the `SPEC.md` §6 HR-4 note (v2.9) — a session-scoped subagent, not a detached process. Synthesis keeps the dispatch inside the session; never a detached launch |
 | `superpowers/dispatching-parallel-agents` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/dispatching-parallel-agents/SKILL.md` | 4,4,5,5,5 | — |
 | `superpowers/subagent-driven-development` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/subagent-driven-development/SKILL.md` | 4,3,4,5,5 | Slim from 32KB; the three bash helpers cannot ship (`CLAUDE.md` §5.5) — express the `.superpowers/sdd/` state handling in prose or drop it |
 
@@ -283,7 +284,8 @@ shortlisted rows named, not candidates of their own.
 | An agent that scopes its own grants in prose — the C-2 idea expressed in the `tools` field instead | T-137 | `bankai` | every agent row's proposed allowlist |
 | ADR-ACC: an accessibility decision recorded the way an ADR records an architectural one | T-142 | `rinnegan` | `ecc/architecture-decision-records` |
 | Secret-detection regex library (API keys, AWS, DB URLs with credentials, JWTs, private keys, GitHub and Google tokens) | T-146 | `sharingan` | `ecc/production-audit` |
-| Never-trust-the-forker independence: an auditor that re-verifies everything, any secret match a hard FAIL | T-148 | `sharingan` | `ecc/agent-security-reviewer` (via `bankai`) |
+| Never-trust-the-forker independence: an auditor that re-verifies everything, any secret match a hard FAIL | T-148 | `sharingan` | `ecc/agent-code-reviewer` (via `bankai`) |
+| OWASP Top 10 sweep and a Common False Positives section for security review; the emergency-response path | T-286 | `sharingan` | `ecc/production-audit`, `ecc/agent-code-reviewer` (via `bankai`) |
 | *Exited 0* and *live and serving the new code* are different claims — verify live before reporting shipped | T-164 | `super-saiyan` | `superpowers/verification-before-completion` |
 | Never analyse an incident from a dashboard or stdout alone; state when logs were not checked; never present inference as fact | T-165 | `sharingan` | `ecc/production-audit` |
 | Change exactly what was indicated and preserve everything else | T-206 | `super-saiyan` | `ecc/intent-driven-development` |
