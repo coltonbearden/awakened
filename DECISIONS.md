@@ -1,10 +1,10 @@
 # DECISIONS.md — Architecture Decision Records
 
-**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-026 formalize the twenty-six decisions ratified in `SPEC.md` §12 (D-01…D-26), mirroring that table 1:1 as D-16 requires.
+**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-027 formalize the twenty-seven decisions ratified in `SPEC.md` §12 (D-01…D-27), mirroring that table 1:1 as D-16 requires.
 
 **Conventions**
 
-- **IDs** are sequential and never reused. Next available: **ADR-027**.
+- **IDs** are sequential and never reused. Next available: **ADR-028**.
 - **Statuses:** `Proposed` → `Accepted` → (`Superseded by ADR-0NN` | `Deprecated`). Accepted ADRs are **immutable** — to change course, write a new ADR that supersedes the old one. One carve-out, codified at SPEC v2.5: when a spec PR amends an existing `SPEC.md` §12 cell, the ADR that mirrors it is amended **in place** — a dated `Amended` row in its field table plus a dated italic note at every changed passage, `Status` staying `Accepted` — because D-16 requires the mirror to stay 1:1 and a superseding ADR would break that mapping. Superseding remains the route for *reversing* a decision.
 - **Format:** field table (Status, Date, Spec ref, Supersedes, plus `Amended` where an in-place amendment has landed), Context, Decision, Alternatives Considered, Consequences, Enforcement.
 - **Spec ref** cites the `D-NN` rule ID from `SPEC.md` §12, so the 1:1 mapping is mechanically checkable.
@@ -40,6 +40,7 @@
 | 024 | Phase-2 §0 verification: licenses at first pin, hook dispatch, assumption adjudication (amended 2026-08-22: SPEC-GAP-001 resolved to the documented string form, SPEC-GAP-002 opened) | Accepted | D-24 |
 | 025 | Gate G5 adjudicated by an independent reviewer (amended 2026-08-21: owner-ack tripwire, clean room, loader pin) | Accepted | D-25 |
 | 026 | Phase-4 scope covers ECC `commands/` and `agents/`; `eval/claude-mem-rebuild.md` enters the §3 tree | Accepted | D-26 |
+| 027 | Phase-5 sign-off: Gate G5 approved by the owner after two reviewer `REJECTED` rounds; 95-row shortlist, one open `defer` enumerated | Accepted | D-27 |
 
 ---
 
@@ -1044,6 +1045,98 @@ an internal contradiction rather than a deliberate omission.
 `eval/claude-mem-rebuild.md`, so the new §3 entry cannot go untracked the way
 `eval/gate-review-protocol.md` did until SPEC v2.5 §14 row 8 listed it. Both twins carry the identical checks and CI
 byte-diffs their output.
+
+---
+
+## ADR-027 — Phase-5 Sign-Off: Gate G5 Approved by the Owner
+
+| Field | Value |
+|---|---|
+| Status | Accepted |
+| Date | 2026-08-26 |
+| Spec ref | D-27 |
+| Supersedes | — |
+
+**Context.** `SPEC.md` §10 Phase 5 ends at Gate G5, the hard approval gate before any building, and
+requires the sign-off "recorded as an ADR in `DECISIONS.md` before any building" (D-25). §9 rule 3
+requires that ADR to enumerate every open `defer`. Phase 5 consolidated Phases 2–4 into
+`eval/matrix.csv` (322 rows) and `eval/shortlist.md` (SPEC v2.8), re-examined the two knowingly
+contested rows at their pinned commits (T-274, T-275), and submitted the gate.
+
+The independent reviewer, invoked per `eval/gate-review-protocol.md` §1 from a `git archive`
+clean room with all ten upstream pins verified and the loader digest matching §0, returned
+**`REJECTED` twice**: round 1 on `046f066` (five findings) and round 2 on `e4e5881` (five
+findings). Both rounds' V5.1–V5.7 re-derivations agreed with the executor's; both verdicts turned
+on the §3.2 source spot-check. Every finding was confirmed on the pinned source and applied —
+T-277…T-284 — and the two findings that hinged on lines the artifacts had never drawn (HR-4 for a
+session-scoped subagent; HR-7 for a single `npx` analysis-tool step) were escalated to the project
+owner under protocol §5 rule 2 rather than decided by the executor. Both rounds are recorded in
+`ROADMAP.md` §7 and §11. Executing agent and reviewer both ran on `claude-fable-5`, so protocol
+§3.5's non-Anthropic second pass is REQUIRED, non-binding.
+
+**Decision.** Gate G5 is **`APPROVED`**, by the project owner, on the artifacts at the commit this
+ADR lands in:
+
+1. **The approved shortlist.** `eval/matrix.csv`: 322 rows — 95 `shortlist`, 211 `reject`,
+   15 `merge`, 1 `defer`. Per plugin: `bankai` 34, `super-saiyan` 27, `domain` 9, `sharingan` 8,
+   `instinct` 6, `kaioken` 5, `poneglyph` 4, `rinnegan` 2, `aura` 0 — `aura` by design, `SPEC.md`
+   §4 recording its lineage as *Original work* and T-235 the ground on which two upstream candidates
+   were rejected. `eval/shortlist.md` §2 is the per-plugin roster with lineage and the synthesis
+   constraints each row carries; §3 the fifteen merge absorptions; §6 the recorded plans for original
+   work that satisfy V5.7 for `aura` and the two `instinct` gaps (T-223, T-232).
+2. **The build plan.** `eval/shortlist.md` §9, in D-04 priority order, with SPEC-GAP-002 settled
+   empirically before any agent ships and the `defer` closed before the `rinnegan` hook ships.
+3. **Every open `defer`, enumerated.** Exactly one: `claude-mem/session-memory` (`rinnegan`,
+   `concept`), blocking check **C-1** — idempotence and the declared timeout of the capture hook
+   cannot be closed from a static read (`eval/claude-mem-rebuild.md` open item 1; rubric §7
+   Example C) — resolving at **Phase 6**, by executing the authored hook on Windows 11 PowerShell 7
+   and WSL2 at the G6 gate, recorded as a re-audit entry before the verdict is replaced (T-281).
+4. **The two owner decisions applied at the escalation** are `SPEC.md` §6's HR-4 and HR-7 notes
+   (v2.9): `mattpocock/research` retained with the line stated (T-285); `ecc/agent-security-reviewer`
+   rejected on HR-7 (T-286). They bind from 2026-08-25 and reopen no earlier verdict.
+5. **The approval is provisional.** Per D-25 as amended at v2.5 and `ROADMAP.md` §10 rule 3, Phase 6
+   work of any kind stays barred until the owner posts an acknowledgement comment on the sign-off
+   pull request; the §11 gate log records `APPROVED (owner, after two reviewer REJECTED rounds) —
+   pending owner ack` now and `OWNER ACK` with the comment URL then. The §3.5 second pass is run by
+   the owner and posted with that acknowledgement.
+
+**Alternatives Considered.**
+
+1. **A third reviewer round instead of escalation.** Rejected: `eval/gate-review-protocol.md` §5
+   forbids the executor re-invoking the reviewer a third time in place of escalating, and D22's
+   rationale — a reviewer and executor that cannot converge in two rounds have a disagreement a
+   human should settle — described exactly this case: two of the round-2 findings were policy lines,
+   not reading errors. The owner was offered an explicitly authorized third round and chose to
+   adjudicate personally.
+2. **Approve on the round-2 artifacts before applying the owner's two decisions.** Rejected: an
+   approval of a matrix that still carried a row the owner's own HR-7 reading rejects would have
+   needed correcting the day it landed. The decisions were applied (v2.9, T-285, T-286) and the
+   approval is of the matrix after them.
+3. **Score `claude-mem/session-memory` `shortlist` and keep the "zero `defer`" headline.** Rejected
+   at T-281: the design being scored says C-1 must be executed before the hook ships, and rubric §7
+   Example C's disposition for that is `defer`. One honest `defer` is what §9 rule 3's enumeration
+   clause exists for.
+
+**Consequences.**
+
+- Phase 6 may begin only after the owner's acknowledgement comment; the `ROADMAP.md` §11 commit that
+  records it is Phase-5 bookkeeping, not Phase-6 work (`eval/gate-review-protocol.md`, Authority).
+- What synthesis builds is the §2 roster with its constraints — 95 rows — plus the §6 original-work
+  plans. No component outside that set may be authored without a further gate decision.
+- The `defer` is a Phase-6 obligation with a named check and a named record: the hook is authored to
+  `eval/claude-mem-rebuild.md`, executed on both platforms, and the result appended as a re-audit
+  entry before the row's verdict moves.
+- Ten rows changed between submission and approval, all on reviewer findings confirmed against the
+  source (T-277…T-286). The lesson the gate taught twice is recorded in the triage log rather than
+  here: a rationale can be internally coherent and wrong about the file, and only a cold read of the
+  file finds it.
+- The rehearsal of 2026-08-18 is not a G5 round; the two rounds are the ones in §11.
+
+**Enforcement.** `scripts/validate.*` check D1 asserts the v2.10 version line and check D2 exactly 27
+`## ADR-` headings whose `Spec ref` fields cover D-01…D-27, in both twins; CI byte-diffs their
+output. The `defer` row is held to D-21's shape by check M2 (`merge`/`defer` rows must name their
+target in the rationale). Phase-6 authoring before the §11 `OWNER ACK` row exists is a process
+violation under `ROADMAP.md` §10 rule 2, checked at review rather than mechanically.
 
 ---
 

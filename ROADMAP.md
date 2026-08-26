@@ -13,7 +13,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
 | 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
-| 5 | Evaluation matrix consolidation | **Awaiting the owner's G5 verdict** (2026-08-25) — matrix at 322 rows, **95 shortlist / 211 reject / 15 merge / 1 defer**; `eval/shortlist.md` (SPEC v2.8); T-274…T-286; the two escalated boundary questions decided by the owner (SPEC v2.9) | **G5 — independent-reviewer gate + owner ack** — `REJECTED` twice; escalated; owner chose route (a), adjudicating personally on the corrected artifacts |
+| 5 | Evaluation matrix consolidation | **Complete** (2026-08-26) — matrix 322 rows, **95 shortlist / 211 reject / 15 merge / 1 defer**; `eval/shortlist.md` (SPEC v2.8); T-274…T-286; sign-off ADR-027 / D-27 (SPEC v2.10) | **G5 — APPROVED (owner, after two reviewer `REJECTED` rounds) — pending owner ack** |
 | 6 | Scaffold & synthesize | Not started | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
@@ -254,7 +254,7 @@ the falsy value `false` as an absent declaration. No schema change is needed and
 
 ---
 
-## 7. Phase 5 — Evaluation Matrix Consolidation → Independent-Reviewer Approval Gate
+## 7. Phase 5 — Evaluation Matrix Consolidation → Independent-Reviewer Approval Gate ✔ Complete (pending owner ack)
 
 **Objective.** Consolidate Phases 2–4 into the final scored matrix and shortlist; stop for an explicit, independently adjudicated approval before any building.
 
@@ -357,6 +357,13 @@ fetch, now §6's HR-7 note (v2.9); `ecc/agent-security-reviewer` moves to `rejec
 **95 shortlist / 211 reject / 15 merge / 1 defer**. Both notes bind from this date and reopen no earlier verdict.
 The owner's verdict on the gate is recorded below and in §11 when given; until then Phase 6 stays barred.
 
+**Gate G5:** **APPROVED (owner, after two reviewer `REJECTED` rounds) — pending owner ack**, 2026-08-26. The owner
+adjudicated on the corrected artifacts at `main` after SPEC v2.9 (route (a) of the escalation; `eval/gate-review-protocol.md`
+§5 rule 2). Review records: rounds 1 and 2 above, both verdicts attached verbatim to the sign-off pull request. Sign-off
+recorded as **ADR-027 / D-27 (SPEC v2.10)**, enumerating the one open `defer` (`claude-mem/session-memory`, C-1, Phase 6).
+The §3.5 non-Anthropic second pass is REQUIRED and non-binding; the owner runs it and posts it with the acknowledgement.
+**Phase 6 stays barred until the §11 `OWNER ACK` row exists.**
+
 ---
 
 ## 8. Phase 6 — Scaffold & Synthesize
@@ -422,6 +429,7 @@ Ratified — SPEC v2.2, D-19 (formerly open as A-GAP-001 / B-GAP-001): `SPEC.md`
 | G4 | 2026-08-22 | APPROVED | Phase-4 complete across three passes: V4.1–V4.7 all discharged. Reviewed and approved under standing delegation D11 (§10 rule 2; D-25 moved only G5); review record: PR #13, PR #16 and PR #17. One open finding carried to Phase 5 rather than closed at the gate: the three capability gaps from the V4.4 scan. A second finding asserted in PR #17 — a `schemas/agent.schema.json` enforcement gap on `hooks`/`mcpServers` — was **retracted the same day as false**; see the correction in §6 |
 | G5 | 2026-08-25 | **REJECTED** (reviewer, round 1) | Independent review under `eval/gate-review-protocol.md` v1.1 from a clean-room archive of `046f066`; four spot-check contradictions and one disposition finding, all confirmed on the source and remediated as T-277…T-281 (§7). First `REJECTED` on this gate; whole gate resubmitted |
 | G5 | 2026-08-25 | **REJECTED** (reviewer, round 2) — **escalated to the owner** | Whole gate resubmitted from a clean-room archive of `e4e5881`; five spot-check findings, three corrected as T-282…T-284, two (an HR-4 boundary for session-scoped background subagents; an HR-7 reading for single `npx` analysis-tool steps) escalated under `eval/gate-review-protocol.md` §5 rule 2. Phase 6 stays barred |
+| G5 | 2026-08-26 | **APPROVED (owner, after two reviewer `REJECTED` rounds) — pending owner ack** | Owner adjudicated under `eval/gate-review-protocol.md` §5 rule 2 on the artifacts after SPEC v2.9 (T-277…T-286 applied). Record: ADR-027 / D-27 (SPEC v2.10); review record: the sign-off PR, both reviewer verdicts attached. Second row `OWNER ACK` pending; Phase 6 barred until then |
 
 G5 occupies two rows, not one: `APPROVED (reviewer) — pending owner ack` when the independent reviewer returns its verdict, then `OWNER ACK` with the date and the comment URL when the owner acknowledges it. Phase 6 opens on the second row (D-25 as amended at SPEC v2.5).
 
