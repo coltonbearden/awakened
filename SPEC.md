@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.8
+**Version:** 2.9
 **Date:** 2026-08-25
-**Status:** Governing spec — supersedes SPEC.md v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -248,6 +248,19 @@ Name new plugins only after scope and boundaries are defined. Preferred sources:
 | HR-6 | Telemetry, analytics, or network calls of any kind (sole exception: `scripts/pin-upstream.*` and `upstream-watch.yml`, which are repo-maintenance tooling, not shipped plugin components) |
 | HR-7 | Auto-installing packages or runtime dependency fetching |
 | HR-8 | Hooks that write outside (a) the project directory or (b) the owning plugin's own data directory under the user's Claude config dir (D-18). Any other write target is rejected. |
+
+Interpretive notes, ratified by the project owner at the G5 escalation of 2026-08-25 (v2.9; `ROADMAP.md` §7). They
+bind every audit and re-audit from that date and do not reopen verdicts recorded before it:
+
+- **HR-4 and subagents.** A subagent the harness runs *inside* the session — dispatched by the component, returning
+  its output to the conversation, ending with the turn or the session — is the harness's own mechanism and is
+  **not** a background daemon, worker, watcher or service. A process a component starts that is **detached from the
+  session and managed outside it** (a `claude --bg` job managed via `claude agents`, `nohup`/`disown`, a PID file, a
+  watchdog, a listening server) **is** HR-4, whether or not it is a harness binary.
+- **HR-7 and `npx`.** The test is whether the invocation would **fetch**. `npx <tool>` clears when it can only run a
+  tool the project itself declares or already has installed — gated on the project's own config, lockfile or
+  declared script — and fires HR-7 when it would fetch a package the project does not declare. "Every step is
+  `npx`" is a symptom of the second case, not the rule; a single unconditional fetching step is enough.
 
 ### Conditional (audited, kept only if all pass)
 
@@ -520,6 +533,17 @@ Open items after v2.6: SPEC-GAP-001 (ADR-024) remains open — the official sub-
 | 2 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validators re-bound — check D1 to the v2.8 version line and check S2 to require `eval/shortlist.md`, in both twins, for the reason v2.6 row 4 records. **Check D2 is untouched and the ADR count stays 26**: no §12 cell changes at this version, so D-16's §12↔ADR mapping is unaffected and no ADR is written | Additive |
 
 Rationale of record: this version adds a file and nothing else. The Phase-5 sign-off itself — the approved shortlist and build plan — lands as a §12 decision and its mirroring ADR only after the independent reviewer returns `APPROVED`, in the sign-off pull request D-25 names; writing that cell before the verdict would pre-decide the gate.
+
+### v2.8 → v2.9 (2026-08-25) — HR-4 and HR-7 interpretive notes, ratified by the owner at the G5 escalation
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §6 Hard Reject table gains two interpretive notes. **HR-4:** a session-scoped subagent the harness runs is not a background worker; a process detached from the session and managed outside it is. **HR-7:** the test is whether the invocation would fetch — `npx` of a tool the project declares or has installed clears, `npx` that would fetch an undeclared package fires, and one unconditional fetching step is enough. Both were the two boundary questions the second G5 `REJECTED` (2026-08-25) escalated to the project owner under `eval/gate-review-protocol.md` §5 rule 2, because the artifacts drew no line; the owner drew both. They bind from this date and do not reopen earlier verdicts | Clarifying |
+| 2 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.9 version line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 26** — an interpretive note under an existing §6 cell is not a new decision, and D-07's cell text is unchanged | Additive |
+
+Rationale of record: the HR-4 line reaches every `bankai` row that dispatches subagents and `superpowers/dispatching-parallel-agents`; the HR-7 line reconciles T-106/T-136 ("every step is `npx`") with T-279 ("any trigger"). Lines that wide are a policy call, which is why the executor escalated rather than drew them. Consequences in the matrix: `mattpocock/research` retained with the line stated (T-285); `ecc/agent-security-reviewer` moves to `reject` on HR-7 (T-286).
+
+Open items after v2.9: unchanged from v2.8 — **SPEC-GAP-002 (ADR-024) is open**, settled empirically at the Phase-6 gate before any agent ships; the rest as recorded below.
 
 Open items after v2.8: unchanged from v2.7 — **SPEC-GAP-002 (ADR-024) is open**, settled empirically at the Phase-6 gate before any agent ships; §8's "~270 skills" figure and §10 Phase 3's missing `✅` marker are left as recorded below; `eval/triage-log.md` keeps its "human approval gate" wording because audit content is frozen.
 
