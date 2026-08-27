@@ -15,5 +15,6 @@
     "themes",
     "palettes",
     "output-styles"
-  ]
+  ],
+  "outputStyles": "./output-styles/"
 }
