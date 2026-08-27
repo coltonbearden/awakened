@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "name": "poneglyph",
+  "displayName": "Poneglyph",
+  "version": "0.1.0",
+  "description": "Optional Obsidian knowledge-vault integration: Obsidian Markdown, the Obsidian CLI, Bases, and JSON Canvas. A satellite - never a dependency of any core plugin (B-8).",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "obsidian",
+    "markdown",
+    "canvas",
+    "bases"
+  ]
+}

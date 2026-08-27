@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "name": "bankai",
+  "displayName": "Bankai",
+  "version": "0.1.0",
+  "description": "Specialist subagents with restricted tool allowlists: research, exploration, debugging, review, planning, documentation, and synthesis agents, plus the skills that dispatch them. Every subagent in Awakened lives here (B-6).",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "subagents",
+    "agents",
+    "research",
+    "review",
+    "planning"
+  ]
+}

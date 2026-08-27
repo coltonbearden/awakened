@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "name": "sharingan",
+  "displayName": "Sharingan",
+  "version": "0.1.0",
+  "description": "Code review and analysis: review discipline, production audit, architecture inspection, AI-debt detection, and security-oriented review. Analysis and review only - implementation stays outside this plugin (B-2).",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "code-review",
+    "analysis",
+    "audit",
+    "security"
+  ]
+}

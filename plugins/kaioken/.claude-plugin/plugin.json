@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "name": "kaioken",
+  "displayName": "Kaioken",
+  "version": "0.1.0",
+  "description": "Session management and momentum: save and resume sessions, handoffs, checkpoints, and focused asides. Session momentum only - it duplicates no planning, debugging, or review system (B-5).",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "session",
+    "handoff",
+    "checkpoint",
+    "resume"
+  ]
+}

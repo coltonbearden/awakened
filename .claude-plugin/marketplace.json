@@ -1,0 +1,159 @@
+{
+  "$schema": "../schemas/marketplace.schema.json",
+  "name": "awakened",
+  "description": "Awakened - a curated, synthesized Claude Code plugin marketplace: nine plugins rebuilt from the strongest open-source Claude Code repositories with the bloat, risk, and friction engineered out.",
+  "version": "0.1.0",
+  "owner": {
+    "name": "coltonbearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "plugins": [
+    {
+      "name": "super-saiyan",
+      "source": "./plugins/super-saiyan",
+      "displayName": "Super Saiyan",
+      "description": "Core engineering workflow: planning, implementation discipline, test-driven development, systematic debugging, verification before completion, and git workflow guidance. The stable baseline - it depends on no agents, memory infrastructure, or project-specific tooling (B-1).",
+      "version": "0.1.0",
+      "category": "core",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "workflow",
+        "planning",
+        "tdd",
+        "debugging",
+        "verification"
+      ]
+    },
+    {
+      "name": "sharingan",
+      "source": "./plugins/sharingan",
+      "displayName": "Sharingan",
+      "description": "Code review and analysis: review discipline, production audit, architecture inspection, AI-debt detection, and security-oriented review. Analysis and review only - implementation stays outside this plugin (B-2).",
+      "version": "0.1.0",
+      "category": "core",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "code-review",
+        "analysis",
+        "audit",
+        "security"
+      ]
+    },
+    {
+      "name": "rinnegan",
+      "source": "./plugins/rinnegan",
+      "displayName": "Rinnegan",
+      "description": "Persistent temporal memory: file-based decision history, session context, searchable project notes, and recall across sessions. No daemons, workers, databases, or services (B-3).",
+      "version": "0.1.0",
+      "category": "core",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "memory",
+        "recall",
+        "decisions",
+        "session-notes"
+      ]
+    },
+    {
+      "name": "kaioken",
+      "source": "./plugins/kaioken",
+      "displayName": "Kaioken",
+      "description": "Session management and momentum: save and resume sessions, handoffs, checkpoints, and focused asides. Session momentum only - it duplicates no planning, debugging, or review system (B-5).",
+      "version": "0.1.0",
+      "category": "core",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "session",
+        "handoff",
+        "checkpoint",
+        "resume"
+      ]
+    },
+    {
+      "name": "bankai",
+      "source": "./plugins/bankai",
+      "displayName": "Bankai",
+      "description": "Specialist subagents with restricted tool allowlists: research, exploration, debugging, review, planning, documentation, and synthesis agents, plus the skills that dispatch them. Every subagent in Awakened lives here (B-6).",
+      "version": "0.1.0",
+      "category": "core",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "subagents",
+        "agents",
+        "research",
+        "review",
+        "planning"
+      ]
+    },
+    {
+      "name": "domain",
+      "source": "./plugins/domain",
+      "displayName": "Domain",
+      "description": "Project-scoped structural context: codebase onboarding, code maps, documentation upkeep, conventions, domain modeling, and CLAUDE.md scaffolding. Structural context only; it stores no history (B-4).",
+      "version": "0.1.0",
+      "category": "core",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "context",
+        "documentation",
+        "domain-modeling",
+        "codemaps"
+      ]
+    },
+    {
+      "name": "instinct",
+      "source": "./plugins/instinct",
+      "displayName": "Instinct",
+      "description": "Marketplace meta tooling: skill creation, writing for agents, context budgeting, skill scouting, component auditing, and linting. Marketplace maintenance, not user workflow execution (B-7).",
+      "version": "0.1.0",
+      "category": "core",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "skills",
+        "authoring",
+        "audit",
+        "lint",
+        "meta"
+      ]
+    },
+    {
+      "name": "poneglyph",
+      "source": "./plugins/poneglyph",
+      "displayName": "Poneglyph",
+      "description": "Optional Obsidian knowledge-vault integration: Obsidian Markdown, the Obsidian CLI, Bases, and JSON Canvas. A satellite - never a dependency of any core plugin (B-8).",
+      "version": "0.1.0",
+      "category": "satellite",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "obsidian",
+        "markdown",
+        "canvas",
+        "bases"
+      ]
+    },
+    {
+      "name": "aura",
+      "source": "./plugins/aura",
+      "displayName": "Aura",
+      "description": "Optional personalization: statusline presets as cross-platform script twins, colour palettes, and output styles. Original Awakened work with zero dependencies; a satellite, never a core dependency (B-8).",
+      "version": "0.1.0",
+      "category": "satellite",
+      "license": "MIT",
+      "repository": "https://github.com/coltonbearden/awakened",
+      "keywords": [
+        "statusline",
+        "themes",
+        "palettes",
+        "output-styles"
+      ]
+    }
+  ]
+}

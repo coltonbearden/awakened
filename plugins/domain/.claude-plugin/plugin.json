@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "name": "domain",
+  "displayName": "Domain",
+  "version": "0.1.0",
+  "description": "Project-scoped structural context: codebase onboarding, code maps, documentation upkeep, conventions, domain modeling, and CLAUDE.md scaffolding. Structural context only; it stores no history (B-4).",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "context",
+    "documentation",
+    "domain-modeling",
+    "codemaps"
+  ]
+}

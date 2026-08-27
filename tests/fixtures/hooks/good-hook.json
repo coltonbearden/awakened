@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "timeout": 5,
+            "prompt": "Fixture prompt hook with a declared timeout inside the 1-10 second repo standard (C-1)."
+          }
+        ]
+      }
+    ]
+  }
+}

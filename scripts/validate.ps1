@@ -79,7 +79,7 @@ $NinePlugins = @('super-saiyan', 'sharingan', 'rinnegan', 'kaioken', 'bankai',
 $HookPlugins = @('super-saiyan', 'rinnegan')
 $MarketplaceName = 'awakened'
 $Kebab = '^[a-z0-9]+(-[a-z0-9]+)*$'
-$SpecVersionLine = '**Version:** 2.11'
+$SpecVersionLine = '**Version:** 2.12'
 $MatrixHeader = 'id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 function Write-Usage {
@@ -296,7 +296,9 @@ if (Test-Path -LiteralPath 'plugins' -PathType Container) {
     foreach ($item in $candidates) {
         $base = $item.Name
         if (-not $item.PSIsContainer) { $base = [System.IO.Path]::GetFileNameWithoutExtension($base) }
-        if ($base -ceq 'SKILL') { continue }
+        # SKILL.md, .claude-plugin/ and CHANGELOG.md are fixed names the SPEC section 3
+        # plugin layout mandates; they are not machine-facing component names (N-3).
+        if ($base -cin @('SKILL', '.claude-plugin', 'CHANGELOG')) { continue }
         if ($base -cnotmatch $Kebab) {
             $rel = [System.IO.Path]::GetRelativePath($Root, $item.FullName) -replace '\\', '/'
             Add-Err 'N3' ("machine-facing name is not kebab-case: " + $rel)
@@ -671,7 +673,7 @@ if (Test-Path -LiteralPath $catalog -PathType Leaf) {
             }
         }
         if ($entries.Count -ne 9) {
-            Add-Err 'C4' ($catalog + " lists " + $entries.Count + " plugins, expected exactly 9 (ROADMAP V6.3)")
+            Add-Err 'C4' ($catalog + " lists " + $entries.Count + " plugins, expected exactly 9 (ROADMAP V6.4)")
             $c4Bad++
         }
         if ((($listed | Sort-Object) -join ',') -cne (($NinePlugins | Sort-Object) -join ',')) {

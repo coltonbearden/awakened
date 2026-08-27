@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "name": "instinct",
+  "displayName": "Instinct",
+  "version": "0.1.0",
+  "description": "Marketplace meta tooling: skill creation, writing for agents, context budgeting, skill scouting, component auditing, and linting. Marketplace maintenance, not user workflow execution (B-7).",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "skills",
+    "authoring",
+    "audit",
+    "lint",
+    "meta"
+  ]
+}
