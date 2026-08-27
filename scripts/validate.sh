@@ -810,7 +810,7 @@ else:
 # Every pattern is anchored: the allow-list gates a PREFIX, never a substring.
 # The PowerShell twin holds this same array verbatim, where the anchors are
 # load-bearing because -cmatch searches anywhere in the string.
-ALLOWED = (r'^\$\{?CLAUDE_PROJECT_DIR\}?', r'^\$\{?CLAUDE_PLUGIN_DATA_DIR\}?',
+ALLOWED = (r'^\$\{?CLAUDE_PROJECT_DIR\}?', r'^\$\{?CLAUDE_PLUGIN_DATA(_DIR)?\}?',
            r'^\$\{?CLAUDE_PLUGIN_ROOT\}?', r'^\./', r'^[A-Za-z0-9_.-]+/')
 # A prefix allow-list alone cannot hold HR-8: '.' is inside the character class
 # above, so '../' matches it, and 'logs/../../etc/passwd' matches even anchored.

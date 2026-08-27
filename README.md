@@ -57,7 +57,7 @@ The one sanctioned network use in the whole repository is maintenance tooling th
 
 ## Status
 
-**Foundation complete, plugin content not yet built.** Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates are committed. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18. The Phase-2 Tier-1 audit has since scored 55 components — 27 shortlist, 25 reject, 3 merge.
+**Phase 6 complete (2026-08-27): all nine plugins are built and validated; the first release tag is pending the owner.** Historically: Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates are committed. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18. The Phase-2 Tier-1 audit has since scored 55 components — 27 shortlist, 25 reject, 3 merge.
 
 Plugin content lands after those audits, after the independent-reviewer approval gate, and after the project owner acknowledges that approval (D-25). The sequence, the verification criteria for each phase, and the gate log live in [`ROADMAP.md`](ROADMAP.md).
 
@@ -65,6 +65,8 @@ Plugin content lands after those audits, after the independent-reviewer approval
 
 | Path | What it is |
 |---|---|
+| `.claude-plugin/marketplace.json` | The marketplace catalog — nine plugins, in-repo sources |
+| `plugins/<name>/` | The nine plugins: manifest in `.claude-plugin/`, then `skills/`, `commands/`, `agents/` (bankai), `statuslines/` and `output-styles/` (aura), `CHANGELOG.md` |
 | `SPEC.md` | The ratified specification (v2.13) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
@@ -75,8 +77,10 @@ Plugin content lands after those audits, after the independent-reviewer approval
 | `schemas/` | JSON Schemas for marketplace, plugin, skill, and agent files |
 | `scripts/` | `validate.sh` / `validate.ps1` and `pin-upstream.sh` / `pin-upstream.ps1` twins |
 | `templates/` | Slot-bearing starting points for every component type, each with a worked example |
-| `.github/workflows/` | CI: `validate.yml` runs both validators and the HD-12 twin-parity diff on every PR and push to `main` |
-| `SOURCES.md`, `NOTICE` | Provenance ledger and Apache-2.0 attributions |
+| `.github/workflows/` | CI: `validate.yml` runs both validators and the HD-12 twin-parity diff on every PR and push to `main`; `upstream-watch.yml` diffs the pins monthly |
+| `tests/` | Known-good and known-bad component fixtures mapped to the validator check each exercises |
+| `CONTRIBUTING.md`, `LICENSE` | Contribution and acceptance criteria; MIT |
+| `SOURCES.md`, `NOTICE` | Provenance ledger (one row per shipped component) and the Apache-2.0 / EXC-1 MIT attributions |
 
 ## Trademarks and artwork
 
