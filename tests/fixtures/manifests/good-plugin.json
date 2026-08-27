@@ -1,0 +1,6 @@
+{
+  "name": "fixture-plugin",
+  "version": "0.1.0",
+  "description": "Fixture manifest that satisfies the plugin schema's required fields and MIT-only licensing (D-08).",
+  "license": "MIT"
+}

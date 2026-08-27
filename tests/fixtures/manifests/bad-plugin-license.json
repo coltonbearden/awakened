@@ -1,0 +1,6 @@
+{
+  "name": "fixture-plugin",
+  "version": "0.1.0",
+  "description": "Fixture manifest carrying a non-MIT license; check C4 and the plugin schema must both reject it.",
+  "license": "Apache-2.0"
+}

@@ -14,7 +14,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
 | 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
 | 5 | Evaluation matrix consolidation | **Complete** (2026-08-26) — matrix 322 rows, **95 shortlist / 211 reject / 15 merge / 1 defer**; `eval/shortlist.md` (SPEC v2.8); T-274…T-286; sign-off ADR-027 / D-27 (SPEC v2.10) | **G5 — APPROVED (owner, after two reviewer `REJECTED` rounds); OWNER ACK 2026-08-27** |
-| 6 | Scaffold & synthesize | **Open** as of 2026-08-27 — not started; plan at `eval/shortlist.md` §9 | G6 |
+| 6 | Scaffold & synthesize | **In progress** from 2026-08-27 — scaffold landed; plan at `eval/shortlist.md` §9 | G6 |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
 

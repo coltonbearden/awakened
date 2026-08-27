@@ -79,7 +79,7 @@ $NinePlugins = @('super-saiyan', 'sharingan', 'rinnegan', 'kaioken', 'bankai',
 $HookPlugins = @('super-saiyan', 'rinnegan')
 $MarketplaceName = 'awakened'
 $Kebab = '^[a-z0-9]+(-[a-z0-9]+)*$'
-$SpecVersionLine = '**Version:** 2.11'
+$SpecVersionLine = '**Version:** 2.12'
 $MatrixHeader = 'id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 function Write-Usage {
@@ -296,7 +296,9 @@ if (Test-Path -LiteralPath 'plugins' -PathType Container) {
     foreach ($item in $candidates) {
         $base = $item.Name
         if (-not $item.PSIsContainer) { $base = [System.IO.Path]::GetFileNameWithoutExtension($base) }
-        if ($base -ceq 'SKILL') { continue }
+        # SKILL.md, .claude-plugin/ and CHANGELOG.md are fixed names the SPEC section 3
+        # plugin layout mandates; they are not machine-facing component names (N-3).
+        if ($base -cin @('SKILL', '.claude-plugin', 'CHANGELOG')) { continue }
         if ($base -cnotmatch $Kebab) {
             $rel = [System.IO.Path]::GetRelativePath($Root, $item.FullName) -replace '\\', '/'
             Add-Err 'N3' ("machine-facing name is not kebab-case: " + $rel)
@@ -312,7 +314,7 @@ if (Test-Path -LiteralPath (Join-Path 'plugins' $MarketplaceName) -PathType Cont
     $n4Bad = $true
 }
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    foreach ($cmd in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter '*.md' -File |
+    foreach ($cmd in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter '*.md' -File |
                       Where-Object { $_.Directory.Name -ceq 'commands' })) {
         $rel = [System.IO.Path]::GetRelativePath($Root, $cmd.FullName) -replace '\\', '/'
         $ns = ($rel -split '/')[1]
@@ -566,9 +568,9 @@ $c2Bad = 0; $c3Bad = 0; $c4Bad = 0
 $agentFiles = @()
 $skillFiles = @()
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    $agentFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter '*.md' -File |
+    $agentFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter '*.md' -File |
         Where-Object { $_.Directory.Name -ceq 'agents' } | Sort-Object FullName)
-    $skillFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter 'SKILL.md' -File | Sort-Object FullName)
+    $skillFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter 'SKILL.md' -File | Sort-Object FullName)
 }
 
 foreach ($f in $agentFiles) {
@@ -620,7 +622,7 @@ if ($skillFiles.Count -gt 0 -and $c3Bad -eq 0) {
 }
 
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    foreach ($f in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter 'plugin.json' -File |
+    foreach ($f in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter 'plugin.json' -File |
                     Where-Object { $_.Directory.Name -ceq '.claude-plugin' } | Sort-Object FullName)) {
         $rel = [System.IO.Path]::GetRelativePath($Root, $f.FullName) -replace '\\', '/'
         $pluginDir = $f.Directory.Parent.Name
@@ -671,7 +673,7 @@ if (Test-Path -LiteralPath $catalog -PathType Leaf) {
             }
         }
         if ($entries.Count -ne 9) {
-            Add-Err 'C4' ($catalog + " lists " + $entries.Count + " plugins, expected exactly 9 (ROADMAP V6.3)")
+            Add-Err 'C4' ($catalog + " lists " + $entries.Count + " plugins, expected exactly 9 (ROADMAP V6.4)")
             $c4Bad++
         }
         if ((($listed | Sort-Object) -join ',') -cne (($NinePlugins | Sort-Object) -join ',')) {
@@ -756,7 +758,9 @@ if ($hookFound -eq 0) {
 # as a violation of itself.
 $components = @()
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    $components = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -File |
+    # -Force: on Linux PowerShell hides dot-directories such as .claude-plugin/ without it;
+    # on Windows it does not. The twins must scan the same files on every platform (HD-12).
+    $components = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -File |
         Where-Object { $_.Extension -cin @('.md', '.json', '.sh', '.ps1') } | Sort-Object FullName)
 }
 $hrPatterns = @(

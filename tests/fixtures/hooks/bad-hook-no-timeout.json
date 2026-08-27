@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Fixture prompt hook with no timeout; check H3 must fail it (C-1, D-22)."
+          }
+        ]
+      }
+    ]
+  }
+}

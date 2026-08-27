@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.11
+**Version:** 2.12
 **Date:** 2026-08-27
-**Status:** Governing spec — supersedes SPEC.md v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -123,7 +123,8 @@ plugins/<name>/
 ├── agents/
 ├── skills/
 ├── hooks/                        # Rare. Max one hook per plugin, load-bearing only.
-└── statuslines/                  # aura ONLY (D-23). Preset scripts as .sh/.ps1 twin pairs.
+├── statuslines/                  # aura ONLY (D-23). Preset scripts as .sh/.ps1 twin pairs.
+└── CHANGELOG.md                  # [P6] Per-plugin changelog (§11 releases)
 ```
 
 ---
@@ -561,6 +562,17 @@ Rationale of record: the gate did what D-25 built it to do. Two artifacts-only r
 | 2 | Bookkeeping: `ROADMAP.md` §11 gains the second G5 row, `OWNER ACK`, with the date and comment URL; §1 and §7 drop "pending owner ack". Version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.11 line in both twins. **Check D2 is untouched and the ADR count stays 27** — the existing D-27 cell is amended, not superseded (the v2.5 carve-out) | Additive |
 
 Rationale of record: Phase 6 is open from this version. The acknowledgement comment was posted from the owner's account by the executing agent at the owner's explicit, recorded instruction, and says so in its own text; the decision is the owner's and the record does not pretend otherwise.
+
+### v2.11 → v2.12 (2026-08-27) — Phase 6 opens: per-plugin `CHANGELOG.md` enters the §3 plugin tree
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §3 plugin layout gains `CHANGELOG.md` as a `[P6]` entry. §11 ("CHANGELOG per plugin"), `CLAUDE.md` §8 and `ROADMAP.md` §8 all require a per-plugin changelog, but the per-plugin tree admitted no file to hold it — the same tree-omits-a-named-deliverable contradiction v2.6 row 2 and v2.8 row 1 corrected for `eval/`, corrected the same way. Landed with the Phase-6 scaffold: the marketplace catalog, the nine manifests, `tests/` fixtures and `.github/workflows/upstream-watch.yml` — every `[P6]` entry except plugin components — so the `--release` / `-Release` validator mode is exercisable from this version | Additive |
+| 2 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.12 line in both twins; the C4 nine-plugin message cites `ROADMAP.md` V6.4 (catalog shape), which is the criterion it enforces, not V6.3; check N3 exempts the fixed names the §3 plugin layout itself mandates (`.claude-plugin/`, `CHANGELOG.md`, `SKILL.md`), which the first scaffold showed it was rejecting; the bash twin's P1/P2 component walk now includes dot-directories so `.claude-plugin/plugin.json` is scanned on both platforms, which the HD-12 parity diff exposed. **No §12 cell changes; check D2 untouched; the ADR count stays 27** | Additive |
+
+Rationale of record: Phase 6 begins by making the tree complete before making it full. Every structural `[P6]` entry lands in one change so the release-mode validators become a real gate from the first component onward, and the one contradiction found while scaffolding is fixed in the spec rather than worked around in the tree.
+
+Open items after v2.12: unchanged — **SPEC-GAP-002 (ADR-024) is open**, settled empirically at the Phase-6 gate before any agent ships; one `defer` (`claude-mem/session-memory`, C-1) resolves at Phase 6; the rest as recorded below.
 
 Open items after v2.11: unchanged — **SPEC-GAP-002 (ADR-024) is open**, settled empirically at the Phase-6 gate before any agent ships; one `defer` (`claude-mem/session-memory`, C-1) resolves at Phase 6; the rest as recorded below.
 

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "name": "rinnegan",
+  "displayName": "Rinnegan",
+  "version": "0.1.0",
+  "description": "Persistent temporal memory: file-based decision history, session context, searchable project notes, and recall across sessions. No daemons, workers, databases, or services (B-3).",
+  "license": "MIT",
+  "repository": "https://github.com/coltonbearden/awakened",
+  "author": {
+    "name": "Colton Bearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "keywords": [
+    "memory",
+    "recall",
+    "decisions",
+    "session-notes"
+  ]
+}

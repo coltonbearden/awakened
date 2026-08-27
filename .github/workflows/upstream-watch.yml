@@ -1,0 +1,87 @@
+# Awakened upstream-watch — the monthly upstream diff monitor (`SPEC.md` §3 [P6]; §11 maintenance loop).
+#
+# Resolves the current default-branch HEAD of each of the ten `upstream.json` repositories with
+# `scripts/pin-upstream.sh` run against a COPY of the manifest, then diffs the resolved SHAs
+# against the committed pins. Drift is reported in the job summary and, when found, as one open
+# issue titled `upstream-watch: drift detected` (deduplicated - an existing open issue is
+# commented on, not duplicated). The committed `upstream.json` is never modified here: re-pins
+# are a deliberate act that gets an `eval/triage-log.md` entry (`CLAUDE.md` §8), never a bot commit.
+#
+# Policy position: repo-maintenance tooling that never ships to a user machine - the sanctioned
+# HR-6 exception `CLAUDE.md` PD-7 names alongside `scripts/pin-upstream.*`. Network activity is
+# the checkout, ten `git ls-remote` calls, and the GitHub issues API via the workflow's own
+# `GITHUB_TOKEN`. Nothing is installed (HR-7): ubuntu runners ship git, python3, and `gh`.
+
+name: upstream-watch
+
+on:
+  schedule:
+    - cron: '17 6 1 * *'   # 06:17 UTC on the first day of every month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: upstream-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    name: upstream-watch
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Resolve current upstream heads into a copy of the manifest
+        run: |
+          set -euo pipefail
+          cp upstream.json "${RUNNER_TEMP}/upstream.json"
+          bash scripts/pin-upstream.sh "${RUNNER_TEMP}/upstream.json"
+
+      - name: Diff resolved heads against the committed pins
+        id: diff
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/upstream.json" > "${RUNNER_TEMP}/drift.md" <<'PY'
+          import json, sys
+          committed = {r["name"]: r for r in json.load(open("upstream.json", encoding="utf-8"))["repos"]}
+          live = {r["name"]: r for r in json.load(open(sys.argv[1], encoding="utf-8"))["repos"]}
+          rows = []
+          for name, r in committed.items():
+              new = live[name]["commit"]
+              old = r["commit"]
+              if old != new:
+                  rows.append(f"| `{name}` | `{(old or 'null')[:12]}` | `{new[:12]}` |")
+          if rows:
+              print("## upstream-watch: drift detected\n")
+              print("| repository | pinned | current default-branch HEAD |")
+              print("|---|---|---|")
+              print("\n".join(rows))
+              print("\nA re-pin is a deliberate act: run `scripts/pin-upstream.*`, record any affected evaluation in `eval/triage-log.md`, and open a pull request. This workflow never writes `upstream.json`.")
+          else:
+              print("## upstream-watch: no drift\n\nAll ten pinned commits equal their repository's current default-branch HEAD.")
+          print(f"drift={'true' if rows else 'false'}", file=open(sys.argv[1] + ".out", "w"))
+          PY
+          cat "${RUNNER_TEMP}/drift.md" >> "$GITHUB_STEP_SUMMARY"
+          cat "${RUNNER_TEMP}/upstream.json.out" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the drift issue
+        if: steps.diff.outputs.drift == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          title='upstream-watch: drift detected'
+          existing="$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file "${RUNNER_TEMP}/drift.md"
+          else
+            gh issue create --title "$title" --body-file "${RUNNER_TEMP}/drift.md"
+          fi

@@ -72,7 +72,7 @@ NINE_PLUGINS="super-saiyan sharingan rinnegan kaioken bankai domain instinct pon
 HOOK_PLUGINS="super-saiyan rinnegan"
 MARKETPLACE_NAME="awakened"
 KEBAB='^[a-z0-9]+(-[a-z0-9]+)*$'
-SPEC_VERSION_LINE='**Version:** 2.11'
+SPEC_VERSION_LINE='**Version:** 2.12'
 MATRIX_HEADER='id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 usage() {
@@ -277,7 +277,9 @@ n3_bad=0
 while IFS= read -r path; do
   base="$(basename "$path")"
   base="${base%.md}"; base="${base%.json}"
-  [ "$base" = "SKILL" ] && continue
+  # SKILL.md, .claude-plugin/ and CHANGELOG.md are fixed names the SPEC section 3
+  # plugin layout mandates; they are not machine-facing component names (N-3).
+  case "$base" in SKILL|.claude-plugin|CHANGELOG) continue ;; esac
   if ! printf '%s' "$base" | grep -Eq "$KEBAB"; then
     err "N3" "machine-facing name is not kebab-case: $path"
     n3_bad=1
@@ -673,7 +675,7 @@ if os.path.isfile(cat):
                 print(f"ERROR\tC4\t{cat} entry {n!r} source basename does not equal its name: {src!r}")
                 bad_c4 += 1
         if len(entries) != 9:
-            print(f"ERROR\tC4\t{cat} lists {len(entries)} plugins, expected exactly 9 (ROADMAP V6.3)")
+            print(f"ERROR\tC4\t{cat} lists {len(entries)} plugins, expected exactly 9 (ROADMAP V6.4)")
             bad_c4 += 1
         if sorted(x for x in listed if x) != sorted(NINE):
             print(f"ERROR\tC4\t{cat} entries do not match the nine Tier-1 plugin names")
@@ -754,8 +756,12 @@ import glob, json, os, re
 # documents describe the policy and legitimately contain the words the lint
 # looks for, so scanning them would flag Awakened's own safety documentation
 # as a violation of itself.
-COMPONENTS = [p for p in glob.glob('plugins/**/*', recursive=True)
-              if os.path.isfile(p) and p.rsplit('.', 1)[-1] in ('md', 'json', 'sh', 'ps1')]
+# os.walk rather than glob: glob skips dot-directories, and .claude-plugin/plugin.json
+# is a shipped file the scan must cover (parity with the PowerShell twin's -Force walk).
+COMPONENTS = sorted(os.path.join(root, f)
+                    for root, _dirs, files in os.walk('plugins')
+                    for f in files
+                    if f.rsplit('.', 1)[-1] in ('md', 'json', 'sh', 'ps1'))
 
 HR_PATTERNS = [
     ("HR-1", r'\b(api[_ -]?key|secret[_ -]?key|access[_ -]?token|bearer\s+[A-Za-z0-9._-]{16,})\b'),
