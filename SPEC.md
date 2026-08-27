@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.13
+**Version:** 2.14
 **Date:** 2026-08-27
-**Status:** Governing spec — supersedes SPEC.md v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -367,10 +367,10 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 |---|---|---|
 | 1 — Structural inventory | ✅ Complete 2026-08-15 | All 10 repos crawled; structure, counts, licenses mapped. |
 | 2 — Tier-1 deep audit | ✅ Complete 2026-08-18 — Read every skill file in superpowers, mattpocock/skills, kepano/obsidian-skills, vercel-labs/skills | `upstream.json` SHAs pinned (no nulls); one `matrix.csv` row per skill file in all four repos; every `reject` has a triage-log entry citing rule IDs; §0 official-docs verification complete — the five `UNVERIFIED-EXTERNAL` assumptions (synthesis HD-9) adjudicated, the hook dispatch mechanism decided (HD-5) via a §14 changelog row, and all ten §8 licenses re-verified against the pinned commits (HD-10). |
-| 3 — ECC triage + claude-mem extraction | 270 ECC skills → shortlist → deep-read shortlist only; extract claude-mem memory concepts | ECC shortlist ≤ 40 rows deep-read (bulk rejects logged in aggregate); file-based rebuild design written to `eval/claude-mem-rebuild.md`. |
-| 4 — Remaining sources | wshobson shortlisted plugins (~12–15), anthropics/skills, davila7 components dir, awesome-claude-code gap scan, **and ECC `commands/` + `agents/`** (D-26) | Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`. |
-| 5 — Evaluation matrix | Full scored matrix | Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). A reviewer `APPROVED` is provisional: the `ROADMAP.md` gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind is barred until the owner posts an acknowledgement comment on the sign-off PR (D-25, amended v2.5). |
-| 6 — Scaffold & synthesize | Repo structure, marketplace.json, synthesized components, validation + CI, docs | Tree matches §3 exactly; `scripts/validate.sh` and `validate.ps1` both exit 0; CI green; a `SOURCES.md` row exists for every shipped component. |
+| 3 — ECC triage + claude-mem extraction | ✅ Complete 2026-08-22 — 270 ECC skills → shortlist → deep-read shortlist only; extract claude-mem memory concepts | ECC shortlist ≤ 40 rows deep-read (bulk rejects logged in aggregate); file-based rebuild design written to `eval/claude-mem-rebuild.md`. |
+| 4 — Remaining sources | ✅ Complete 2026-08-22 — wshobson shortlisted plugins (~12–15), anthropics/skills, davila7 components dir, awesome-claude-code gap scan, **and ECC `commands/` + `agents/`** (D-26) | Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`. |
+| 5 — Evaluation matrix | ✅ Complete 2026-08-27 (G5 owner ack) — Full scored matrix | Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). A reviewer `APPROVED` is provisional: the `ROADMAP.md` gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind is barred until the owner posts an acknowledgement comment on the sign-off PR (D-25, amended v2.5). |
+| 6 — Scaffold & synthesize | ✅ Complete 2026-08-27 (G6 review; release tag pending the owner) — Repo structure, marketplace.json, synthesized components, validation + CI, docs | Tree matches §3 exactly; `scripts/validate.sh` and `validate.ps1` both exit 0; CI green; a `SOURCES.md` row exists for every shipped component. |
 
 ---
 
@@ -585,6 +585,18 @@ Rationale of record: Phase 6 begins by making the tree complete before making it
 | 3 | Bookkeeping: `templates/agent.md` worked example drops its `Bash` grant and its authoring rules carry the C-2 note; `templates/hook.json` re-based on a `Stop`-event `prompt` handler, the form the harness supports, with `CONTRIBUTING.md`'s hook rules and rule 5 rewritten; `CLAUDE.md` §6.3/§6.4 aligned; version pointers in `CLAUDE.md`, `CONTEXT.md`, `README.md`; validator check D1 re-bound to v2.13 in both twins. **No new §12 cell; check D2 untouched; the ADR count stays 27** | Additive |
 
 Rationale of record: both findings came from running the harness, which is what SPEC-GAP-002 asked for and what §0's re-verify rule exists to force. The tempting fix for each — treat the specifier as enforced because the schema accepts it; open the `command`-handler path so a hook can exist — would have shipped a boundary the harness does not draw or widened a rule to keep a component the priority order already ranks last. Recording the harness as it is, and shipping the higher-priority forms, costs nothing the user would miss.
+
+### v2.13 → v2.14 (2026-08-27) — Phase 6 complete: §10 phase markers; the v2.13 open item discharged (T-288)
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §10: the scope cells of Phases 3, 4, 5 and 6 gain the `✅ Complete <date>` marker Phases 1 and 2 already carried — the inconsistency the v2.7 open-items note recorded for Phase 3 is closed in the phase that closes the last gate. Phase 6's marker states what G6 did and did not do: the review passed under the owner's standing delegation (`ROADMAP.md` §11), and the first release tag remains the owner's | Editorial |
+| 2 | The v2.13 open item — "the Windows 11 leg of the harness spike is pending owner re-authentication" — is discharged: the leg ran on 2026-08-27 and confirmed both findings on Windows 11 (`eval/triage-log.md` T-288). No rule changes; the v2.13 record stands as written | Clarifying |
+| 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.14 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 27** | Additive |
+
+Rationale of record: the tree is complete, validated on both platforms and reviewed; what remains — the release tag and the public marketplace — is a publishing act the standing authority reserves to the owner, and the spec says so rather than implying it happened.
+
+Open items after v2.14: **none open in the spec.** The first release tag and "marketplace live" are pending the owner (`ROADMAP.md` §8, §11). Post-v1 work is `ROADMAP.md` §13.
 
 Open items after v2.13: **SPEC-GAP-002 is closed; no `defer` row remains.** The Windows 11 leg of the harness spike is pending owner re-authentication of `claude.exe` and is re-run before G6 (T-287). The rest as recorded below.
 
