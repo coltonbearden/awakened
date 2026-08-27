@@ -314,7 +314,7 @@ if (Test-Path -LiteralPath (Join-Path 'plugins' $MarketplaceName) -PathType Cont
     $n4Bad = $true
 }
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    foreach ($cmd in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter '*.md' -File |
+    foreach ($cmd in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter '*.md' -File |
                       Where-Object { $_.Directory.Name -ceq 'commands' })) {
         $rel = [System.IO.Path]::GetRelativePath($Root, $cmd.FullName) -replace '\\', '/'
         $ns = ($rel -split '/')[1]
@@ -568,9 +568,9 @@ $c2Bad = 0; $c3Bad = 0; $c4Bad = 0
 $agentFiles = @()
 $skillFiles = @()
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    $agentFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter '*.md' -File |
+    $agentFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter '*.md' -File |
         Where-Object { $_.Directory.Name -ceq 'agents' } | Sort-Object FullName)
-    $skillFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter 'SKILL.md' -File | Sort-Object FullName)
+    $skillFiles = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter 'SKILL.md' -File | Sort-Object FullName)
 }
 
 foreach ($f in $agentFiles) {
@@ -622,7 +622,7 @@ if ($skillFiles.Count -gt 0 -and $c3Bad -eq 0) {
 }
 
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    foreach ($f in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Filter 'plugin.json' -File |
+    foreach ($f in (Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -Filter 'plugin.json' -File |
                     Where-Object { $_.Directory.Name -ceq '.claude-plugin' } | Sort-Object FullName)) {
         $rel = [System.IO.Path]::GetRelativePath($Root, $f.FullName) -replace '\\', '/'
         $pluginDir = $f.Directory.Parent.Name
@@ -758,7 +758,9 @@ if ($hookFound -eq 0) {
 # as a violation of itself.
 $components = @()
 if (Test-Path -LiteralPath 'plugins' -PathType Container) {
-    $components = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -File |
+    # -Force: on Linux PowerShell hides dot-directories such as .claude-plugin/ without it;
+    # on Windows it does not. The twins must scan the same files on every platform (HD-12).
+    $components = @(Get-ChildItem -LiteralPath 'plugins' -Recurse -Force -File |
         Where-Object { $_.Extension -cin @('.md', '.json', '.sh', '.ps1') } | Sort-Object FullName)
 }
 $hrPatterns = @(
