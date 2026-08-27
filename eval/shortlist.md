@@ -22,18 +22,18 @@ This file proposes; it does not approve. Approval is Gate G5's, adjudicated by t
 |---|---|---|---|---|---|---|
 | `super-saiyan` | core | **27** | 18 | 9 | 0 | 0 |
 | `sharingan` | core | **8** | 7 | 1 | 0 | 0 |
-| `rinnegan` | core | **2** | 2 | 0 | 0 | 0 |
+| `rinnegan` | core | **3** | 2 | 0 | 0 | 1 |
 | `kaioken` | core | **5** | 1 | 4 | 0 | 0 |
 | `bankai` | core | **34** | 7 | 0 | 27 | 0 |
 | `domain` | core | **9** | 7 | 2 | 0 | 0 |
 | `instinct` | core | **6** | 4 | 2 | 0 | 0 |
 | `poneglyph` | optional satellite (B-8) | **4** | 4 | 0 | 0 | 0 |
 | `aura` | optional satellite (B-8) | **0** | 0 | 0 | 0 | 0 |
-| **Total** | | **95** | 50 | 18 | 27 | 0 |
+| **Total** | | **96** | 50 | 18 | 27 | 1 |
 
-Matrix state this report was derived from: 322 rows — 95 `shortlist` / 211 `reject` / 15 `merge` / 1 `defer`.
-**Exactly one `defer` row exists** (§4 below); `SPEC.md` §9 rule 3 requires the Phase-5 sign-off ADR to enumerate it,
-and it is enumerated there rather than left to inference.
+Matrix state this report was derived from: 322 rows — 95 `shortlist` / 211 `reject` / 15 `merge` / 1 `defer` at the
+G5 sign-off (D-27), which enumerated the one `defer` as `SPEC.md` §9 rule 3 requires. **Revised 2026-08-27 (Phase 6):**
+that row resolved at T-287 — **96 `shortlist` / 211 `reject` / 15 `merge` / 0 `defer`**; §4 and §5 record how.
 
 `aura` holds zero shortlisted rows **by design**: `SPEC.md` §4 records its Source Lineage as *Original work*, and
 T-235 records that two upstream candidates (`anthropics/theme-factory`, davila7's statusline family) were rejected on
@@ -45,8 +45,9 @@ The **Synthesis constraints** column carries what the matrix rationale requires 
 Two rules apply to every row and are not repeated per row: (a) P-6 — synthesize, never clone, except `poneglyph`
 under EXC-1; (b) `CLAUDE.md` §5.5 — components are Markdown and JSON only, so any sibling script named in a
 rationale is folded into prose or dropped, never shipped. Every `agent` row additionally ships the **proposed
-allowlist** its rationale names, which was replayed against `schemas/agent.schema.json` (C-2); the SPEC-GAP-002
-question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically at the Phase-6 gate before any agent ships.
+allowlist** its rationale names, which was replayed against `schemas/agent.schema.json` (C-2). **SPEC-GAP-002 was settled
+2026-08-27 (SPEC v2.13): `tools` does not honour `Bash(<cmd>:*)`** — at synthesis every agent omits `Bash` unless its job
+needs a shell, and an agent that keeps a `Bash(<cmd>:*)` grant states in its body that the harness grants the whole tool.
 
 ### 2.1 `super-saiyan` — 27 components
 
@@ -75,7 +76,7 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `superpowers/finishing-a-development-branch` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/finishing-a-development-branch/SKILL.md` | 4,4,4,5,5 | — |
 | `superpowers/systematic-debugging` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/systematic-debugging/SKILL.md` | 5,3,4,5,5 | `find-polluter.sh` cannot ship as a sibling: components are Markdown and JSON only (`CLAUDE.md` §5.5). Fold the bisection procedure into prose |
 | `superpowers/test-driven-development` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/test-driven-development/SKILL.md` | 5,4,5,5,5 | — |
-| `superpowers/using-superpowers` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/using-superpowers/SKILL.md` | 3,3,5,5,4 | This is the `super-saiyan` session-start hook lineage budgeted by `SPEC.md` §6 (D-15) — the one hook `super-saiyan` may ship. Drop the five harness-specific reference files |
+| `superpowers/using-superpowers` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/using-superpowers/SKILL.md` | 3,3,5,5,4 | This is the `super-saiyan` session-start hook lineage budgeted by `SPEC.md` §6 (D-15). **Phase 6 (v2.13): the hook does not ship** — the harness rejects shell-free handlers on `SessionStart` — so this row ships as a skill only. Drop the five harness-specific reference files |
 | `superpowers/verification-before-completion` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/verification-before-completion/SKILL.md` | 5,5,5,5,5 | Absorbs `ecc/agent-self-evaluation` and the universal half of `ecc/verification-loop`; carry the T-164 rule — `exited 0` and `live and serving` are different claims |
 | `superpowers/writing-plans` | skill | `obra/superpowers` @ `b36e0829c6d0` | `skills/writing-plans/SKILL.md` | 5,4,5,5,5 | — |
 | `wshobson/before-you-build-before-you-build` | skill | `wshobson/agents` @ `367cb6a4a182` | `plugins/before-you-build/skills/before-you-build/SKILL.md` | 4,5,5,5,4 | — |
@@ -93,12 +94,13 @@ question — whether `tools` honours `Bash(<cmd>:*)` — is settled empirically 
 | `wshobson/avoid-ai-writing-avoid-ai-writing` | skill | `wshobson/agents` @ `367cb6a4a182` | `plugins/avoid-ai-writing/skills/avoid-ai-writing/SKILL.md` | 4,4,5,5,5 | — |
 | `wshobson/skill-forge-essentials-ai-debt-detector` | skill | `wshobson/agents` @ `367cb6a4a182` | `plugins/skill-forge-essentials/skills/ai-debt-detector/SKILL.md` | 5,5,5,5,5 | — |
 
-### 2.3 `rinnegan` — 2 components
+### 2.3 `rinnegan` — 3 components
 
 | id | type | lineage | upstream path | scores | synthesis constraints |
 |---|---|---|---|---|---|
 | `ecc/architecture-decision-records` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/architecture-decision-records/SKILL.md` | 4,4,3,5,5 | — |
 | `ecc/growth-log` | skill | `affaan-m/ECC` @ `06c5e118c4d3` | `skills/growth-log/SKILL.md` | 4,4,5,5,5 | — |
+| `claude-mem/session-memory` | concept | `thedotmack/claude-mem` @ `fae697a45d10` | `docs/architecture-overview.md` | 5,4,3,5,5 | **Shortlisted at T-287 (2026-08-27), formerly `defer`.** Built to `eval/claude-mem-rebuild.md` as amended: capture is the `/rinnegan:capture` command (§3.2 procedure, §3.3 hash idempotence), recall is the skill plus `/rinnegan:recall`; **no hook**. Writes only under the §2 scope roots (D-18) |
 
 ### 2.4 `kaioken` — 5 components
 
@@ -213,18 +215,19 @@ anything); the residue worth carrying is in the merged row's own rationale in `e
 
 ## 4. Deferred rows
 
-| id | plugin | blocking check | resolves in | scores |
-|---|---|---|---|---|
-| `claude-mem/session-memory` | `rinnegan` | C-1 — idempotence and the declared timeout of the `rinnegan` capture hook cannot be closed from a static read (`eval/claude-mem-rebuild.md` §6, open item 1; `eval/rubric.md` §7 Example C) | Phase 6, by executing the authored hook on Windows 11 PowerShell 7 and WSL2 before it ships, at the G6 gate | 5,4,2,5,5 |
-
-A `defer` row is not shortlisted and nothing is built from it until the named check closes; the design it scores
-(`eval/claude-mem-rebuild.md`) remains the specification `rinnegan`'s one budgeted hook is authored to. `rinnegan`'s
-V5.7 roster does not depend on it — `ecc/architecture-decision-records` and `ecc/growth-log` are shortlisted.
+**None remain.** At the G5 sign-off one `defer` row existed — `claude-mem/session-memory` (`rinnegan`), blocking check C-1 on the
+capture hook's idempotence and timeout, scores `5,4,2,5,5` — and D-27 enumerated it. It resolved 2026-08-27 at **T-287**:
+the Phase-6 harness spike found the shell-free handler types D-24 mandates unsupported on both budgeted events, so the hook
+the check attached to cannot exist; the design ships as the `/rinnegan:capture` command under D-04 and the row is
+`shortlist` at `5,4,3,5,5` (§2.3).
 
 ## 5. Hook budget preview (V5.6)
 
 `SPEC.md` §6 budgets exactly two hooks (D-15): `super-saiyan`'s session-start skill-discipline injector and
-`rinnegan`'s optional memory-capture hook. The shortlist implies at most those two and no others:
+`rinnegan`'s optional memory-capture hook. **Phase 6 (2026-08-27, SPEC v2.13): neither ships at v1** — the harness rejects
+`prompt`/`agent` handlers on `SessionStart` and does not run `agent` handlers on `SessionEnd`, and D-24 admits no
+`command` handler; the two jobs ship as a skill and a command. The preview below is the roster as scored, and the budget
+is a ceiling it stays under:
 
 - `super-saiyan` — lineage `superpowers/using-superpowers` (the only shortlisted row whose rationale names the §6
   session-start budget). One hook.
@@ -306,12 +309,14 @@ shortlisted rows named, not candidates of their own.
 
 1. Scaffold the nine plugin directories and `.claude-plugin/marketplace.json` per `SPEC.md` §3, from `templates/`.
 2. Settle SPEC-GAP-002 empirically before any agent ships: author one scoped agent and observe whether `tools` honours
-   `Bash(<cmd>:*)`; record the outcome as a §14 row and an ADR-024 amendment.
+   `Bash(<cmd>:*)`; record the outcome as a §14 row and an ADR-024 amendment. **Done 2026-08-27 (SPEC v2.13): not
+   honoured.** The same spike settled hook dispatch (§5).
 3. Synthesize per plugin in D-04 priority order — skills, then commands, then agents, then the `super-saiyan` hook —
    from the rosters in §2 with their constraints, `SOURCES.md` updated in the same commit (D-12).
 4. Author `aura` and the two `instinct` original-work components per §6.
-5. Close the §4 `defer`: author `rinnegan`'s capture hook to `eval/claude-mem-rebuild.md`, execute it on both platforms,
-   record the C-1 outcome as a re-audit entry, and only then replace the row's verdict.
+5. ~~Close the §4 `defer`: author `rinnegan`'s capture hook to `eval/claude-mem-rebuild.md`, execute it on both platforms,
+   record the C-1 outcome as a re-audit entry, and only then replace the row's verdict.~~ **Done 2026-08-27 at step 2**: the
+   spike showed no permitted hook form exists; T-287 records the outcome and the row is `shortlist` (§4).
 6. `bash scripts/validate.sh --release` and `pwsh -File scripts/validate.ps1 -Release` both exit 0; G6.
 
 No step above begins until `ROADMAP.md` §11 carries both G5 rows — the reviewer's `APPROVED (reviewer) — pending

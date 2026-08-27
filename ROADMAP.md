@@ -397,6 +397,8 @@ The §3.5 non-Anthropic second pass is REQUIRED and non-binding; the owner runs 
 | V6.9 | CI | Both validators green on the PR that lands the phase |
 | V6.10 | Traceability | Every shipped component maps to an approved Phase-5 shortlist row or a recorded original-work plan |
 
+**Harness spike (2026-08-27, `eval/shortlist.md` §9 step 2 — SPEC v2.13).** Executed before any agent or hook was authored, from a throwaway marketplace outside the repository on Claude Code 2.1.247. Two findings, both recorded under D-24 (ADR-024 amended in place): **SPEC-GAP-002 closed — `tools` does not honour `Bash(<cmd>:*)`**, the subagent receives the whole tool (transcript-verified); and **the shell-free hook handlers D-24 mandates are unsupported on `SessionStart` and `SessionEnd`**, so neither budgeted hook ships at v1 and the two jobs ship as a skill and `/rinnegan:capture` under D-04. The one `defer` row resolved at T-287 — matrix **96 shortlist / 211 reject / 15 merge / 0 defer**. V6.5 is satisfied at zero hooks (the budget is a ceiling). The Windows 11 leg is pending owner re-authentication of `claude.exe` and is re-run before G6.
+
 **Gate G6:** owner sign-off → tag the first release → marketplace live.
 
 ---

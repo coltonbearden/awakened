@@ -161,6 +161,15 @@ is nothing to recall.
 | Failure mode | Warn and continue. A memory failure never blocks the user's session (C8, `CLAUDE.md` §6.4) |
 | Writes | Only under §2's two scope roots |
 
+> **Amended 2026-08-27 (Phase 6, SPEC v2.13).** The hook in this table cannot exist: executed on Claude Code 2.1.247,
+> `prompt` and `agent` handlers are rejected on `SessionStart` and `agent` handlers are not run on `SessionEnd`
+> ("not yet supported outside REPL"), and D-24 admits no `command` handler. Under D-04 the capture flow ships as the
+> **`/rinnegan:capture` command**, invoked by the user at the end of a session (and named by `kaioken`'s save-session
+> flow as the step to run). §3.2's sequence is the command's procedure unchanged, §3.3's hash-based idempotence holds
+> for a command exactly as it would for a hook — running it twice appends nothing the second time — and the timeout row
+> above no longer applies. Open item 1 in §7 is discharged by this finding rather than by an execution: the C-1 checks
+> attached to a hook, and no hook ships. Recorded as `eval/triage-log.md` T-287.
+
 **The event is `SessionEnd`, not `Stop`, and the distinction is load-bearing.** Verified against the
 official hooks reference at `https://code.claude.com/docs/en/hooks` on 2026-08-22 (§0 standard of
 record): `Stop` fires **"When Claude finishes responding"** — once per turn — while `SessionEnd`

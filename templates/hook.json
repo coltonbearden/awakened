@@ -1,12 +1,12 @@
 {
   "hooks": {
-    "SessionStart": [
+    "Stop": [
       {
         "hooks": [
           {
             "type": "prompt",
-            "timeout": 5,
-            "prompt": "At session start, prefer the smallest safe workflow surface: reach for a skill or command before proposing automation; read the repository's own instructions before changing files; keep every action scoped to what the user asked for; and report verification limits honestly rather than declaring work complete. Do not execute commands, write files, reach the network, install dependencies, or request credentials as part of this hook."
+            "timeout": 10,
+            "prompt": "Before the turn ends, check the hook input for evidence that every verification the user asked for was actually run and its result reported. If a requested check was skipped or its outcome was asserted rather than shown, respond with {\"ok\": false, \"reason\": \"<the specific check still to run or report>\"}; otherwise respond with {\"ok\": true}. Do not execute commands, write files, reach the network, install dependencies, or request credentials as part of this hook. Hook input: $ARGUMENTS"
           }
         ]
       }

@@ -1,7 +1,7 @@
 # CLAUDE.md — Operating Rules for Claude Code Sessions in `awakened`
 
 **Scope:** every Claude Code session working inside this repository.
-**Governing document:** `SPEC.md` v2.12. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
+**Governing document:** `SPEC.md` v2.13. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
 **Repository:** `coltonbearden/awakened` — curated Claude Code plugin marketplace monorepo.
 
 This file is **operational**. It does not restate `SPEC.md`'s normative content; it references it by rule ID (D-16). Where you need the rule itself, read `SPEC.md`.
@@ -26,7 +26,7 @@ This file is **operational**. It does not restate `SPEC.md`'s normative content;
 
 Precedence on conflict (highest first):
 
-1. `SPEC.md` — normative specification (v2.12)
+1. `SPEC.md` — normative specification (v2.13)
 2. `DECISIONS.md` — ADR-001…ADR-027; rationale and enforcement, mirroring SPEC §12 one-to-one
 3. `CLAUDE.md` — this file; operational rules for sessions
 4. `ROADMAP.md` — phase plan, verification criteria, approval gates
@@ -180,7 +180,7 @@ Open the matching file in `templates/` and the matching schema in `schemas/` bef
 ### 6.3 Agents
 
 - All subagents live in `bankai` (B-6).
-- Explicit restricted tool allowlists only. Bare `Bash(*)` or unrestricted `Write(*)` are hard failures, enforced mechanically by `schemas/agent.schema.json` (C-2).
+- Explicit restricted tool allowlists only. Bare `Bash(*)` or unrestricted `Write(*)` are hard failures, enforced mechanically by `schemas/agent.schema.json` (C-2). Omit `Bash` unless the job needs a shell: the harness does not honour a `Bash(<command>:*)` specifier inside `tools` (SPEC-GAP-002, closed at v2.13) — it documents intent, and the agent body states the boundary.
 - Every agent defines a handoff contract: expected inputs, produced outputs, stop conditions.
 
 ### 6.4 Hooks — budget and safety
@@ -189,8 +189,8 @@ Maximum one hook per plugin, load-bearing only (P-4, D-15, ADR-015). The complet
 
 | Plugin | Hook | Status |
 |---|---|---|
-| `super-saiyan` | Session-start skill-discipline injector (superpowers lineage) | Budgeted |
-| `rinnegan` | Optional memory-capture, rebuilt lightweight — no workers, no daemons | Budgeted |
+| `super-saiyan` | Session-start skill-discipline injector (superpowers lineage) | Budgeted — **not shipped at v1**; ships as a skill (D-24 as amended v2.13) |
+| `rinnegan` | Optional memory-capture, rebuilt lightweight — no workers, no daemons | Budgeted — **not shipped at v1**; ships as `/rinnegan:capture` (D-24 as amended v2.13) |
 | All other plugins | — | Prohibited without a superseding ADR **and** a `SPEC.md` §6 amendment |
 
 Every hook must satisfy C-1 in full — idempotent, read-only by default, timeout-bounded, and, where it executes shell commands, cross-platform — plus the D-18 write scope in §3.5. Repo standard timeout: ≤ 10 seconds wall clock, declared explicitly in the hook manifest. Ratified — SPEC v2.2, D-22 (formerly open as A-GAP-005): C-1 binds **every** hook regardless of handler type, so a prompt-only hook still declares a timeout; the cross-platform clause is the one part that stays specific to shell-command handlers. See ADR-022.

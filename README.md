@@ -65,7 +65,7 @@ Plugin content lands after those audits, after the independent-reviewer approval
 
 | Path | What it is |
 |---|---|
-| `SPEC.md` | The ratified specification (v2.12) — the authority, shipped verbatim |
+| `SPEC.md` | The ratified specification (v2.13) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
 | `DECISIONS.md` | ADR-001…ADR-027 — every resolved decision, mirroring `SPEC.md` §12 one to one |
