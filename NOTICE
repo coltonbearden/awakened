@@ -30,7 +30,11 @@ Apache-2.0 lineage
    Source: https://github.com/thedotmack/claude-mem
    License: Apache License, Version 2.0
    Use in Awakened: informs the conceptual goals of session memory, searchable
-   history, and recall assigned to the rinnegan plugin. Awakened explicitly
+   history, and recall shipped by the rinnegan plugin as the /rinnegan:capture
+   and /rinnegan:recall commands and the recalling-context skill (typed
+   observations, session summaries, content-hash de-duplication, and the
+   search-filter-read recall order). Those components are independently
+   authored Markdown; no upstream source file is vendored. Awakened explicitly
    excludes the upstream runtime architecture, including workers, databases,
    SQLite, cloud synchronization, Docker, and external services (HR-4, HR-5).
 
