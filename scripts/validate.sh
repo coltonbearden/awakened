@@ -284,7 +284,7 @@ while IFS= read -r path; do
     err "N3" "machine-facing name is not kebab-case: $path"
     n3_bad=1
   fi
-done < <(find plugins -mindepth 1 \( -name '*.md' -o -name '*.json' -o -type d \) 2>/dev/null || true)
+done < <({ find plugins -mindepth 1 \( -name '*.md' -o -name '*.json' -o -type d \) 2>/dev/null || true; } | LC_ALL=C sort)
 [ "$n3_bad" -eq 0 ] && ok "N3" "component names are lowercase kebab-case (N-3)"
 
 n4_bad=0
