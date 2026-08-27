@@ -40,7 +40,7 @@
 | 024 | Phase-2 §0 verification: licenses at first pin, hook dispatch, assumption adjudication (amended 2026-08-22: SPEC-GAP-001 resolved to the documented string form, SPEC-GAP-002 opened) | Accepted | D-24 |
 | 025 | Gate G5 adjudicated by an independent reviewer (amended 2026-08-21: owner-ack tripwire, clean room, loader pin) | Accepted | D-25 |
 | 026 | Phase-4 scope covers ECC `commands/` and `agents/`; `eval/claude-mem-rebuild.md` enters the §3 tree | Accepted | D-26 |
-| 027 | Phase-5 sign-off: Gate G5 approved by the owner after two reviewer `REJECTED` rounds; 95-row shortlist, one open `defer` enumerated | Accepted | D-27 |
+| 027 | Phase-5 sign-off: Gate G5 approved by the owner after two reviewer `REJECTED` rounds; 95-row shortlist, one open `defer` enumerated (amended 2026-08-27: owner ack recorded, §3.5 pass waived) | Accepted | D-27 |
 
 ---
 
@@ -1056,6 +1056,7 @@ byte-diffs their output.
 | Date | 2026-08-26 |
 | Spec ref | D-27 |
 | Supersedes | — |
+| Amended | 2026-08-27 — SPEC v2.11: owner acknowledgement recorded; §3.5 second pass waived |
 
 **Context.** `SPEC.md` §10 Phase 5 ends at Gate G5, the hard approval gate before any building, and
 requires the sign-off "recorded as an ADR in `DECISIONS.md` before any building" (D-25). §9 rule 3
@@ -1099,6 +1100,10 @@ ADR lands in:
    pull request; the §11 gate log records `APPROVED (owner, after two reviewer REJECTED rounds) —
    pending owner ack` now and `OWNER ACK` with the comment URL then. The §3.5 second pass is run by
    the owner and posted with that acknowledgement.
+   *Amended 2026-08-27 (SPEC v2.11): the owner acknowledged on PR #25 — `https://github.com/coltonbearden/awakened/pull/25#issuecomment-5440726308` — and
+   **waived** the §3.5 second pass in that comment. The `OWNER ACK` row exists; Phase 6 is open. The
+   comment was posted by the executing agent from the owner's account at the owner's explicit,
+   recorded instruction, and states so.*
 
 **Alternatives Considered.**
 
