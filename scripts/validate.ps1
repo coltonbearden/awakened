@@ -815,7 +815,7 @@ if ($components.Count -eq 0) {
 # Every pattern is anchored: the allow-list gates a PREFIX, never a substring.
 # The anchors are load-bearing here because -cmatch searches anywhere in the
 # string; the bash twin holds this same array verbatim.
-$allowedTargets = @('^\$\{?CLAUDE_PROJECT_DIR\}?', '^\$\{?CLAUDE_PLUGIN_DATA_DIR\}?',
+$allowedTargets = @('^\$\{?CLAUDE_PROJECT_DIR\}?', '^\$\{?CLAUDE_PLUGIN_DATA(_DIR)?\}?',
                     '^\$\{?CLAUDE_PLUGIN_ROOT\}?', '^\./', '^[A-Za-z0-9_.-]+/')
 # A prefix allow-list alone cannot hold HR-8: '.' is inside the character class
 # above, so '../' matches it, and 'logs/../../etc/passwd' matches even anchored.

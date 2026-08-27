@@ -92,7 +92,9 @@ Awakened is deliberately **not**:
 - **Phase 2 (Tier-1 deep audit):** complete 2026-08-18 — 55 scored `eval/matrix.csv` rows, 27 shortlist / 25 reject / 3 merge, triage T-001…T-028; gate G2 approved.
 - **Foundation suite:** governance, evaluation harness, schemas, validation scripts, templates, the legal framework, and the CI workflow (`.github/workflows/validate.yml`, v2.5) are committed. See `ROADMAP.md` §2.
 - **Upstream pins:** resolved 2026-08-18 by `scripts/pin-upstream.sh` — ten non-null commits, non-null `pinned_at` (§8).
-- **Next milestone:** Phase 3 — ECC triage against the §9 rubric, plus the claude-mem concept extraction written to `eval/claude-mem-rebuild.md` (`ROADMAP.md` §5).
+- **Phases 3–5:** complete 2026-08-22 … 2026-08-27 — 322 matrix rows, G5 approved by the owner after two reviewer rounds (ADR-027), 96 shortlist / 211 reject / 15 merge / 0 defer after T-287.
+- **Phase 6:** complete 2026-08-27 — full §3 tree, 114 component files across nine plugins, zero hooks (the harness rejects the shell-free handler types on the budgeted events, SPEC v2.13); G6 review passed under D11.
+- **Next milestone:** the owner tags the first release and takes the marketplace live (`ROADMAP.md` §8 gate line, §11).
 
 ## 10. Reading Order
 

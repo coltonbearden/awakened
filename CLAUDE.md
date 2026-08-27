@@ -49,10 +49,10 @@ The canonical tree is `SPEC.md` §3. Do not maintain a second copy of it here �
 |---|---|---|
 | Root governance docs, `upstream.json`, `.gitattributes`, `eval/`, `schemas/`, `scripts/`, `templates/` | Foundation | Yes — validated |
 | `.github/workflows/validate.yml` | Foundation (v2.5) | Yes — validated (S2) |
-| `.claude-plugin/marketplace.json` | Phase 6 (§10) | No — expected absent |
-| `plugins/<name>/` contents and manifests | Phase 6 (§10) | No — expected absent |
-| `tests/` fixtures | Phase 6 (§10) | No — expected absent |
-| `.github/workflows/upstream-watch.yml` | Phase 6 (§10) | No — expected absent |
+| `.claude-plugin/marketplace.json` | Phase 6 (§10) | Landed 2026-08-27 — validated (S3, C4) |
+| `plugins/<name>/` contents and manifests | Phase 6 (§10) | Landed 2026-08-27 — validated (S3, N1–N5, C2–C4, P1–P4) |
+| `tests/` fixtures | Phase 6 (§10) | Landed 2026-08-27 |
+| `.github/workflows/upstream-watch.yml` | Phase 6 (§10) | Landed 2026-08-27 |
 
 This classification is normative in `SPEC.md` §3 under D-19 (ADR-019); the table above only restates it operationally and is corrected from §3 on any difference.
 
