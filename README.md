@@ -22,14 +22,14 @@ Requires [Claude Code](https://claude.com/claude-code).
 
 | Plugin | Category | What it does | Surface |
 |---|---|---|---|
-| `super-saiyan` | Core | Core workflow discipline: plan, TDD, debug, verify, git | `/super-saiyan:plan` |
-| `sharingan` | Core | Code review and analysis | `/sharingan:review` |
-| `rinnegan` | Core | Temporal memory — session recall and record, **file-based**, no daemons, no sqlite | `/rinnegan:recall`, `/rinnegan:record` |
-| `kaioken` | Core | Session momentum: handoff and resume across sessions | `/kaioken:handoff`, `/kaioken:resume` |
-| `bankai` | Core | The subagent arsenal — every agent ships a restricted tool allowlist | `/bankai:dispatch`, `/bankai:research` |
-| `domain` | Core | Structural context: maps the project, generates project `CLAUDE.md` and rules; never stores history | `/domain:map`, `/domain:context` |
-| `instinct` | Core | Meta tooling: skill creation, audit, validation, upstream review | `/instinct:validate`, `/instinct:audit` |
-| `poneglyph` | Satellite (optional) | The Obsidian toolset: obsidian-markdown, obsidian-cli, obsidian-bases, json-canvas, defuddle | opt in |
+| `super-saiyan` | Core | Core workflow discipline: plan, TDD, debug, verify, git — 18 skills, 9 commands | `/super-saiyan:plan`, `/super-saiyan:implement`, `/super-saiyan:tdd-red`, `/super-saiyan:tdd-green`, `/super-saiyan:commit` |
+| `sharingan` | Core | Code review and analysis — 7 skills | `/sharingan:code-review` |
+| `rinnegan` | Core | Temporal memory — session recall and capture, **file-based**, no daemons, no sqlite | `/rinnegan:capture`, `/rinnegan:recall` |
+| `kaioken` | Core | Session momentum: handoff and resume across sessions | `/kaioken:save-session`, `/kaioken:resume-session`, `/kaioken:checkpoint`, `/kaioken:aside` |
+| `bankai` | Core | The subagent arsenal — every agent ships a restricted tool allowlist | 7 dispatch skills, 27 subagents; no commands |
+| `domain` | Core | Structural context: maps the project, generates project `CLAUDE.md` and rules; never stores history — 7 skills | `/domain:update-codemaps`, `/domain:update-docs` |
+| `instinct` | Core | Meta tooling: skill creation, audit, validation, upstream review — 6 skills | `/instinct:learn-eval`, `/instinct:skill-create` |
+| `poneglyph` | Satellite (optional) | The Obsidian toolset: obsidian-markdown, obsidian-cli, obsidian-bases, json-canvas | opt in |
 | `aura` | Satellite (optional) | Palettes, statusline presets, and output styles — the fun lives here | `/aura:equip` |
 
 Commands are namespaced per plugin. There is deliberately no marketplace-level catch-all namespace (N-4), and satellites are never dependencies of core (B-8).
@@ -57,9 +57,9 @@ The one sanctioned network use in the whole repository is maintenance tooling th
 
 ## Status
 
-**Phase 6 complete (2026-08-27): all nine plugins are built and validated; the first release tag is pending the owner.** Historically: Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates are committed. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18. The Phase-2 Tier-1 audit has since scored 55 components — 27 shortlist, 25 reject, 3 merge.
+**Phase 6 complete (2026-08-27); v0.1.0 released 2026-08-30; v0.1.1 released and the repository made public 2026-09-02 — the marketplace is live.** Historically: Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates were committed first. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18 and re-pinned on 2026-09-02 (T-289). The audit closed at 322 matrix rows — 96 shortlist, 211 reject, 15 merge, 0 defer.
 
-Plugin content lands after those audits, after the independent-reviewer approval gate, and after the project owner acknowledges that approval (D-25). The sequence, the verification criteria for each phase, and the gate log live in [`ROADMAP.md`](ROADMAP.md).
+Plugin content shipped after those audits, the independent-reviewer approval gate (G5) and the owner's acknowledgement (D-25): 114 component files across nine plugins, zero hooks. The sequence, the verification criteria for each phase, and the gate log live in [`ROADMAP.md`](ROADMAP.md).
 
 ## Repository map
 
@@ -67,7 +67,7 @@ Plugin content lands after those audits, after the independent-reviewer approval
 |---|---|
 | `.claude-plugin/marketplace.json` | The marketplace catalog — nine plugins, in-repo sources |
 | `plugins/<name>/` | The nine plugins: manifest in `.claude-plugin/`, then `skills/`, `commands/`, `agents/` (bankai), `statuslines/` and `output-styles/` (aura), `CHANGELOG.md` |
-| `SPEC.md` | The ratified specification (v2.17) — the authority, shipped verbatim |
+| `SPEC.md` | The ratified specification (v2.18) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
 | `DECISIONS.md` | ADR-001…ADR-028 — every resolved decision, mirroring `SPEC.md` §12 one to one |

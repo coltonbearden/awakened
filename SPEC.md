@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.17
+**Version:** 2.18
 **Date:** 2026-09-02
-**Status:** Governing spec — supersedes SPEC.md v2.16 (2026-09-02), v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.17 (2026-09-02), v2.16 (2026-09-02), v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -140,7 +140,7 @@ plugins/<name>/
 | `bankai` | Specialist subagents | Curated general-purpose agents: research, implementation, debugging, review, planning, synthesis. Restricted tool allowlists. | wshobson (curated) × ECC agents |
 | `domain` | Project context — **structural** | Project maps, architecture context, conventions, rules, CLAUDE.md scaffolding, domain modeling | mattpocock × ECC × wshobson |
 | `instinct` | Marketplace meta tooling | Skill creation, component auditing, validation, upstream evaluation, release checks | anthropics skill-creator × superpowers writing-skills × vercel find-skills |
-| `poneglyph` (optional) | Obsidian knowledge-vault integration | obsidian-markdown, obsidian-cli, obsidian-bases, json-canvas, defuddle | kepano/obsidian-skills (near-verbatim — EXC-1) |
+| `poneglyph` (optional) | Obsidian knowledge-vault integration | obsidian-markdown, obsidian-cli, obsidian-bases, json-canvas | kepano/obsidian-skills (near-verbatim — EXC-1) |
 | `aura` (optional) | Personalization & DX | Color palettes, statusline presets, output styles, `/aura:equip` | Original work |
 
 ### Cut / Merged from v1
@@ -323,7 +323,7 @@ Resolves B-GAP-002 (HD-5).
 | [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) | **Concept donor** — memory | Apache-2.0 | Take the concept (session memory, searchable history). Rebuild file-based; reject sqlite/bun/workers/docker/cloud-sync |
 | [wshobson/agents](https://github.com/wshobson/agents) | **Agent donor** | MIT | 95 plugins; ~12–15 general-purpose categories worth mining |
 | [anthropics/skills](https://github.com/anthropics/skills) | **Reference implementations** | No root license — per-skill `LICENSE.txt`: Apache-2.0 (12, incl. skill-creator) / proprietary (4: pdf, pptx, xlsx, docx), as verified at the 2026-08-18 pin | Official skill patterns; skill-creator lineage for instinct. Only Apache-2.0 components are lineage-eligible; the four proprietary skills are excluded (D-24) |
-| [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | **Obsidian source** | MIT | 5 skills, near-verbatim into poneglyph (EXC-1) |
+| [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | **Obsidian source** | MIT | 5 skills; 4 adopted near-verbatim into poneglyph (EXC-1), `defuddle` rejected at T-024 (HR-6/HR-7) |
 | [vercel-labs/skills](https://github.com/vercel-labs/skills) | **Meta-skill concept** | MIT | find-skills discovery concept feeds instinct |
 | [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | **Discovery source** | CC-BY-NC-ND-4.0 | Catalog for gap-scanning, not merge material. Candidates it surfaces are audited at their actual source under that source's own license (D-24) |
 | [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | **Template mining** | MIT | Caution: heavy npm CLI + analytics. Mine components dir only |
@@ -625,6 +625,18 @@ Rationale of record: none of these lines is normative, but each is a pointer a f
 | 2 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.17 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
 
 Rationale of record: the spec said the public step was pending rather than implying it had happened; now it has, and the spec says that instead. The v0.1.1 maintenance release of the same day is `ROADMAP.md` §13 material, not spec material.
+
+### v2.17 → v2.18 (2026-09-02) — Housekeeping: `defuddle` struck from the poneglyph lineup; stale status text outside the spec corrected
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §4 `poneglyph` row and §8 kepano row: `defuddle` removed from the skill list and the count qualified — it was rejected at T-024 (HR-6 network fetch, HR-7 package install; `eval/triage-log.md`) and never shipped; four skills ship under EXC-1 | Editorial |
+| 2 | Outside the spec, recorded here as the v2.16 row did: `README.md` §Status rewritten to the release facts (v0.1.0 2026-08-30; v0.1.1 and public repository 2026-09-02; final matrix 322 rows, 96 / 211 / 15 / 0), its lineup table's Surface column corrected to the commands that actually ship, and `defuddle` dropped from its poneglyph row; `ROADMAP.md` §2 item 2 records the Windows leg as executed (T-288; CI `validate-windows`), §7's closing "Phase 6 is open" line dated closed, §1 Phase-5 cell notes the T-287 resolution | Editorial |
+| 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.18 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
+
+Rationale of record: the public README was the last place still describing the project in the future tense and advertising command names that were never built, and §4/§8 still named a skill the audit rejected. None of this is normative; all of it is what a first-time reader sees first.
+
+Open items after v2.18: **none.**
 
 Open items after v2.17: **none.** The marketplace is live. Ongoing work is the §11 loop as recorded in `ROADMAP.md` §13.
 
