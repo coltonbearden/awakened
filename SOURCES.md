@@ -7,7 +7,7 @@ Attribution lives here and only here — no per-file headers anywhere in the tre
 ## Rules
 
 - Add or materially revise a component only with a same-change update to this register (D-12).
-- Cite the source repository and the pinned commit recorded in `upstream.json`; never a floating branch state (§8). Commits are `null` until `scripts/pin-upstream.*` has run, and no SHA is ever typed by hand.
+- Cite the source repository and the pinned commit recorded in `upstream.json` **at the time the component was audited or synthesized**; never a floating branch state (§8). Commits are `null` until `scripts/pin-upstream.*` has run, and no SHA is ever typed by hand. A later §11 re-pin advances `upstream.json` without rewriting these rows — they are historical records, and each re-pin is logged in `eval/triage-log.md` (first: T-289).
 - Record component path, owning plugin, source lineage, synthesis note, and license treatment once the component exists.
 - License facts are those in `SPEC.md` §8. A discrepancy found at a pin is corrected by a spec PR under D-16, not by an entry here.
 - A repository listed as discovery-only supplies no merge material unless a later audit row identifies a specific adopted concept.
