@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "pinned_at": "2026-08-18T18:34:59Z",
+  "pinned_at": "2026-09-02T15:34:36Z",
   "repos": [
     {
       "name": "obra/superpowers",
@@ -15,7 +15,7 @@
       "url": "https://github.com/mattpocock/skills",
       "license": "MIT",
       "role": "Quality bar",
-      "commit": "9c9f36ccd3995266cd675468af71639c8dde1ec5",
+      "commit": "6654f6b60cd9d5be8b54c6fafe44346dabeb3b76",
       "notes": "~24 skills, highest signal-to-noise ratio of all sources."
     },
     {
@@ -23,7 +23,7 @@
       "url": "https://github.com/affaan-m/ECC",
       "license": "MIT",
       "role": "Idea donor",
-      "commit": "06c5e118c4d3e6c3b7f9445f973a2194c82de193",
+      "commit": "ca185ef5f7667078a1e70a763bd3a9c71c48acf0",
       "notes": "~95 commands / ~70 agents / ~270 skills. Mine: sessions, plan/prp family, build-fix, code-review, hookify, security-scan, project-init. Reject: 22 language packs, 41KB hooks.json, dashboards, domain niche skills."
     },
     {
@@ -31,7 +31,7 @@
       "url": "https://github.com/thedotmack/claude-mem",
       "license": "Apache-2.0",
       "role": "Concept donor - memory",
-      "commit": "fae697a45d107aae567d605916391ab64d8ecae1",
+      "commit": "e5b6719fb9b39c6f2f041c9058a21a79e52d5f1c",
       "notes": "Take the concept (session memory, searchable history). Rebuild file-based; reject sqlite/bun/workers/docker/cloud-sync."
     },
     {
@@ -39,7 +39,7 @@
       "url": "https://github.com/wshobson/agents",
       "license": "MIT",
       "role": "Agent donor",
-      "commit": "367cb6a4a182cf7e9b0a17c9429f7411ddd9cf35",
+      "commit": "a30778f8c4e6b0a87567941b7cca4f534bf642b6",
       "notes": "95 plugins; roughly 12-15 general-purpose categories worth mining."
     },
     {
@@ -47,7 +47,7 @@
       "url": "https://github.com/anthropics/skills",
       "license": "No root license - per-skill: Apache-2.0 (12, incl. skill-creator) / proprietary (4)",
       "role": "Reference implementations",
-      "commit": "0a64e398ec6bb34a494f0c347e8ccae53a862f8e",
+      "commit": "53048666b05b4799081517d00e09e0a2dd688678",
       "notes": "Official skill patterns; skill-creator lineage for instinct. NOTICE coverage required for close adaptations."
     },
     {
@@ -63,7 +63,7 @@
       "url": "https://github.com/vercel-labs/skills",
       "license": "MIT",
       "role": "Meta-skill concept",
-      "commit": "c6f69c631292444cc541ac6d91e2226b0ff247da",
+      "commit": "435076e78988e1e6ec40d00b0b1d76bdbbc5419a",
       "notes": "find-skills discovery concept feeds instinct."
     },
     {
@@ -71,7 +71,7 @@
       "url": "https://github.com/hesreallyhim/awesome-claude-code",
       "license": "CC-BY-NC-ND-4.0",
       "role": "Discovery source",
-      "commit": "58cdbfde5058e175972f75624f65c009ab8b9180",
+      "commit": "08c52fe7d6496a2f999a61e0d05691c79524c307",
       "notes": "Catalog for gap-scanning, not merge material."
     },
     {
@@ -79,7 +79,7 @@
       "url": "https://github.com/davila7/claude-code-templates",
       "license": "MIT",
       "role": "Template mining",
-      "commit": "8546d44fdec5c9775bf92ef881090820e568198e",
+      "commit": "8a3613d31efb825adc0371cefa0b6798f15e43fd",
       "notes": "Caution: heavy npm CLI + analytics. Mine components dir only."
     }
   ]
