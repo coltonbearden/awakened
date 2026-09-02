@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.16
+**Version:** 2.17
 **Date:** 2026-09-02
-**Status:** Governing spec — supersedes SPEC.md v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.16 (2026-09-02), v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -370,7 +370,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | 3 — ECC triage + claude-mem extraction | ✅ Complete 2026-08-22 — 270 ECC skills → shortlist → deep-read shortlist only; extract claude-mem memory concepts | ECC shortlist ≤ 40 rows deep-read (bulk rejects logged in aggregate); file-based rebuild design written to `eval/claude-mem-rebuild.md`. |
 | 4 — Remaining sources | ✅ Complete 2026-08-22 — wshobson shortlisted plugins (~12–15), anthropics/skills, davila7 components dir, awesome-claude-code gap scan, **and ECC `commands/` + `agents/`** (D-26) | Matrix rows appended for each; gap-scan findings appended to `eval/triage-log.md`. |
 | 5 — Evaluation matrix | ✅ Complete 2026-08-27 (G5 owner ack) — Full scored matrix | Zero empty `verdict` cells; **independent-reviewer approval gate** — G5 adjudicated by a reviewer that receives the artifacts only, never the executing agent's reasoning, against `eval/gate-review-protocol.md`; a second `REJECTED` on the gate escalates to the project owner. Sign-off recorded as an ADR in `DECISIONS.md` before any building (D-25). A reviewer `APPROVED` is provisional: the `ROADMAP.md` gate log records it as `APPROVED (reviewer) — pending owner ack`, and Phase 6 work of any kind is barred until the owner posts an acknowledgement comment on the sign-off PR (D-25, amended v2.5). |
-| 6 — Scaffold & synthesize | ✅ Complete 2026-08-27 (G6 review; release tag pending the owner) — Repo structure, marketplace.json, synthesized components, validation + CI, docs | Tree matches §3 exactly; `scripts/validate.sh` and `validate.ps1` both exit 0; CI green; a `SOURCES.md` row exists for every shipped component. |
+| 6 — Scaffold & synthesize | ✅ Complete 2026-08-27 (G6 review; v0.1.0 released 2026-08-30; marketplace live 2026-09-02) — Repo structure, marketplace.json, synthesized components, validation + CI, docs | Tree matches §3 exactly; `scripts/validate.sh` and `validate.ps1` both exit 0; CI green; a `SOURCES.md` row exists for every shipped component. |
 
 ---
 
@@ -616,6 +616,17 @@ Rationale of record: ADR-017 itself named this closure as owed ("a future ADR sh
 | 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.16 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
 
 Rationale of record: none of these lines is normative, but each is a pointer a fresh session reads before the rule it points at, and D-16's 1:1 mirror is only as trustworthy as its counts. Fixing them in a spec PR rather than a bare docs commit keeps §14 the one place that says what changed and when.
+
+### v2.16 → v2.17 (2026-09-02) — Marketplace live: the repository is public; the last open item discharged
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §10 Phase 6 marker: "release tag pending the owner" replaced by the facts — v0.1.0 released 2026-08-30, repository public 2026-09-02 (`ROADMAP.md` §8 gate line, §11). The "marketplace live" step §8 reserved is done; every §10 phase now carries a complete marker with no pending clause | Editorial |
+| 2 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.17 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
+
+Rationale of record: the spec said the public step was pending rather than implying it had happened; now it has, and the spec says that instead. The v0.1.1 maintenance release of the same day is `ROADMAP.md` §13 material, not spec material.
+
+Open items after v2.17: **none.** The marketplace is live. Ongoing work is the §11 loop as recorded in `ROADMAP.md` §13.
 
 Open items after v2.16: **none open in the spec.** The public marketplace ("marketplace live") is pending the owner (`ROADMAP.md` §8, §11). Post-v1 work is `ROADMAP.md` §13.
 
