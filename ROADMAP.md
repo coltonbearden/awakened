@@ -13,7 +13,7 @@ Each phase below reproduces `SPEC.md` §10's exit criteria **verbatim** in a quo
 | 2 | Tier-1 deep audit | **Complete** (2026-08-18) — 55 rows, 27 shortlist / 25 reject / 3 merge | G2 — passed |
 | 3 | ECC triage + claude-mem extraction | **Complete** (2026-08-22) — 285 ECC skills dispositioned, 40 deep-read (15 shortlist / 2 merge / 23 reject), `eval/claude-mem-rebuild.md` written | G3 — passed |
 | 4 | Remaining sources | **Complete** (2026-08-22) — three passes: ECC `commands/`+`agents/`, wshobson, anthropics, the gap scan, and davila7. 225 rows, T-070…T-273; matrix 322 rows, 100 shortlist / 207 reject / 15 merge | G4 — passed |
-| 5 | Evaluation matrix consolidation | **Complete** (2026-08-26) — matrix 322 rows, **95 shortlist / 211 reject / 15 merge / 1 defer**; `eval/shortlist.md` (SPEC v2.8); T-274…T-286; sign-off ADR-027 / D-27 (SPEC v2.10) | **G5 — APPROVED (owner, after two reviewer `REJECTED` rounds); OWNER ACK 2026-08-27** |
+| 5 | Evaluation matrix consolidation | **Complete** (2026-08-26) — matrix 322 rows, **95 shortlist / 211 reject / 15 merge / 1 defer** (the one `defer` resolved at T-287 → 96 / 211 / 15 / 0); `eval/shortlist.md` (SPEC v2.8); T-274…T-286; sign-off ADR-027 / D-27 (SPEC v2.10) | **G5 — APPROVED (owner, after two reviewer `REJECTED` rounds); OWNER ACK 2026-08-27** |
 | 6 | Scaffold & synthesize | **Complete** (2026-08-27) — full §3 tree; 114 component files across nine plugins (53 skills, 21 commands, 27 agents, 6 statusline twins, 2 output styles, 5 reference siblings); zero hooks; SPEC v2.13; PRs #27–#38 | G6 — passed; **v0.1.0 released 2026-08-30**; **marketplace live 2026-09-02** |
 
 ## 2. Foundation Suite — Entry Criteria for Phase 2
@@ -31,7 +31,7 @@ Before Phase 2 begins, the governance, evaluation, schema, template, and legal f
 **Phase 2 entry check (all three, in order):**
 
 1. All foundation files committed to `coltonbearden/awakened`.
-2. `bash scripts/validate.sh` and `pwsh -File scripts/validate.ps1` both exit 0 on the committed tree, each on its own platform. This has not yet been executed on Windows 11; the Windows leg is an open entry-check item, not a completed one.
+2. `bash scripts/validate.sh` and `pwsh -File scripts/validate.ps1` both exit 0 on the committed tree, each on its own platform. The Windows 11 leg was executed at T-288 (2026-08-27) and the `validate-windows` CI job runs it on every PR.
 3. `bash scripts/pin-upstream.sh` has been run and `upstream.json` reports ten non-null `commit` values with a non-null `pinned_at` — the §10 Phase-2 exit criterion depends on it, and no SHA may be written by any other means (§8).
 
 ---
@@ -365,7 +365,7 @@ The §3.5 non-Anthropic second pass is REQUIRED and non-binding; the owner runs 
 **Phase 6 stays barred until the §11 `OWNER ACK` row exists.**
 
 **OWNER ACK — 2026-08-27.** The owner acknowledged on PR #25 (`https://github.com/coltonbearden/awakened/pull/25#issuecomment-5440726308`) and waived the §3.5 second pass
-(SPEC v2.11, ADR-027 amended in place). The §11 second row exists below. **Phase 6 is open.**
+(SPEC v2.11, ADR-027 amended in place). The §11 second row exists below. **Phase 6 opened here and closed 2026-08-27 (§8, G6).**
 
 ---
 
