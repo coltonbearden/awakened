@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.18
+**Version:** 2.19
 **Date:** 2026-09-02
-**Status:** Governing spec — supersedes SPEC.md v2.17 (2026-09-02), v2.16 (2026-09-02), v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.18 (2026-09-02), v2.17 (2026-09-02), v2.16 (2026-09-02), v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -378,7 +378,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 
 - `upstream.json` pins every source repo to a commit SHA (resolved by `scripts/pin-upstream.*`).
 - `.github/workflows/upstream-watch.yml` runs monthly: diffs upstream repos, opens an issue summarizing changes worth re-evaluating.
-- `instinct` dogfoods the process — its upstream-review skill evaluates diffs using Claude Code itself.
+- `instinct` dogfoods the process — the maintainer reviews every changed audited file the watch names inside Claude Code itself, and checks each adoption with `instinct`'s shipped `auditing-components` (safety, fail-closed) and `linting-components` (form) before it ships; the first such review is `eval/triage-log.md` T-290. Those skills are shipped, read-only components bound by HR-6 like every other component; the loop's network activity lives entirely in the HR-6 exception (`scripts/pin-upstream.*`, `upstream-watch.yml`). No separate "upstream-review" skill exists or is planned.
 - Versioned releases via git tags; CHANGELOG per plugin.
 
 ---
@@ -635,6 +635,18 @@ Rationale of record: the spec said the public step was pending rather than imply
 | 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.18 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
 
 Rationale of record: the public README was the last place still describing the project in the future tense and advertising command names that were never built, and §4/§8 still named a skill the audit rejected. None of this is normative; all of it is what a first-time reader sees first.
+
+### v2.18 → v2.19 (2026-09-02) — Editorial: §11 names the shipped skills the maintenance review uses; the v2.2/v2.3 advisory items recorded inside the spec
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §11: "its upstream-review skill evaluates diffs" replaced by the procedure that actually runs — the maintainer reviews the changed audited files inside Claude Code and checks adoptions with `instinct`'s shipped `auditing-components` and `linting-components` (first run: `eval/triage-log.md` T-290). No skill named `upstream-review` was ever built, and none is added: a new component with no measured need is what `ROADMAP.md` §13 rules out. The same line settles HD-7 — the HR-6 line between shipped components and maintainer tooling: `instinct`'s six skills are shipped, read-only components bound by HR-6; `scripts/pin-upstream.*` and `upstream-watch.yml` are the exception HR-6 enumerates; there is no third class | Editorial |
+| 2 | The four items the v2.2 and v2.3 open-items lines left "advisory in `03-synthesis/SYNTHESIS_LOG.md`" — a path outside the published repository — are dispositioned here so the spec needs no external file. **HD-7** settled by row 1. **HD-8** (a scaffold-time procedure for artifacts that encode official formats before Phase 2 verified them) discharged: schemas shipped minimal and permissive, every uncertainty went to an assumptions register rather than into a schema, and Phase 2 §0 verification closed the register (SPEC-GAP-001 at v2.7, SPEC-GAP-002 at v2.13). **HD-11** (five optional amendments) all dispositioned, none adopted into normative text: `Alternatives Considered` and `Enforcement` are already every ADR's format in `DECISIONS.md`; the labelled 2/4 rubric interpolations stay in `eval/rubric.md`, subordinate to §9; no `schemas/command.schema.json` — commands are linted by the validators' component walk and by `linting-components`; a richer exit taxonomy is moot with every phase closed; `defaultEnabled: false` for the satellites declined — the catalog shipped without it and no issue asks for it. **HD-12** closed at v2.5 row 5 (CI runs both validators and the twin-parity diff) | Clarifying |
+| 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.19 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
+
+Rationale of record: §11 described a skill that was never built while T-290 shows what the first real cycle used, and the only remaining spec citations to a path outside the repository were the four advisory items. ADR-010's Decision text keeps the "upstream-review skill" phrase: §11 is not a §12 cell, so the in-place amendment carve-out does not apply, and the ADR records what was true when written, as ADR-009, ADR-021 and ADR-025 do.
+
+Open items after v2.19: **none.**
 
 Open items after v2.18: **none.**
 
