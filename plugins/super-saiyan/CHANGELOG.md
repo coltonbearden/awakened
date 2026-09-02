@@ -3,6 +3,13 @@
 All notable changes to this plugin are recorded here, newest first. The format follows Keep a Changelog; versions
 follow the `version` field of `.claude-plugin/plugin.json` and are released by git tag (`SPEC.md` §11).
 
+## [Unreleased]
+
+### Changed
+
+- `grilling` skill: the questions of a round are separated by a horizontal rule (`eval/triage-log.md` T-290,
+  first §11 dogfooded review).
+
 ## [0.1.0] — 2026-08-30
 
 ### Added
