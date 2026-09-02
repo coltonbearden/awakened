@@ -9,9 +9,20 @@ allowed-tools: [Read, Grep, Glob, Bash(git status:*), Bash(git log:*), Bash(git 
 Session files are written by `/kaioken:save-session` to `${CLAUDE_PLUGIN_DATA}/sessions/` under the naming rule
 `<YYYY-MM-DD>--<slug>.md`, with `index.md` listing each file's date, slug, alias, project, branch, and worktree.
 
-Interpret `$ARGUMENTS` as a selector. Empty: the newest file whose index row matches the current project, else the
-newest file overall. A slug or alias: the matching index row. A date: the newest file for that date. A path: read
-that file directly, wherever it is. When nothing matches, say so and point to `/kaioken:save-session`; then stop.
+Interpret `$ARGUMENTS` as a selector. Empty: the newest eligible file whose index row matches the current project,
+else the newest eligible file overall. A date: the newest eligible file for that date. A slug or alias: the matching
+index row. A path: that file, wherever it is. A slug, alias, or path names exactly one file and is never swapped for
+another: if that file is empty or unreadable, report it as such and stop. When nothing matches, say so and point to
+`/kaioken:save-session`; then stop.
+
+## Eligibility
+
+Only the empty and date selectors rank candidates. A candidate is ineligible when it is empty, whitespace only, or
+holds nothing beyond headings, index metadata, separators, and placeholder text; a file with a single task and no
+populated file states, completed work, failed approaches, or next step counts the same, so a half-written handoff
+never outranks a real one. Among eligible candidates the newest modification time wins; on a tie, prefer the one
+with more populated sections, then the larger file, then the lexicographically smaller path, so the choice is
+deterministic. Name each skipped candidate and its reason on the briefing's Drift line.
 
 ## Procedure
 

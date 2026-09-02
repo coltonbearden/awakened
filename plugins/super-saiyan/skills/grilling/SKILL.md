@@ -29,7 +29,8 @@ design to `writing-plans`.
    can be asked now without guessing at answers not yet given. A question that depends on another still open
    question waits for a later round.
 3. Ask the whole frontier in one round. Number each question, give it a title, state it fully — with the options
-   when there are a few — and attach your recommended answer with the reason. Then stop and wait for the user.
+   when there are a few — and attach your recommended answer with the reason. Separate the questions of a round
+   with a horizontal rule so each reads as its own block. Then stop and wait for the user.
 4. Look facts up yourself. When a frontier question hinges on something in the environment — what the code does,
    what a config holds, what a test covers — find it inline before asking. Only questions whose answers depend on
    that lookup wait; ask the rest of the round now.
@@ -48,6 +49,7 @@ design to `writing-plans`.
 | Number and title | `Q3 — Session storage` |
 | Body | The question in full, the options if enumerable, the consequence of each |
 | Recommendation | Your preferred answer and the one-line reason |
+| Separator | A horizontal rule between consecutive questions of the same round |
 
 ## Safety Checks
 

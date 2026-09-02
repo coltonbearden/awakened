@@ -3,6 +3,14 @@
 All notable changes to this plugin are recorded here, newest first. The format follows Keep a Changelog; versions
 follow the `version` field of `.claude-plugin/plugin.json` and are released by git tag (`SPEC.md` §11).
 
+## [Unreleased]
+
+### Changed
+
+- `/kaioken:resume-session` — implicit selection (empty or date selector) now skips empty and placeholder session
+  files and breaks ties deterministically; a slug, alias, or path is never substituted with another file
+  (`eval/triage-log.md` T-290, first §11 dogfooded review).
+
 ## [0.1.0] — 2026-08-30
 
 ### Added

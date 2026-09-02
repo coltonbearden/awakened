@@ -94,7 +94,7 @@ Awakened is deliberately **not**:
 - **Upstream pins:** resolved 2026-08-18 by `scripts/pin-upstream.sh` — ten non-null commits, non-null `pinned_at` (§8).
 - **Phases 3–5:** complete 2026-08-22 … 2026-08-27 — 322 matrix rows, G5 approved by the owner after two reviewer rounds (ADR-027), 96 shortlist / 211 reject / 15 merge / 0 defer after T-287.
 - **Phase 6:** complete 2026-08-27 — full §3 tree, 114 component files across nine plugins, zero hooks (the harness rejects the shell-free handler types on the budgeted events, SPEC v2.13); G6 review passed under D11.
-- **Next milestone:** the owner tags the first release and takes the marketplace live (`ROADMAP.md` §8 gate line, §11).
+- **Released:** v0.1.0 on 2026-08-30 (`ROADMAP.md` §11). **Next:** the repository goes public, then the §11 loop repeats monthly — upstream-watch, re-pin, dogfooded review (first: `eval/triage-log.md` T-289, T-290), tagged releases.
 
 ## 10. Reading Order
 
