@@ -37,11 +37,11 @@
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
-#   D2  DECISIONS.md has exactly 27 ADR headings covering D-01..D-27, no dupes
+#   D2  DECISIONS.md has exactly 28 ADR headings covering D-01..D-28, no dupes
 #   N1  Plugin directory names are drawn from the nine Tier-1 names
 #   N3  Machine-facing names match ^[a-z0-9]+(-[a-z0-9]+)*$ (case-sensitive)
 #   N4  No plugin, and no command namespace, named for the marketplace
-#   N5  Tier-2 statusline preset IDs do not collide with Tier-1 plugin names
+#   N5  Tier-2 preset IDs (statuslines, palettes) do not collide with Tier-1 plugin names
 #   U1  upstream.json parses, holds exactly the ten SPEC section 8 repos, keys present
 #   U2  upstream.json pin coherence: all commits null, or all pinned with pinned_at
 #   R1  rubric.json matches Locked Format 4 and agrees with rubric.md text
@@ -79,7 +79,7 @@ $NinePlugins = @('super-saiyan', 'sharingan', 'rinnegan', 'kaioken', 'bankai',
 $HookPlugins = @('super-saiyan', 'rinnegan')
 $MarketplaceName = 'awakened'
 $Kebab = '^[a-z0-9]+(-[a-z0-9]+)*$'
-$SpecVersionLine = '**Version:** 2.14'
+$SpecVersionLine = '**Version:** 2.15'
 $MatrixHeader = 'id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 function Write-Usage {
@@ -251,15 +251,15 @@ if (Test-Path -LiteralPath 'DECISIONS.md' -PathType Leaf) {
     $decisions = Get-Content -LiteralPath 'DECISIONS.md' -Raw -Encoding utf8
     $heads = @([regex]::Matches($decisions, '(?m)^## ADR-(\d{3})\b') | ForEach-Object { $_.Groups[1].Value })
     $refs  = @([regex]::Matches($decisions, '(?m)^\|\s*Spec ref\s*\|\s*(D-\d{2})\s*\|') | ForEach-Object { $_.Groups[1].Value })
-    $expectedAdr = @(1..27 | ForEach-Object { '{0:d3}' -f $_ })
-    $expectedRef = @(1..27 | ForEach-Object { 'D-{0:d2}' -f $_ })
+    $expectedAdr = @(1..28 | ForEach-Object { '{0:d3}' -f $_ })
+    $expectedRef = @(1..28 | ForEach-Object { 'D-{0:d2}' -f $_ })
     $d2Bad = $false
-    if ($heads.Count -ne 27) {
-        Add-Err 'D2' ("DECISIONS.md has " + $heads.Count + " ADR headings, expected exactly 27 (D-16)")
+    if ($heads.Count -ne 28) {
+        Add-Err 'D2' ("DECISIONS.md has " + $heads.Count + " ADR headings, expected exactly 28 (D-16)")
         $d2Bad = $true
     }
     if ((($heads | Sort-Object) -join ',') -cne ($expectedAdr -join ',')) {
-        Add-Err 'D2' 'ADR headings are not exactly ADR-001..ADR-027'
+        Add-Err 'D2' 'ADR headings are not exactly ADR-001..ADR-028'
         $d2Bad = $true
     }
     if ((($refs | Sort-Object) -join ',') -cne ($expectedRef -join ',')) {
@@ -268,11 +268,11 @@ if (Test-Path -LiteralPath 'DECISIONS.md' -PathType Leaf) {
         if ($missing.Count -gt 0) { Add-Err 'D2' ("Spec ref fields do not cover: " + ($missing -join ', ')) }
         if ($dupes.Count -gt 0) { Add-Err 'D2' ("Spec ref fields are duplicated: " + ($dupes -join ', ')) }
         if ($missing.Count -eq 0 -and $dupes.Count -eq 0) {
-            Add-Err 'D2' 'Spec ref fields do not map 1:1 onto D-01..D-27'
+            Add-Err 'D2' 'Spec ref fields do not map 1:1 onto D-01..D-28'
         }
         $d2Bad = $true
     }
-    if (-not $d2Bad) { Add-Ok 'D2' '27 ADRs mapping 1:1 onto D-01..D-27' }
+    if (-not $d2Bad) { Add-Ok 'D2' '28 ADRs mapping 1:1 onto D-01..D-28' }
 }
 
 # -----------------------------------------------------------------------------
@@ -327,16 +327,17 @@ if (Test-Path -LiteralPath 'plugins' -PathType Container) {
 if (-not $n4Bad) { Add-Ok 'N4' 'no marketplace-level plugin or command namespace (N-4)' }
 
 $n5Bad = $false
-if (Test-Path -LiteralPath 'plugins/aura/statuslines' -PathType Container) {
-    foreach ($p in (Get-ChildItem -LiteralPath 'plugins/aura/statuslines' -Force)) {
+foreach ($n5Dir in @('plugins/aura/statuslines', 'plugins/aura/palettes')) {
+    if (-not (Test-Path -LiteralPath $n5Dir -PathType Container)) { continue }
+    foreach ($p in (Get-ChildItem -LiteralPath $n5Dir -Force)) {
         $preset = [System.IO.Path]::GetFileNameWithoutExtension($p.Name)
         if ($preset -cin $NinePlugins) {
-            Add-Err 'N5' ("statusline preset ID collides with a Tier-1 plugin name: " + $preset + " (N-5, D-17)")
+            Add-Err 'N5' ("preset ID collides with a Tier-1 plugin name: " + $preset + " (N-5, D-17, D-28)")
             $n5Bad = $true
         }
     }
 }
-if (-not $n5Bad) { Add-Ok 'N5' 'no Tier-2 statusline preset collides with a Tier-1 plugin name' }
+if (-not $n5Bad) { Add-Ok 'N5' 'no Tier-2 preset ID collides with a Tier-1 plugin name' }
 
 # -----------------------------------------------------------------------------
 # U1 / U2  upstream registry

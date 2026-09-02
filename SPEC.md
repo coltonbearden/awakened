@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.14
-**Date:** 2026-08-27
-**Status:** Governing spec — supersedes SPEC.md v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Version:** 2.15
+**Date:** 2026-09-02
+**Status:** Governing spec — supersedes SPEC.md v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -182,11 +182,11 @@ Changes from v1: `domain-expansion` → `domain`, `ultra-instinct` → `instinct
 | Preset | Palette |
 |---|---|
 | `ultra-instinct` | Silver/white base + electric blue accents |
-| `super-saiyan` | Gold/yellow energy |
+| `final-flash` | Gold/yellow energy (renamed from `super-saiyan` in v2.15 — D-28 closes the ADR-017 grandfather) |
 | `domain-expansion` | Deep void + barrier accent color |
 | `gear-fifth` | White/bright, cartoon-vivid |
 | `six-eyes` | Cyan / limitless blue |
-| `bankai` | Crimson/black |
+| `getsuga-tensho` | Crimson/black (renamed from `bankai` in v2.15 — D-28 closes the ADR-017 grandfather) |
 
 **Statusline presets:**
 
@@ -206,7 +206,7 @@ Implementation note: Claude Code's native theming is limited, so `aura` ships as
 | N-2 | Plugin names carry the theme; **skill and command names carry the function.** Skills auto-invoke via frontmatter `description` matching, not by name recognition — a skill named something clever with a vague description will never fire. |
 | N-3 | All machine-facing names **MUST** be lowercase kebab-case: `^[a-z0-9]+(-[a-z0-9]+)*$`. |
 | N-4 | Commands namespace under the **plugin** name, never the marketplace name. `/awakened:*` **MUST NOT** exist unless a plugin is literally named `awakened` (it isn't — that would be a catch-all, which is prohibited). |
-| N-5 | Tier 2 preset identifiers **MUST NOT** duplicate any Tier 1 plugin name (D-17). |
+| N-5 | Tier 2 preset identifiers **MUST NOT** duplicate any Tier 1 plugin name (D-17). The rule reaches the **whole** Tier-2 set — statusline and palette presets alike; the palette grandfather ADR-017 recorded is closed (D-28, v2.15). |
 | N-6 | Reject candidate names that are too vague to communicate purpose, too long for practical command use (Tier 1), too tied to a temporary implementation, or likely to overlap an existing plugin. |
 
 ### Command Namespace Map (illustrative baseline)
@@ -403,7 +403,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | D-14 | godspeed / nen | Cut — scope folded into kaioken/bankai and instinct |
 | D-15 | Hooks budget | Max one per plugin, load-bearing only |
 | D-16 | Spec change control | Canonical spec is `SPEC.md` at repo root; changes land via PR that edits SPEC.md and appends a §14 changelog row; DECISIONS.md ADRs mirror this table 1:1 |
-| D-17 | Preset/plugin collision | Tier 2 preset IDs must not duplicate Tier 1 plugin names; statusline preset `domain` renamed `barrier` |
+| D-17 | Preset/plugin collision | Tier 2 preset IDs must not duplicate Tier 1 plugin names; statusline preset `domain` renamed `barrier`. **Amended v2.15 (2026-09-02):** the palette grandfather ADR-017 recorded (`super-saiyan`, `bankai` in the §5 palette table) is closed — both renamed under D-28; no grandfathered exceptions remain |
 | D-18 | Hook write scope | Hooks may write only to the project directory or the owning plugin's data directory under the user's Claude config dir; reconciles HR-8 with C-3 and enables rinnegan's file-based memory hook |
 | D-19 | Delivery staging | §3 entries tagged `[P6]` are Phase-6 deliverables, expected-absent at scaffold; validators lenient by default, strict under `--release`/`-Release` (ratifies synthesis DEVIATION-001; resolves A-GAP-001/B-GAP-001) |
 | D-20 | Matrix provenance | Provenance lives outside `matrix.csv` — `upstream.json.pinned_at` + `eval/triage-log.md`; the §9 header is immutable (resolves A-GAP-002) |
@@ -414,6 +414,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | D-25 | G5 adjudication | Gate G5 is decided by an **independent reviewer** on a different model from the executing agent, artifact-only, against the versioned `eval/gate-review-protocol.md`; a mandatory source spot-check, uncertainty resolving to `REJECTED`, and escalation to the owner on a second `REJECTED`. Scope is G5 alone — G3, G4 and G6 remain review gates. Amended v2.5 (ADR-025 in place): a reviewer `APPROVED` is provisional until the owner acknowledges it on the sign-off PR — no Phase 6 work before the ack; reviews run clean-room from a `git archive` workspace under an explicit MUST-NOT-read list; the reviewer loader is sha256-pinned in the protocol (§0, verified at Step 0 — mismatch ⇒ automatic `REJECTED`); a non-Anthropic second pass is a non-binding SHOULD at the real G5, REQUIRED where the executing agent's model equals the reviewer's. Outcomes in ADR-025 |
 | D-26 | Phase-4 ECC scope | `SPEC.md` §10 Phase 4 covers ECC's `commands/` and `agents/` alongside the four sources it already names. Of the seven mining targets §8 ratifies, the `sessions` family, `build-fix`, `code-review` and `project-init` exist **only** under `commands/`; §4 names ECC's `agents/` as `bankai`'s lineage and the sessions commands as `kaioken`'s. §10 Phase 3 is skills-only and no other phase named ECC, so those components had no phase that would audit them. Landed at the G3 boundary under `ROADMAP.md` §10 rule 4. Outcomes in ADR-026 |
 | D-27 | Phase-5 sign-off (G5) | Gate G5 is **APPROVED** on the Phase-5 artifacts at `eval/matrix.csv` 322 rows — **95 `shortlist` / 211 `reject` / 15 `merge` / 1 `defer`** — with `eval/shortlist.md` as the roster proposed for synthesis (per plugin: `bankai` 34, `super-saiyan` 27, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 5, `poneglyph` 4, `rinnegan` 2, `aura` 0 by design under §4 *Original work*). The one open `defer` is `claude-mem/session-memory` on C-1, resolving at Phase 6 by executing the authored `rinnegan` hook on both platforms before it ships. The approval is the **project owner's**, given after the independent reviewer returned `REJECTED` twice on the same gate and the gate escalated under `eval/gate-review-protocol.md` §5 rule 2; every reviewer finding was confirmed on the pinned source and applied (T-277…T-286). The §3.5 non-Anthropic second pass is REQUIRED (both agent and reviewer ran on the same model) and non-binding; **amended v2.11 (ADR-027 in place): the owner waived it on 2026-08-27 in the acknowledgement comment.** Phase 6 opened on that acknowledgement — the owner's comment on the sign-off pull request, 2026-08-27 (D-25). Outcomes in ADR-027 |
+| D-28 | Tier-2 palette rename (ADR-017 residue closed) | The two §5 palette preset IDs that duplicated Tier-1 plugin names are renamed — `super-saiyan` → `final-flash`, `bankai` → `getsuga-tensho` — following the ADR-017 pattern: same franchise, same color imagery, a full technique name, no Tier-1 token. N-5 now reaches the whole Tier-2 set with no grandfathered exceptions; validator check N5's surface extends to any future `plugins/aura/palettes/` directory (a no-op until palette presets ship as files). Display-state labels inside statusline scripts (e.g. the `transformation` preset's `super-saiyan` state) are not preset identifiers and are unaffected. Outcomes in ADR-028 |
 
 ---
 
@@ -596,7 +597,17 @@ Rationale of record: both findings came from running the harness, which is what 
 
 Rationale of record: the tree is complete, validated on both platforms and reviewed; what remains — the release tag and the public marketplace — is a publishing act the standing authority reserves to the owner, and the spec says so rather than implying it happened.
 
-Open items after v2.14: **none open in the spec.** The first release tag and "marketplace live" are pending the owner (`ROADMAP.md` §8, §11). Post-v1 work is `ROADMAP.md` §13.
+### v2.14 → v2.15 (2026-09-02) — ADR-017 residue closed: the two colliding palette preset IDs renamed
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §5: the palette presets `super-saiyan` and `bankai` — the two Tier-2 IDs that duplicated Tier-1 plugin names, grandfathered since ADR-017 — are renamed `final-flash` (gold/yellow energy) and `getsuga-tensho` (crimson/black). N-5 now reaches the whole Tier-2 set, statusline and palette alike, with no grandfathered exceptions. Display-state labels inside statusline scripts are not preset identifiers and are unchanged | Semantic → D-28 |
+| 2 | §12 gains **D-28**, the first post-v1 cell, mirrored by ADR-028; the D-17 cell is amended in place to record its grandfather closed, and ADR-017 carries the mirroring dated `Amended` row and italic note the `CLAUDE.md` §8 carve-out permits | Additive → D-28 |
+| 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.15 line in both twins; **check D2 bumped to 28 ADRs mapping 1:1 onto D-01..D-28**; check N5's walk extended to `plugins/aura/palettes/` alongside `statuslines/` in both twins | Additive |
+
+Rationale of record: ADR-017 itself named this closure as owed ("a future ADR should close that residue"), and the fix costs nothing — no palette preset has ever shipped as a file, so the rename touches only the spec's own tables. Closing it now, before the §13 aura preset expansion opens, means the expansion starts from a rule with no exceptions rather than adding files under a grandfather.
+
+Open items after v2.15: **none open in the spec.** The public marketplace ("marketplace live") is pending the owner (`ROADMAP.md` §8, §11). Post-v1 work is `ROADMAP.md` §13.
 
 Open items after v2.13: **SPEC-GAP-002 is closed; no `defer` row remains.** The Windows 11 leg of the harness spike is pending owner re-authentication of `claude.exe` and is re-run before G6 (T-287). The rest as recorded below.
 
