@@ -2,7 +2,7 @@
   "$schema": "../../../schemas/plugin.schema.json",
   "name": "super-saiyan",
   "displayName": "Super Saiyan",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Core engineering workflow: planning, implementation discipline, test-driven development, systematic debugging, verification before completion, and git workflow guidance. The stable baseline - it depends on no agents, memory infrastructure, or project-specific tooling (B-1).",
   "license": "MIT",
   "repository": "https://github.com/coltonbearden/awakened",

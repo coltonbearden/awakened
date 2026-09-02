@@ -3,7 +3,7 @@
 All notable changes to this plugin are recorded here, newest first. The format follows Keep a Changelog; versions
 follow the `version` field of `.claude-plugin/plugin.json` and are released by git tag (`SPEC.md` §11).
 
-## [Unreleased]
+## [0.1.1] — 2026-09-02
 
 ### Changed
 

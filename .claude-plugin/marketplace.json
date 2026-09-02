@@ -2,7 +2,7 @@
   "$schema": "../schemas/marketplace.schema.json",
   "name": "awakened",
   "description": "Awakened - a curated, synthesized Claude Code plugin marketplace: nine plugins rebuilt from the strongest open-source Claude Code repositories with the bloat, risk, and friction engineered out.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "owner": {
     "name": "coltonbearden",
     "url": "https://github.com/coltonbearden"
@@ -13,7 +13,7 @@
       "source": "./plugins/super-saiyan",
       "displayName": "Super Saiyan",
       "description": "Core engineering workflow: planning, implementation discipline, test-driven development, systematic debugging, verification before completion, and git workflow guidance. The stable baseline - it depends on no agents, memory infrastructure, or project-specific tooling (B-1).",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "core",
       "license": "MIT",
       "repository": "https://github.com/coltonbearden/awakened",
@@ -62,7 +62,7 @@
       "source": "./plugins/kaioken",
       "displayName": "Kaioken",
       "description": "Session management and momentum: save and resume sessions, handoffs, checkpoints, and focused asides. Session momentum only - it duplicates no planning, debugging, or review system (B-5).",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "core",
       "license": "MIT",
       "repository": "https://github.com/coltonbearden/awakened",
