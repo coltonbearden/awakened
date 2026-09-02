@@ -1,10 +1,10 @@
 # DECISIONS.md — Architecture Decision Records
 
-**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-027 formalize the twenty-seven decisions ratified in `SPEC.md` §12 (D-01…D-27), mirroring that table 1:1 as D-16 requires.
+**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-028 formalize the twenty-eight decisions ratified in `SPEC.md` §12 (D-01…D-28), mirroring that table 1:1 as D-16 requires.
 
 **Conventions**
 
-- **IDs** are sequential and never reused. Next available: **ADR-028**.
+- **IDs** are sequential and never reused. Next available: **ADR-029**.
 - **Statuses:** `Proposed` → `Accepted` → (`Superseded by ADR-0NN` | `Deprecated`). Accepted ADRs are **immutable** — to change course, write a new ADR that supersedes the old one. One carve-out, codified at SPEC v2.5: when a spec PR amends an existing `SPEC.md` §12 cell, the ADR that mirrors it is amended **in place** — a dated `Amended` row in its field table plus a dated italic note at every changed passage, `Status` staying `Accepted` — because D-16 requires the mirror to stay 1:1 and a superseding ADR would break that mapping. Superseding remains the route for *reversing* a decision.
 - **Format:** field table (Status, Date, Spec ref, Supersedes, plus `Amended` where an in-place amendment has landed), Context, Decision, Alternatives Considered, Consequences, Enforcement.
 - **Spec ref** cites the `D-NN` rule ID from `SPEC.md` §12, so the 1:1 mapping is mechanically checkable.
@@ -41,6 +41,7 @@
 | 025 | Gate G5 adjudicated by an independent reviewer (amended 2026-08-21: owner-ack tripwire, clean room, loader pin) | Accepted | D-25 |
 | 026 | Phase-4 scope covers ECC `commands/` and `agents/`; `eval/claude-mem-rebuild.md` enters the §3 tree | Accepted | D-26 |
 | 027 | Phase-5 sign-off: Gate G5 approved by the owner after two reviewer `REJECTED` rounds; 95-row shortlist, one open `defer` enumerated (amended 2026-08-27: owner ack recorded, §3.5 pass waived) | Accepted | D-27 |
+| 028 | Tier-2 palette rename: the ADR-017 grandfather closed — `super-saiyan` → `final-flash`, `bankai` → `getsuga-tensho`; N-5 reaches the whole Tier-2 set | Accepted | D-28 |
 
 ---
 
