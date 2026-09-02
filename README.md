@@ -67,7 +67,7 @@ Plugin content shipped after those audits, the independent-reviewer approval gat
 |---|---|
 | `.claude-plugin/marketplace.json` | The marketplace catalog — nine plugins, in-repo sources |
 | `plugins/<name>/` | The nine plugins: manifest in `.claude-plugin/`, then `skills/`, `commands/`, `agents/` (bankai), `statuslines/` and `output-styles/` (aura), `CHANGELOG.md` |
-| `SPEC.md` | The ratified specification (v2.18) — the authority, shipped verbatim |
+| `SPEC.md` | The ratified specification (v2.19) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
 | `DECISIONS.md` | ADR-001…ADR-028 — every resolved decision, mirroring `SPEC.md` §12 one to one |
