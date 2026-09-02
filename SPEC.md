@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.15
+**Version:** 2.16
 **Date:** 2026-09-02
-**Status:** Governing spec — supersedes SPEC.md v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Status:** Governing spec — supersedes SPEC.md v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -102,7 +102,7 @@ awakened/
 ├── .gitattributes                # LF line endings enforced for *.sh, *.ps1, *.json, *.md
 ├── CLAUDE.md                     # Repo-session execution rules for Claude Code
 ├── CONTEXT.md                    # System overview, non-goals, user profile
-├── DECISIONS.md                  # ADR-001…ADR-027, 1:1 with §12
+├── DECISIONS.md                  # ADR-001…ADR-028, 1:1 with §12
 ├── ROADMAP.md                    # Phases 1–6 with exit criteria (§10)
 ├── SPEC.md                       # THIS FILE — canonical, shipped verbatim
 ├── upstream.json                 # Source repo registry; SHAs pinned via scripts/pin-upstream.*
@@ -606,6 +606,18 @@ Rationale of record: the tree is complete, validated on both platforms and revie
 | 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.15 line in both twins; **check D2 bumped to 28 ADRs mapping 1:1 onto D-01..D-28**; check N5's walk extended to `plugins/aura/palettes/` alongside `statuslines/` in both twins | Additive |
 
 Rationale of record: ADR-017 itself named this closure as owed ("a future ADR should close that residue"), and the fix costs nothing — no palette preset has ever shipped as a file, so the rename touches only the spec's own tables. Closing it now, before the §13 aura preset expansion opens, means the expansion starts from a rule with no exceptions rather than adding files under a grandfather.
+
+### v2.15 → v2.16 (2026-09-02) — Bookkeeping: the ADR pointers v2.15 left at 27 moved to 28
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §3: the `DECISIONS.md` tree comment reads `ADR-001…ADR-028` — the v2.15 bookkeeping row named the count pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md` but left this one at ADR-027 | Editorial |
+| 2 | Outside the spec, recorded here as the v2.10 bookkeeping row did: `DECISIONS.md` gains ADR-028's Index row, its scope line counts twenty-eight decisions (D-01…D-28) and "Next available" advances to ADR-029; `ROADMAP.md` §13 marks the ADR-017 residue closed (D-28, ADR-028) instead of listing it as open | Editorial |
+| 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.16 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
+
+Rationale of record: none of these lines is normative, but each is a pointer a fresh session reads before the rule it points at, and D-16's 1:1 mirror is only as trustworthy as its counts. Fixing them in a spec PR rather than a bare docs commit keeps §14 the one place that says what changed and when.
+
+Open items after v2.16: **none open in the spec.** The public marketplace ("marketplace live") is pending the owner (`ROADMAP.md` §8, §11). Post-v1 work is `ROADMAP.md` §13.
 
 Open items after v2.15: **none open in the spec.** The public marketplace ("marketplace live") is pending the owner (`ROADMAP.md` §8, §11). Post-v1 work is `ROADMAP.md` §13.
 

@@ -459,6 +459,6 @@ Foundation ──▶ pin-upstream ──▶ [Phase 2] Tier-1 audit ──G2─�
 
 - New plugin proposals — only via `SPEC.md` §5 Future Naming Logic (scope and boundaries first) plus a new ADR.
 - `aura` preset expansion beyond the §5 tables — original work, same review path.
-- Closing the ADR-017 residue: palette presets `super-saiyan` and `bankai` still duplicate Tier 1 plugin names, grandfathered by §5.
+- ~~Closing the ADR-017 residue: palette presets `super-saiyan` and `bankai` still duplicate Tier 1 plugin names, grandfathered by §5.~~ **Closed 2026-09-02** — renamed `final-flash` and `getsuga-tensho` (SPEC v2.15, D-28 / ADR-028, PR #43); N-5 has no grandfathered exceptions.
 - Listing on community catalogs — discovery, not a dependency.
 - Upstream-watch tuning based on the first months of live diff issues.
