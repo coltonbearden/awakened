@@ -568,10 +568,11 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 | Date | 2026-08-15 |
 | Spec ref | D-17 |
 | Supersedes | — |
+| Amended | 2026-09-02 — SPEC v2.15: the palette grandfather is closed; `super-saiyan` → `final-flash`, `bankai` → `getsuga-tensho` (D-28, ADR-028) |
 
 **Context.** The two-tier naming system (D-13) puts short ability words in Tier 1 (plugins, typed constantly) and full dramatic technique names in Tier 2 (`aura` presets, selected once in settings). The v1 statusline preset list included one named `domain` — identical to the Tier 1 plugin `domain`. A single token then means two different things depending on context: `/domain:map` addresses the plugin, `/aura:equip domain` addresses the statusline preset. Tooling that resolves names across both inventories cannot disambiguate, and the validator's kebab-case and name-set checks would pass a colliding pair silently.
 
-**Decision.** Tier 2 preset identifiers **MUST NOT** duplicate any Tier 1 plugin name. The colliding statusline preset `domain` is renamed **`barrier`** — it reports active project context and rules status, and "barrier" carries the domain-expansion imagery without consuming the plugin's token. The full statusline preset set is `power-level`, `transformation`, `barrier`. Palette presets are unaffected: `ultra-instinct`, `super-saiyan`, `domain-expansion`, `gear-fifth`, `six-eyes`, `bankai` — note that `super-saiyan` and `bankai` *do* duplicate Tier 1 names and are grandfathered by the §5 palette table, which N-5 does not reach; a future ADR should close that residue.
+**Decision.** Tier 2 preset identifiers **MUST NOT** duplicate any Tier 1 plugin name. The colliding statusline preset `domain` is renamed **`barrier`** — it reports active project context and rules status, and "barrier" carries the domain-expansion imagery without consuming the plugin's token. The full statusline preset set is `power-level`, `transformation`, `barrier`. Palette presets are unaffected: `ultra-instinct`, `super-saiyan`, `domain-expansion`, `gear-fifth`, `six-eyes`, `bankai` — note that `super-saiyan` and `bankai` *do* duplicate Tier 1 names and are grandfathered by the §5 palette table, which N-5 does not reach; a future ADR should close that residue. *Amended 2026-09-02 (SPEC v2.15): that ADR is ADR-028 — the two palette IDs are renamed `final-flash` and `getsuga-tensho`, and N-5 now reaches the whole Tier-2 set with no grandfathered exceptions (D-28).*
 
 **Alternatives Considered.**
 
@@ -1144,6 +1145,69 @@ ADR lands in:
 output. The `defer` row is held to D-21's shape by check M2 (`merge`/`defer` rows must name their
 target in the rationale). Phase-6 authoring before the §11 `OWNER ACK` row exists is a process
 violation under `ROADMAP.md` §10 rule 2, checked at review rather than mechanically.
+
+---
+
+## ADR-028 — Tier-2 Palette Rename: the ADR-017 Grandfather Closed
+
+| Field | Value |
+|---|---|
+| Status | Accepted |
+| Date | 2026-09-02 |
+| Spec ref | D-28 |
+| Supersedes | — |
+
+**Context.** ADR-017 established that Tier 2 preset identifiers MUST NOT duplicate any Tier 1 plugin
+name (N-5) and renamed the one colliding statusline preset (`domain` → `barrier`), but grandfathered
+the two colliding **palette** preset IDs — `super-saiyan` (gold/yellow energy) and `bankai`
+(crimson/black) — because check N5's surface was `aura`'s preset directory names and no palette
+preset exists as a file. Its own text closed with "a future ADR should close that residue." The
+residue sat on `ROADMAP.md` §13's post-v1 backlog. Closing it now, before the §13 aura preset
+expansion opens, means that expansion starts from a rule with no exceptions: the first shipped
+palette file would otherwise land under a grandfather clause.
+
+**Decision.** The two palette preset IDs are renamed in the `SPEC.md` §5 table, following the
+ADR-017 pattern — same franchise, same color imagery, a full dramatic technique name, no Tier-1
+token:
+
+| Old ID | New ID | Why it fits |
+|---|---|---|
+| `super-saiyan` | **`final-flash`** | Vegeta's signature golden beam — the gold/yellow-energy imagery, kept in-franchise |
+| `bankai` | **`getsuga-tensho`** | Ichigo's black-and-crimson slash — the crimson/black imagery, kept in-franchise |
+
+N-5 now reaches the **whole** Tier-2 set — statusline and palette presets alike — with no
+grandfathered exceptions. Check N5's checked surface extends to any future
+`plugins/aura/palettes/` directory alongside `statuslines/`; today that walk is a no-op, and it
+becomes load-bearing the day the §13 expansion ships a palette file.
+
+**Scope boundary.** Display-state labels inside statusline scripts are not preset identifiers and
+are unaffected: the `transformation` preset's `super-saiyan` state (and `kaioken-x20`) are strings
+the statusline *prints*, documented in §5's statusline table, never selected by `/aura:equip` and
+never resolved against either name inventory. Renaming them would change shipped component output
+for no disambiguation gain.
+
+**Alternatives Considered.**
+
+| Option | Verdict | Why |
+|---|---|---|
+| Drop the two palette rows from the §5 table | Rejected | The table is the design surface the §13 expansion builds from; deleting the gold and crimson palettes removes two of the six looks instead of fixing two names |
+| Keep the names and make the grandfather permanent | Rejected | Contradicts ADR-017's recorded intent, and the ambiguity is real: once palette files ship, `/aura:equip super-saiyan` and `/super-saiyan:plan` would resolve the same token against two inventories |
+| Rename to `final-flash` / `getsuga-tensho` | **Accepted** | Zero cost — no palette file has ever shipped, so the rename touches only the spec's own tables — and both names carry the exact color imagery of the palettes they label |
+
+**Consequences.**
+
+- (+) Every Tier-2 identifier now resolves against the Tier-1 set with no exception list to
+  remember or police.
+- (+) The §13 aura preset expansion starts from a clean rule; check N5 is already watching the
+  directory it will populate.
+- (−) The two name inventories must still be checked against each other on every addition — the
+  ADR-017 consequence stands; this ADR removes the exception, not the obligation.
+
+**Enforcement.** `scripts/validate.*` check D1 asserts the v2.15 version line and check D2 exactly
+28 `## ADR-` headings whose `Spec ref` fields cover D-01…D-28, in both twins; CI byte-diffs their
+output. Check N5 intersects preset IDs from both `plugins/aura/statuslines/` and
+`plugins/aura/palettes/` (when present) against the nine Tier-1 plugin names and fails (exit
+class 1) on any collision — no grandfathered entries remain.
 
 ---
 

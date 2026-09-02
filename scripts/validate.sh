@@ -40,11 +40,11 @@ set -euo pipefail
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
-#   D2  DECISIONS.md has exactly 27 ADR headings covering D-01..D-27, no dupes
+#   D2  DECISIONS.md has exactly 28 ADR headings covering D-01..D-28, no dupes
 #   N1  Plugin directory names are drawn from the nine Tier-1 names
 #   N3  Machine-facing names match ^[a-z0-9]+(-[a-z0-9]+)*$ (case-sensitive)
 #   N4  No plugin, and no command namespace, named for the marketplace
-#   N5  Tier-2 statusline preset IDs do not collide with Tier-1 plugin names
+#   N5  Tier-2 preset IDs (statuslines, palettes) do not collide with Tier-1 plugin names
 #   U1  upstream.json parses, holds exactly the ten SPEC section 8 repos, keys present
 #   U2  upstream.json pin coherence: all commits null, or all pinned with pinned_at
 #   R1  rubric.json matches Locked Format 4 and agrees with rubric.md text
@@ -72,7 +72,7 @@ NINE_PLUGINS="super-saiyan sharingan rinnegan kaioken bankai domain instinct pon
 HOOK_PLUGINS="super-saiyan rinnegan"
 MARKETPLACE_NAME="awakened"
 KEBAB='^[a-z0-9]+(-[a-z0-9]+)*$'
-SPEC_VERSION_LINE='**Version:** 2.14'
+SPEC_VERSION_LINE='**Version:** 2.15'
 MATRIX_HEADER='id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 usage() {
@@ -233,12 +233,12 @@ import re, sys
 text = open(sys.argv[1], encoding='utf-8').read()
 heads = re.findall(r'^## ADR-(\d{3})\b', text, re.M)
 refs  = re.findall(r'^\|\s*Spec ref\s*\|\s*(D-\d{2})\s*\|', text, re.M)
-if len(heads) != 27:
-    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 27 (D-16)")
-expected_adr = [f"{n:03d}" for n in range(1, 28)]
+if len(heads) != 28:
+    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 28 (D-16)")
+expected_adr = [f"{n:03d}" for n in range(1, 29)]
 if sorted(heads) != expected_adr:
-    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-027")
-expected_ref = [f"D-{n:02d}" for n in range(1, 28)]
+    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-028")
+expected_ref = [f"D-{n:02d}" for n in range(1, 29)]
 if sorted(refs) != expected_ref:
     missing = sorted(set(expected_ref) - set(refs))
     dupes = sorted({r for r in refs if refs.count(r) > 1})
@@ -247,9 +247,9 @@ if sorted(refs) != expected_ref:
     if dupes:
         print("ERROR\tD2\tSpec ref fields are duplicated: " + ", ".join(dupes))
     if not missing and not dupes:
-        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-27")
-if len(heads) == 27 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
-    print("OK\tD2\t27 ADRs mapping 1:1 onto D-01..D-27")
+        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-28")
+if len(heads) == 28 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
+    print("OK\tD2\t28 ADRs mapping 1:1 onto D-01..D-28")
 PY
 )
 fi
@@ -302,18 +302,19 @@ done < <(find plugins -mindepth 3 -path '*/commands/*.md' 2>/dev/null || true)
 [ "$n4_bad" -eq 0 ] && ok "N4" "no marketplace-level plugin or command namespace (N-4)"
 
 n5_bad=0
-if [ -d plugins/aura/statuslines ]; then
-  for p in plugins/aura/statuslines/*; do
+for n5_dir in plugins/aura/statuslines plugins/aura/palettes; do
+  [ -d "$n5_dir" ] || continue
+  for p in "$n5_dir"/*; do
     [ -e "$p" ] || continue
     preset="$(basename "$p")"; preset="${preset%.*}"
     case " $NINE_PLUGINS " in
       *" $preset "*)
-        err "N5" "statusline preset ID collides with a Tier-1 plugin name: $preset (N-5, D-17)"
+        err "N5" "preset ID collides with a Tier-1 plugin name: $preset (N-5, D-17, D-28)"
         n5_bad=1 ;;
     esac
   done
-fi
-[ "$n5_bad" -eq 0 ] && ok "N5" "no Tier-2 statusline preset collides with a Tier-1 plugin name"
+done
+[ "$n5_bad" -eq 0 ] && ok "N5" "no Tier-2 preset ID collides with a Tier-1 plugin name"
 
 # -----------------------------------------------------------------------------
 # U1  upstream.json registry shape

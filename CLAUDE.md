@@ -1,7 +1,7 @@
 # CLAUDE.md — Operating Rules for Claude Code Sessions in `awakened`
 
 **Scope:** every Claude Code session working inside this repository.
-**Governing document:** `SPEC.md` v2.14. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
+**Governing document:** `SPEC.md` v2.15. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
 **Repository:** `coltonbearden/awakened` — curated Claude Code plugin marketplace monorepo.
 
 This file is **operational**. It does not restate `SPEC.md`'s normative content; it references it by rule ID (D-16). Where you need the rule itself, read `SPEC.md`.
@@ -26,8 +26,8 @@ This file is **operational**. It does not restate `SPEC.md`'s normative content;
 
 Precedence on conflict (highest first):
 
-1. `SPEC.md` — normative specification (v2.14)
-2. `DECISIONS.md` — ADR-001…ADR-027; rationale and enforcement, mirroring SPEC §12 one-to-one
+1. `SPEC.md` — normative specification (v2.15)
+2. `DECISIONS.md` — ADR-001…ADR-028; rationale and enforcement, mirroring SPEC §12 one-to-one
 3. `CLAUDE.md` — this file; operational rules for sessions
 4. `ROADMAP.md` — phase plan, verification criteria, approval gates
 5. `CONTEXT.md` — descriptive orientation
@@ -110,7 +110,7 @@ All naming rules are N-1…N-6 in `SPEC.md` §5. Operationally:
 
 - Lowercase kebab-case for every machine-facing name, matching `^[a-z0-9]+(-[a-z0-9]+)*$` (N-3).
 - Tier 1 plugin names are fixed at the nine in `SPEC.md` §5 (N-1).
-- Tier 2 dramatic technique names exist **only** as `aura` preset identifiers (N-1). Preset IDs must not duplicate a Tier 1 plugin name (N-5, D-17) — the statusline preset formerly called `domain` is `barrier` (ADR-017).
+- Tier 2 dramatic technique names exist **only** as `aura` preset identifiers (N-1). Preset IDs must not duplicate a Tier 1 plugin name (N-5, D-17) — the statusline preset formerly called `domain` is `barrier` (ADR-017), and the two grandfathered palette IDs are renamed `final-flash` and `getsuga-tensho` (ADR-028); no exceptions remain.
 - Commands namespace under the **plugin** name: `/<plugin>:<verb>`. The marketplace-level namespace is prohibited — no catch-all plugin may exist (N-4).
 - Skill and command names carry the **function**; plugin names carry the theme. A skill's frontmatter `description` drives auto-invocation: state concrete triggers and the observable outcome (N-2).
 - New plugin names follow the Future Naming Logic in `SPEC.md` §5: scope and boundaries first, name second (N-6).
