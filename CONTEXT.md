@@ -1,6 +1,6 @@
 # CONTEXT.md — Awakened System Overview
 
-**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.16 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
+**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.17 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
 
 ---
 
@@ -87,14 +87,14 @@ Awakened is deliberately **not**:
 
 ## 9. Current State
 
-- **Spec:** v2.16 governing (`SPEC.md`), dated 2026-09-02. It ships verbatim at repository root and is never regenerated (D-16).
+- **Spec:** v2.17 governing (`SPEC.md`), dated 2026-09-02. It ships verbatim at repository root and is never regenerated (D-16).
 - **Phase 1 (structural inventory):** complete per `SPEC.md` §10 — all ten source repos crawled, structure, counts, and licenses mapped into §8.
 - **Phase 2 (Tier-1 deep audit):** complete 2026-08-18 — 55 scored `eval/matrix.csv` rows, 27 shortlist / 25 reject / 3 merge, triage T-001…T-028; gate G2 approved.
 - **Foundation suite:** governance, evaluation harness, schemas, validation scripts, templates, the legal framework, and the CI workflow (`.github/workflows/validate.yml`, v2.5) are committed. See `ROADMAP.md` §2.
 - **Upstream pins:** resolved 2026-08-18 by `scripts/pin-upstream.sh` — ten non-null commits, non-null `pinned_at` (§8).
 - **Phases 3–5:** complete 2026-08-22 … 2026-08-27 — 322 matrix rows, G5 approved by the owner after two reviewer rounds (ADR-027), 96 shortlist / 211 reject / 15 merge / 0 defer after T-287.
 - **Phase 6:** complete 2026-08-27 — full §3 tree, 114 component files across nine plugins, zero hooks (the harness rejects the shell-free handler types on the budgeted events, SPEC v2.13); G6 review passed under D11.
-- **Released:** v0.1.0 on 2026-08-30 (`ROADMAP.md` §11); v0.1.1 on 2026-09-02 (first §11 maintenance release, `ROADMAP.md` §13). **Next:** the repository goes public, then the §11 loop repeats monthly — upstream-watch, re-pin, dogfooded review (first: `eval/triage-log.md` T-289, T-290), tagged releases.
+- **Released:** v0.1.0 on 2026-08-30 (`ROADMAP.md` §11); v0.1.1 on 2026-09-02 (first §11 maintenance release, `ROADMAP.md` §13). **Marketplace live:** repository public since 2026-09-02. **Next:** the §11 loop repeats monthly — upstream-watch, re-pin, dogfooded review (first: `eval/triage-log.md` T-289, T-290), tagged releases.
 
 ## 10. Reading Order
 
