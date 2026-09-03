@@ -112,7 +112,7 @@ Set `git config core.autocrlf false` before cloning on Windows. `.gitattributes`
 - [ ] Any hook added or changed is within the D-15 budget, declares a timeout, and writes only within the D-18 scope.
 - [ ] **A change that touches `SPEC.md` includes a §14 changelog row in the same PR and a matching ADR in `DECISIONS.md`** (D-16) — a new ADR for a new §12 cell, or an in-place amendment (dated `Amended` row plus dated notes, `Status` unchanged) for a cell that already has one. An ADR must not supersede, override, or reclassify a `SPEC.md` cell — if it would need to, the change belongs in the spec PR instead.
 - [ ] No commit SHA was typed into `upstream.json` by hand; pins come only from `scripts/pin-upstream.*` (§8).
-- [ ] No franchise artwork, logos, or media assets were added (§7).
+- [ ] No franchise artwork, logos, or media assets were added (§7); the only images are Awakened's own marks under `brand/`, and any `brand/` change matches `brand/BRAND.md` (D-29).
 
 ## Licensing of contributions
 

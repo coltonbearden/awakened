@@ -1,8 +1,8 @@
 # Awakened — Project Specification
 
-**Version:** 2.19
-**Date:** 2026-09-02
-**Status:** Governing spec — supersedes SPEC.md v2.18 (2026-09-02), v2.17 (2026-09-02), v2.16 (2026-09-02), v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
+**Version:** 2.20
+**Date:** 2026-09-03
+**Status:** Governing spec — supersedes SPEC.md v2.19 (2026-09-02), v2.18 (2026-09-02), v2.17 (2026-09-02), v2.16 (2026-09-02), v2.15 (2026-09-02), v2.14 (2026-08-27), v2.13 (2026-08-27), v2.12 (2026-08-27), v2.11 (2026-08-27), v2.10 (2026-08-26), v2.9 (2026-08-25), v2.8 (2026-08-25), v2.7 (2026-08-22), v2.6 (2026-08-22), v2.5 (2026-08-21), v2.4 (2026-08-18), v2.3 (2026-08-18), v2.2 (2026-08-16), v2.1 (2026-08-15), `awakened-notes-v2.md` (v2.0), and `awakened-notes.md` (v1)
 **Canonical path:** `SPEC.md` at repository root. This file is the single source of truth; no other document may restate its content — only reference it.
 
 ---
@@ -95,6 +95,7 @@ awakened/
 │   ├── agent.md                  # Subagent template (restricted allowlists, handoff contract)
 │   └── hook.json                 # Minimal load-bearing hook template (§6 budget)
 ├── tests/                        # [P6] Component test fixtures
+├── brand/                        # Visual identity (D-29): BRAND.md kit, the Meter mark, lockups, banners, favicon, social preview — original work only
 ├── .github/
 │   └── workflows/
 │       ├── upstream-watch.yml    # [P6] Monthly upstream diff monitor
@@ -102,7 +103,7 @@ awakened/
 ├── .gitattributes                # LF line endings enforced for *.sh, *.ps1, *.json, *.md
 ├── CLAUDE.md                     # Repo-session execution rules for Claude Code
 ├── CONTEXT.md                    # System overview, non-goals, user profile
-├── DECISIONS.md                  # ADR-001…ADR-028, 1:1 with §12
+├── DECISIONS.md                  # ADR-001…ADR-029, 1:1 with §12
 ├── ROADMAP.md                    # Phases 1–6 with exit criteria (§10)
 ├── SPEC.md                       # THIS FILE — canonical, shipped verbatim
 ├── upstream.json                 # Source repo registry; SHAs pinned via scripts/pin-upstream.*
@@ -124,6 +125,7 @@ plugins/<name>/
 ├── skills/
 ├── hooks/                        # Rare. Max one hook per plugin, load-bearing only.
 ├── statuslines/                  # aura ONLY (D-23). Preset scripts as .sh/.ps1 twin pairs.
+├── palettes/                     # aura ONLY (D-29). One <id>.json per §5 palette, the Windows Terminal scheme shape; data, never a script.
 └── CHANGELOG.md                  # [P6] Per-plugin changelog (§11 releases)
 ```
 
@@ -186,7 +188,9 @@ Changes from v1: `domain-expansion` → `domain`, `ultra-instinct` → `instinct
 | `domain-expansion` | Deep void + barrier accent color |
 | `gear-fifth` | White/bright, cartoon-vivid |
 | `six-eyes` | Cyan / limitless blue |
-| `getsuga-tensho` | Crimson/black (renamed from `bankai` in v2.15 — D-28 closes the ADR-017 grandfather) |
+| `getsuga-tensho` | Crimson/black (renamed from `bankai` in v2.15 — D-28 closes the ADR-017 grandfather). The brand ink itself: `brand/BRAND.md` §2.6 verbatim |
+
+Palettes ship as files (D-29): `plugins/aura/palettes/<id>.json`, one per row above, each exactly a Windows Terminal colour-scheme object — `name` plus twenty six-digit hex colours — so it pastes into an emulator unchanged. They are data the terminal reads, never scripts (the ADR-023 runner rejection is untouched); every text slot **MUST** measure ≥ 4.5:1 against its background (`brightBlack` ≥ 3:1), recorded in `brand/BRAND.md` §2.7; validator check C5 enforces the shape and check N5 the names. `/aura:equip palette <id>` displays one and is read-only.
 
 **Statusline presets:**
 
@@ -196,7 +200,7 @@ Changes from v1: `domain-expansion` → `domain`, `ultra-instinct` → `instinct
 | `transformation` | Current mode as a state: planning → `base-form`, executing → `super-saiyan`, parallel agents → `kaioken-x20` |
 | `barrier` | Active project context/rules status (renamed from `domain` in v2.0 — D-17: Tier 2 preset IDs **MUST NOT** collide with Tier 1 plugin names) |
 
-Implementation note: Claude Code's native theming is limited, so `aura` ships as statusline scripts with ANSI palettes + output styles + `/aura:equip <preset>` to swap the active preset in settings. File-based, reversible, zero dependencies. Preset scripts live in `plugins/aura/statuslines/` as `.sh`/`.ps1` twin pairs (D-23) — the cross-platform pairing rule applies to them exactly as it does to `scripts/`.
+Implementation note: Claude Code's native theming is limited, so `aura` ships as statusline scripts with ANSI palettes (the palette files above) + output styles + `/aura:equip <preset>` to swap the active preset in settings. File-based, reversible, zero dependencies. Preset scripts live in `plugins/aura/statuslines/` as `.sh`/`.ps1` twin pairs (D-23) — the cross-platform pairing rule applies to them exactly as it does to `scripts/`.
 
 ### Naming Rules
 
@@ -310,6 +314,7 @@ Resolves B-GAP-002 (HD-5).
 - **`SOURCES.md`** maps every component to the repo(s) that informed it. Single attribution file — no per-file header clutter (D-12).
 - **`NOTICE`** covers anything adapted closely from Apache-2.0 sources (anthropics/skills, claude-mem).
 - Plugin names reference trademarked anime franchises (Shueisha/Bandai et al.). Standard fan-project convention: names are fine; the repo and README **MUST NOT** contain franchise artwork, logos, or copyrighted graphical assets. `awakened` itself is a generic word and fully safe.
+- Awakened's **own** marks are the one permitted graphic (D-29): the original, abstract identity specified in `brand/BRAND.md` — the Meter mark, wordmark, banners, favicon and social preview under `brand/` — MIT-licensed with the repository, referencing no franchise imagery, and the only images the README embeds. No other image, in any format, enters the tree.
 
 ---
 
@@ -415,6 +420,7 @@ id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,depe
 | D-26 | Phase-4 ECC scope | `SPEC.md` §10 Phase 4 covers ECC's `commands/` and `agents/` alongside the four sources it already names. Of the seven mining targets §8 ratifies, the `sessions` family, `build-fix`, `code-review` and `project-init` exist **only** under `commands/`; §4 names ECC's `agents/` as `bankai`'s lineage and the sessions commands as `kaioken`'s. §10 Phase 3 is skills-only and no other phase named ECC, so those components had no phase that would audit them. Landed at the G3 boundary under `ROADMAP.md` §10 rule 4. Outcomes in ADR-026 |
 | D-27 | Phase-5 sign-off (G5) | Gate G5 is **APPROVED** on the Phase-5 artifacts at `eval/matrix.csv` 322 rows — **95 `shortlist` / 211 `reject` / 15 `merge` / 1 `defer`** — with `eval/shortlist.md` as the roster proposed for synthesis (per plugin: `bankai` 34, `super-saiyan` 27, `domain` 9, `sharingan` 8, `instinct` 6, `kaioken` 5, `poneglyph` 4, `rinnegan` 2, `aura` 0 by design under §4 *Original work*). The one open `defer` is `claude-mem/session-memory` on C-1, resolving at Phase 6 by executing the authored `rinnegan` hook on both platforms before it ships. The approval is the **project owner's**, given after the independent reviewer returned `REJECTED` twice on the same gate and the gate escalated under `eval/gate-review-protocol.md` §5 rule 2; every reviewer finding was confirmed on the pinned source and applied (T-277…T-286). The §3.5 non-Anthropic second pass is REQUIRED (both agent and reviewer ran on the same model) and non-binding; **amended v2.11 (ADR-027 in place): the owner waived it on 2026-08-27 in the acknowledgement comment.** Phase 6 opened on that acknowledgement — the owner's comment on the sign-off pull request, 2026-08-27 (D-25). Outcomes in ADR-027 |
 | D-28 | Tier-2 palette rename (ADR-017 residue closed) | The two §5 palette preset IDs that duplicated Tier-1 plugin names are renamed — `super-saiyan` → `final-flash`, `bankai` → `getsuga-tensho` — following the ADR-017 pattern: same franchise, same color imagery, a full technique name, no Tier-1 token. N-5 now reaches the whole Tier-2 set with no grandfathered exceptions; validator check N5's surface extends to any future `plugins/aura/palettes/` directory (a no-op until palette presets ship as files). Display-state labels inside statusline scripts (e.g. the `transformation` preset's `super-saiyan` state) are not preset identifiers and are unaffected. Outcomes in ADR-028 |
+| D-29 | Visual identity | Awakened's brand is the original, abstract system specified in `brand/BRAND.md` — warm-ink palette with crimson as a proofreader's mark, the Meter logomark (five ascending bars beneath a threshold rule, the fifth crossing it into crimson), an Instrument Serif / Public Sans / Space Mono type stack — synthesized from an internal 35-concept tournament as original work with no upstream component lineage. `brand/` enters the §3 tree as the only home for images; §7 admits these marks and nothing else; the README embeds the `brand/` banners. The six §5 palettes ship as `plugins/aura/palettes/<id>.json` in the Windows Terminal scheme shape (data, not scripts; validator check C5), with `getsuga-tensho` the brand ink and `gear-fifth` its light set. No website (D-02 stands), no generative-image prompts, no new statusline presets. Outcomes in ADR-029 |
 
 ---
 
@@ -645,6 +651,18 @@ Rationale of record: the public README was the last place still describing the p
 | 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.19 line in both twins. **No §12 cell changes; check D2 untouched; the ADR count stays 28** | Additive |
 
 Rationale of record: §11 described a skill that was never built while T-290 shows what the first real cycle used, and the only remaining spec citations to a path outside the repository were the four advisory items. ADR-010's Decision text keeps the "upstream-review skill" phrase: §11 is not a §12 cell, so the in-place amendment carve-out does not apply, and the ADR records what was true when written, as ADR-009, ADR-021 and ADR-025 do.
+
+### v2.19 → v2.20 (2026-09-03) — Visual identity: `brand/` enters the tree; the six palettes ship as files (D-29)
+
+| # | Change | Kind |
+|---|---|---|
+| 1 | §12 gains **D-29 Visual identity**, mirrored by ADR-029: the brand is the original system in `brand/BRAND.md` (warm ink, crimson as a mark, the Meter logomark, Instrument Serif / Public Sans / Space Mono), curated from an internal 35-concept tournament and owned outright. §3 gains `brand/` at the root — kit, mark, lockups, banners, favicon, social preview — and §7 gains the sentence that admits Awakened's own marks and nothing else; the franchise prohibition is unchanged and ADR-008 carries the mirroring dated note. §2's "Brand style" row is now realized rather than aspirational | Semantic → D-29 |
+| 2 | §3 per-plugin tree gains `palettes/` (aura only) and §5 states the palette-file contract: one `<id>.json` per table row in the Windows Terminal scheme shape, data the terminal reads, every text slot ≥ 4.5:1. ADR-023's rejection of runner-consumed data files is untouched and carries a dated note saying so; check N5 becomes load-bearing as ADR-028 anticipated. `/aura:equip` gains a read-only `palette <id>` branch; `aura` releases 0.2.0 and the catalog 0.2.0 (`ROADMAP.md` §13) | Additive → D-29 |
+| 3 | Bookkeeping: version pointers in `CLAUDE.md`, `CONTEXT.md` and `README.md`; validator check D1 re-bound to the v2.20 line in both twins; **check D2 bumped to 29 ADRs mapping 1:1 onto D-01..D-29**; check S4's allowlist gains `brand`; check C1 expects five schemas (`schemas/palette.schema.json` added); **check C5 added** in both twins with fixtures in `tests/`; `.gitattributes` holds `*.svg` to LF and marks `*.png` binary | Additive |
+
+Rationale of record: the owner directed the brand work on 2026-09-03; the executing agent decided every design and governance question under the standing delegation and recorded them here and in ADR-029. `ROADMAP.md` §13 gated `aura` preset expansion on a user-filed issue — the owner's instruction is the trigger, and the §13 line records it. The one image format admitted beyond SVG is the single PNG GitHub's social-preview setting requires.
+
+Open items after v2.20: **none.**
 
 Open items after v2.19: **none.**
 

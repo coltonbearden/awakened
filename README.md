@@ -1,8 +1,15 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/banner-dark.svg">
+  <img alt="awakened — the Meter mark: five ascending bars beneath a threshold rule, the fifth crossing it into crimson" src="brand/banner-light.svg" width="100%">
+</picture>
+
 # Awakened
 
-**A curated Claude Code plugin marketplace: the best of the open-source ecosystem, synthesized — with the bloat and the risk engineered out.**
+**A curated Claude Code plugin marketplace. Ten repositories went in. Nine plugins came out. Nothing extra survived.**
 
-Nine plugins. Zero daemons, zero databases, zero API keys, zero telemetry. Everything installs at user scope and works in any project, any language, any stack. Every component is scored against a published rubric, screened against a published safety policy, and rebuilt to one standard — provenance for all of it lives in [`SOURCES.md`](SOURCES.md).
+Every component was edited down so it could run at redline: rebuilt from the strongest open-source Claude Code repositories, with the bloat, the telemetry, and the risk struck out in review. Nine plugins. Zero daemons, zero databases, zero API keys, zero telemetry. Everything installs at user scope and works in any project, any language, any stack. Every component is scored against a published rubric, screened against a published safety policy, and rebuilt to one standard — the receipts are in [`eval/`](eval/) and the provenance for all of it lives in [`SOURCES.md`](SOURCES.md).
+
+`9 PLUGINS · 0 DAEMONS · 0 TELEMETRY · 2 HOOKS BUDGETED, 0 SHIPPED · MIT`
 
 ## Install
 
@@ -16,7 +23,7 @@ Then install plugins individually — each one installs, tests, and removes inde
 /plugin install super-saiyan@awakened
 ```
 
-Requires [Claude Code](https://claude.com/claude-code).
+Requires [Claude Code](https://claude.com/claude-code). Inert until invoked; nothing runs in the background.
 
 ## The lineup
 
@@ -30,7 +37,7 @@ Requires [Claude Code](https://claude.com/claude-code).
 | `domain` | Core | Structural context: maps the project, generates project `CLAUDE.md` and rules; never stores history — 7 skills | `/domain:update-codemaps`, `/domain:update-docs` |
 | `instinct` | Core | Meta tooling: skill creation, audit, validation, upstream review — 6 skills | `/instinct:learn-eval`, `/instinct:skill-create` |
 | `poneglyph` | Satellite (optional) | The Obsidian toolset: obsidian-markdown, obsidian-cli, obsidian-bases, json-canvas | opt in |
-| `aura` | Satellite (optional) | Palettes, statusline presets, and output styles — the fun lives here | `/aura:equip` |
+| `aura` | Satellite (optional) | Six colour palettes as terminal-scheme files, three statusline presets, two output styles — the fun lives here | `/aura:equip` |
 
 Commands are namespaced per plugin. There is deliberately no marketplace-level catch-all namespace (N-4), and satellites are never dependencies of core (B-8).
 
@@ -57,7 +64,7 @@ The one sanctioned network use in the whole repository is maintenance tooling th
 
 ## Status
 
-**Phase 6 complete (2026-08-27); v0.1.0 released 2026-08-30; v0.1.1 released and the repository made public 2026-09-02 — the marketplace is live.** Historically: Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates were committed first. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18 and re-pinned on 2026-09-02 (T-289). The audit closed at 322 matrix rows — 96 shortlist, 211 reject, 15 merge, 0 defer.
+**Phase 6 complete (2026-08-27); v0.1.0 released 2026-08-30; v0.1.1 released and the repository made public 2026-09-02 — the marketplace is live. v0.2.0 (2026-09-03) adds the visual identity under `brand/` and ships `aura`'s six palettes as files.** Historically: Governance, the evaluation harness, JSON schemas, the twin validators (`scripts/validate.sh` and `scripts/validate.ps1`), the pin scripts, and the component templates were committed first. `upstream.json` shipped with every commit SHA `null` by policy (§8); the SHAs were resolved by `scripts/pin-upstream.*` on 2026-08-18 and re-pinned on 2026-09-02 (T-289). The audit closed at 322 matrix rows — 96 shortlist, 211 reject, 15 merge, 0 defer.
 
 Plugin content shipped after those audits, the independent-reviewer approval gate (G5) and the owner's acknowledgement (D-25): 114 component files across nine plugins, zero hooks. The sequence, the verification criteria for each phase, and the gate log live in [`ROADMAP.md`](ROADMAP.md).
 
@@ -66,15 +73,16 @@ Plugin content shipped after those audits, the independent-reviewer approval gat
 | Path | What it is |
 |---|---|
 | `.claude-plugin/marketplace.json` | The marketplace catalog — nine plugins, in-repo sources |
-| `plugins/<name>/` | The nine plugins: manifest in `.claude-plugin/`, then `skills/`, `commands/`, `agents/` (bankai), `statuslines/` and `output-styles/` (aura), `CHANGELOG.md` |
-| `SPEC.md` | The ratified specification (v2.19) — the authority, shipped verbatim |
+| `plugins/<name>/` | The nine plugins: manifest in `.claude-plugin/`, then `skills/`, `commands/`, `agents/` (bankai), `statuslines/`, `palettes/` and `output-styles/` (aura), `CHANGELOG.md` |
+| `brand/` | The visual identity: [`BRAND.md`](brand/BRAND.md) (the kit — colour, type, the Meter mark, motion doctrine, contrast tables), the mark and lockups, the README banners, favicon, social preview. Original, abstract work; the only images in the tree (D-29) |
+| `SPEC.md` | The ratified specification (v2.20) — the authority, shipped verbatim |
 | `CLAUDE.md` | Operating rules for Claude Code sessions working in this repository |
 | `CONTEXT.md` | Five-minute orientation: mission, principles, lineup, non-goals |
-| `DECISIONS.md` | ADR-001…ADR-028 — every resolved decision, mirroring `SPEC.md` §12 one to one |
+| `DECISIONS.md` | ADR-001…ADR-029 — every resolved decision, mirroring `SPEC.md` §12 one to one |
 | `ROADMAP.md` | Build phases, verification criteria, approval gates, gate log |
 | `upstream.json` | The ten source repositories: URL, license, role, and the commit pin |
 | `eval/` | Scoring rubric (Markdown and JSON), the evaluation matrix, the triage log, the G5 review protocol, the `rinnegan` memory design, and the Phase-5 shortlist report |
-| `schemas/` | JSON Schemas for marketplace, plugin, skill, and agent files |
+| `schemas/` | JSON Schemas for marketplace, plugin, skill, agent, and palette files |
 | `scripts/` | `validate.sh` / `validate.ps1` and `pin-upstream.sh` / `pin-upstream.ps1` twins |
 | `templates/` | Slot-bearing starting points for every component type, each with a worked example |
 | `.github/workflows/` | CI: `validate.yml` runs both validators and the HD-12 twin-parity diff on every PR and push to `main`; `upstream-watch.yml` diffs the pins monthly |
@@ -84,11 +92,11 @@ Plugin content shipped after those audits, the independent-reviewer approval gat
 
 ## Trademarks and artwork
 
-The plugin names reference trademarked anime franchises (Shueisha, Bandai, and others). This is the standard fan-project convention: **names only**. This repository and this README contain no franchise artwork, logos, or copyrighted graphical assets, and none will be accepted (`SPEC.md` §7). `awakened` itself is a generic English word. Awakened is not affiliated with, endorsed by, or sponsored by any rights holder.
+The plugin names reference trademarked anime franchises (Shueisha, Bandai, and others). This is the standard fan-project convention: **names only**. This repository and this README contain no franchise artwork, logos, or copyrighted graphical assets of any rights holder, and none will be accepted (`SPEC.md` §7). The only graphics here are Awakened's own original, abstract marks under `brand/` — a meter, a rule, and a word — licensed MIT with the repository (D-29). `awakened` itself is a generic English word. Awakened is not affiliated with, endorsed by, or sponsored by any rights holder.
 
 ## Contributing
 
-Proposals are scored, not merged on vibes — see [`CONTRIBUTING.md`](CONTRIBUTING.md) for the two paths, the rubric gate, and the PR checklist. Validation is one command from the repository root and behaves identically on WSL2 bash and Windows PowerShell 7.
+Proposals are scored, not merged on vibes — see [`CONTRIBUTING.md`](CONTRIBUTING.md) for the two paths, the rubric gate, and the PR checklist. Validation is one command from the repository root and behaves identically on WSL2 bash and Windows PowerShell 7. If it breaks, open an issue — we read all of them.
 
 ## License
 

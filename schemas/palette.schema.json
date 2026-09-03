@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/coltonbearden/awakened/schemas/palette.schema.json",
+  "title": "Awakened aura palette preset",
+  "description": "One aura colour palette under plugins/aura/palettes/<id>.json. The object is exactly a Windows Terminal colour scheme (name plus twenty six-digit hex colours) so it can be pasted into a terminal's schemes list unchanged; it is data read by the terminal emulator, never by a script (D-29). The name must equal the file stem, be kebab-case (N-3), and must not collide with a Tier-1 plugin name (N-5, D-28).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "background",
+    "foreground",
+    "cursorColor",
+    "selectionBackground",
+    "black",
+    "red",
+    "green",
+    "yellow",
+    "blue",
+    "purple",
+    "cyan",
+    "white",
+    "brightBlack",
+    "brightRed",
+    "brightGreen",
+    "brightYellow",
+    "brightBlue",
+    "brightPurple",
+    "brightCyan",
+    "brightWhite"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Preset ID; equals the file stem and is a Tier-2 name (SPEC.md section 5)."
+    },
+    "background": { "$ref": "#/$defs/hex" },
+    "foreground": { "$ref": "#/$defs/hex" },
+    "cursorColor": { "$ref": "#/$defs/hex" },
+    "selectionBackground": { "$ref": "#/$defs/hex" },
+    "black": { "$ref": "#/$defs/hex" },
+    "red": { "$ref": "#/$defs/hex" },
+    "green": { "$ref": "#/$defs/hex" },
+    "yellow": { "$ref": "#/$defs/hex" },
+    "blue": { "$ref": "#/$defs/hex" },
+    "purple": { "$ref": "#/$defs/hex" },
+    "cyan": { "$ref": "#/$defs/hex" },
+    "white": { "$ref": "#/$defs/hex" },
+    "brightBlack": { "$ref": "#/$defs/hex" },
+    "brightRed": { "$ref": "#/$defs/hex" },
+    "brightGreen": { "$ref": "#/$defs/hex" },
+    "brightYellow": { "$ref": "#/$defs/hex" },
+    "brightBlue": { "$ref": "#/$defs/hex" },
+    "brightPurple": { "$ref": "#/$defs/hex" },
+    "brightCyan": { "$ref": "#/$defs/hex" },
+    "brightWhite": { "$ref": "#/$defs/hex" }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-F]{6}$",
+      "description": "Six-digit uppercase hex colour; HEX is the source of truth for every brand colour (brand/BRAND.md section 2)."
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "getsuga-tensho",
+  "background": "#100E0C",
+  "foreground": "#F4F0E8",
+  "cursorColor": "#FF544E",
+  "selectionBackground": "#33241E",
+  "black": "#262019",
+  "red": "#FF544E",
+  "green": "#4CC38A",
+  "yellow": "#E8B644",
+  "blue": "#619DE0",
+  "purple": "#C583B9",
+  "cyan": "#63BFB7",
+  "white": "#E9E2D4",
+  "brightBlack": "#6B6355",
+  "brightRed": "#FF8B84",
+  "brightGreen": "#8FDDB6",
+  "brightYellow": "#F3D289",
+  "brightBlue": "#9CC5F0",
+  "brightPurple": "#DFB1D6",
+  "brightCyan": "#9CDCD6",
+  "brightWhite": "#F8F4EC"
+}

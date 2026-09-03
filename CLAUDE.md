@@ -1,7 +1,7 @@
 # CLAUDE.md — Operating Rules for Claude Code Sessions in `awakened`
 
 **Scope:** every Claude Code session working inside this repository.
-**Governing document:** `SPEC.md` v2.19. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
+**Governing document:** `SPEC.md` v2.20. On any conflict between this file and `SPEC.md`, `SPEC.md` wins and this file is corrected in the same commit.
 **Repository:** `coltonbearden/awakened` — curated Claude Code plugin marketplace monorepo.
 
 This file is **operational**. It does not restate `SPEC.md`'s normative content; it references it by rule ID (D-16). Where you need the rule itself, read `SPEC.md`.
@@ -26,8 +26,8 @@ This file is **operational**. It does not restate `SPEC.md`'s normative content;
 
 Precedence on conflict (highest first):
 
-1. `SPEC.md` — normative specification (v2.19)
-2. `DECISIONS.md` — ADR-001…ADR-028; rationale and enforcement, mirroring SPEC §12 one-to-one
+1. `SPEC.md` — normative specification (v2.20)
+2. `DECISIONS.md` — ADR-001…ADR-029; rationale and enforcement, mirroring SPEC §12 one-to-one
 3. `CLAUDE.md` — this file; operational rules for sessions
 4. `ROADMAP.md` — phase plan, verification criteria, approval gates
 5. `CONTEXT.md` — descriptive orientation
@@ -156,7 +156,7 @@ $ErrorActionPreference = 'Stop'
 
 ### 5.5 Component file types
 
-Components are Markdown (`.md`) and JSON (`.json`). The one exception is `aura`, which `SPEC.md` §5 states "ships as statusline scripts with ANSI palettes" — those are `.sh`/`.ps1` twin pairs under `plugins/aura/statuslines/` (D-23, ADR-023), LF, zero dependencies (P-5), read-only outside the user's own configuration. No compiled code, no bundled binaries, no runtime package installation anywhere (HR-5, HR-7).
+Components are Markdown (`.md`) and JSON (`.json`). The one exception is `aura`, which `SPEC.md` §5 states "ships as statusline scripts with ANSI palettes" — those are `.sh`/`.ps1` twin pairs under `plugins/aura/statuslines/` (D-23, ADR-023), LF, zero dependencies (P-5), read-only outside the user's own configuration. `aura`'s palettes are `.json` colour-scheme files under `plugins/aura/palettes/` — data the terminal reads, never a script (D-29, check C5). The only images in the tree are Awakened's own marks under `brand/`, SVG with text outlined to paths plus the one PNG the social-preview setting needs (D-29). No compiled code, no bundled binaries, no runtime package installation anywhere (HR-5, HR-7).
 
 ---
 
@@ -237,7 +237,7 @@ Static review checklist for every PR:
 | Release readiness | `bash scripts/validate.sh --release` | `pwsh -File scripts/validate.ps1 -Release` | Exit 0 once the Phase-6 tree entries exist |
 | CI — both validators plus HD-12 parity | runs on GitHub Actions | runs on GitHub Actions | `.github/workflows/validate.yml` green; required check on `main` |
 
-Both twins publish the same numbered check list in their header comment (S1–S4, D1–D2, N1/N3/N4/N5, U1–U2, R1, M1–M2, C1–C4, H1–H3, P1–P4, L1) and emit the same message strings. That list is the contract; the header is where a reviewer checks parity.
+Both twins publish the same numbered check list in their header comment (S1–S4, D1–D2, N1/N3/N4/N5, U1–U2, R1, M1–M2, C1–C5, H1–H3, P1–P4, L1) and emit the same message strings. That list is the contract; the header is where a reviewer checks parity.
 
 **What the validators do and do not enforce.** They check tree structure, ADR/spec parity, naming, the `upstream.json` and rubric shapes, the matrix header and row lint, hook budget and timeouts, the C-2 allowlist rule, the policy lint over shipped components, and line endings. They **parse** every file in `schemas/` and assert it declares `$schema` and `$id`, but they do not run a full JSON Schema evaluation — that would need a validator library, and HR-7 forbids installing one. Schema conformance is enforced at review time and in CI, where a JSON Schema tool may be used; the C-2 rule is the one schema constraint the validators reimplement directly, so it holds even when no schema evaluator is available.
 
@@ -257,7 +257,7 @@ Run before every commit. `.github/workflows/validate.yml` (SPEC v2.5) re-runs bo
 - Adding MCP server configuration beyond Obsidian, Context7, and Claude Code (HR-2).
 - Creating a marketplace-namespaced command or any catch-all plugin (N-4).
 - Copying upstream files verbatim outside EXC-1 (P-6); record lineage in `SOURCES.md`.
-- Adding franchise artwork, logos, or media assets — names only (§7).
+- Adding franchise artwork, logos, or media assets — names only (§7). The one graphic the repository carries is Awakened's own original identity under `brand/`, specified in `brand/BRAND.md`; no image lives anywhere else, and no `brand/` asset departs from the kit (D-29).
 - Committing secrets, tokens, or machine-specific configuration.
 - Editing an Accepted ADR outside the in-place amendment carve-out in §8 (a spec PR amending the §12 cell it mirrors, with the dated `Amended` row and dated notes), rewriting `SPEC.md` normative content outside the D-16 PR flow, or renaming Tier 1 plugins without a superseding ADR.
 - Writing a commit SHA into `upstream.json` by hand (§8).

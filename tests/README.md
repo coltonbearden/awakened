@@ -18,6 +18,8 @@ pass as a component or trip the lint.
 | `fixtures/hooks/bad-hook-no-timeout.json` | hook config | H3 | reject — no `timeout` (C-1, D-22) |
 | `fixtures/manifests/good-plugin.json` | plugin manifest | C4, `schemas/plugin.schema.json` | accept |
 | `fixtures/manifests/bad-plugin-license.json` | plugin manifest | C4, `schemas/plugin.schema.json` | reject — license is not MIT (D-08) |
+| `fixtures/palettes/good-palette.json` | aura palette preset | C5, `schemas/palette.schema.json` | accept — the twenty scheme keys, six-digit uppercase hex, `name` equals the file stem (D-29) |
+| `fixtures/palettes/bad-palette-short-hex.json` | aura palette preset | C5, `schemas/palette.schema.json` | reject — three-digit `cyan`, missing `brightWhite`, stray `magenta` key (D-29) |
 
 ## How to exercise a fixture
 
@@ -28,6 +30,10 @@ the copy. For example, on WSL2:
 mkdir -p plugins/bankai/agents && cp tests/fixtures/agents/bad-bare-bash-agent.md plugins/bankai/agents/
 bash scripts/validate.sh          # expect: ERROR [C2] ... bare or wildcard-equivalent grant
 rm plugins/bankai/agents/bad-bare-bash-agent.md
+
+cp tests/fixtures/palettes/bad-palette-short-hex.json plugins/aura/palettes/
+bash scripts/validate.sh          # expect: ERROR [C5] ... is not a six-digit uppercase hex colour
+rm plugins/aura/palettes/bad-palette-short-hex.json
 ```
 
 The same sequence on Windows 11 uses `pwsh -File scripts/validate.ps1`. The verdict must be identical on both
