@@ -1,10 +1,10 @@
 # DECISIONS.md — Architecture Decision Records
 
-**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-028 formalize the twenty-eight decisions ratified in `SPEC.md` §12 (D-01…D-28), mirroring that table 1:1 as D-16 requires.
+**Scope:** Formal record of every resolved architectural decision governing Awakened. ADR-001 through ADR-029 formalize the twenty-nine decisions ratified in `SPEC.md` §12 (D-01…D-29), mirroring that table 1:1 as D-16 requires.
 
 **Conventions**
 
-- **IDs** are sequential and never reused. Next available: **ADR-029**.
+- **IDs** are sequential and never reused. Next available: **ADR-030**.
 - **Statuses:** `Proposed` → `Accepted` → (`Superseded by ADR-0NN` | `Deprecated`). Accepted ADRs are **immutable** — to change course, write a new ADR that supersedes the old one. One carve-out, codified at SPEC v2.5: when a spec PR amends an existing `SPEC.md` §12 cell, the ADR that mirrors it is amended **in place** — a dated `Amended` row in its field table plus a dated italic note at every changed passage, `Status` staying `Accepted` — because D-16 requires the mirror to stay 1:1 and a superseding ADR would break that mapping. Superseding remains the route for *reversing* a decision.
 - **Format:** field table (Status, Date, Spec ref, Supersedes, plus `Amended` where an in-place amendment has landed), Context, Decision, Alternatives Considered, Consequences, Enforcement.
 - **Spec ref** cites the `D-NN` rule ID from `SPEC.md` §12, so the 1:1 mapping is mechanically checkable.
@@ -42,6 +42,7 @@
 | 026 | Phase-4 scope covers ECC `commands/` and `agents/`; `eval/claude-mem-rebuild.md` enters the §3 tree | Accepted | D-26 |
 | 027 | Phase-5 sign-off: Gate G5 approved by the owner after two reviewer `REJECTED` rounds; 95-row shortlist, one open `defer` enumerated (amended 2026-08-27: owner ack recorded, §3.5 pass waived) | Accepted | D-27 |
 | 028 | Tier-2 palette rename: the ADR-017 grandfather closed — `super-saiyan` → `final-flash`, `bankai` → `getsuga-tensho`; N-5 reaches the whole Tier-2 set | Accepted | D-28 |
+| 029 | Visual identity: the Redline system in `brand/`; palettes as terminal-scheme files | Accepted | D-29 |
 
 ---
 
@@ -272,10 +273,11 @@
 | Date | 2026-08-15 |
 | Spec ref | D-08 |
 | Supersedes | — |
+| Amended | 2026-09-03 — SPEC v2.20: §7 admits Awakened's own original marks under `brand/` (D-29); the franchise prohibition is unchanged |
 
 **Context.** Per `SPEC.md` §8 the sources are MIT (superpowers, mattpocock, ECC, wshobson, kepano, vercel-labs, davila7), Apache-2.0 (anthropics/skills, claude-mem), and CC0 (awesome-claude-code). Synthesis (D-05) keeps outputs original work, but close adaptations of Apache-2.0 material carry attribution and NOTICE expectations, and themed plugin names reference trademarked anime franchises.
 
-**Decision.** Awakened is released under **MIT**. Attribution is centralized: `SOURCES.md` maps every component to its informing repo(s); `NOTICE` covers anything adapted closely from the Apache-2.0 sources. Plugin names may reference franchises per standard fan-project convention; franchise artwork and logos are prohibited everywhere in the repo and README. `awakened` itself is a generic word and fully safe.
+**Decision.** Awakened is released under **MIT**. Attribution is centralized: `SOURCES.md` maps every component to its informing repo(s); `NOTICE` covers anything adapted closely from the Apache-2.0 sources. Plugin names may reference franchises per standard fan-project convention; franchise artwork and logos are prohibited everywhere in the repo and README. `awakened` itself is a generic word and fully safe. *Amended 2026-09-03 (SPEC v2.20, D-29): the prohibition is on franchise imagery; Awakened's own original, abstract marks — specified in `brand/BRAND.md` and shipped under `brand/` — are admitted as the one graphic the repository and README carry, MIT-licensed with the repository. Nothing else changes.*
 
 License facts are those recorded in `SPEC.md` §8. They are re-verified against the live repositories at each pin (D-10); a discrepancy is corrected by a spec PR under D-16, never by an ADR overriding a §8 cell.
 
@@ -292,7 +294,7 @@ License facts are those recorded in `SPEC.md` §8. They are re-verified against 
 - (+) One-file answers for "what license" (`LICENSE`) and "where did this come from" (`SOURCES.md`).
 - (−) Discipline required: a close Apache-2.0 adaptation without a NOTICE entry is a compliance bug, so review must ask the question every time.
 
-**Enforcement.** `LICENSE`, `NOTICE`, `SOURCES.md`, and `CONTRIBUTING.md` ship in the foundation. The PR checklist includes lineage and NOTICE assessment; repo review rejects any franchise imagery.
+**Enforcement.** `LICENSE`, `NOTICE`, `SOURCES.md`, and `CONTRIBUTING.md` ship in the foundation. The PR checklist includes lineage and NOTICE assessment; repo review rejects any franchise imagery. *Amended 2026-09-03: review also rejects any image outside `brand/`, and any `brand/` asset that departs from `brand/BRAND.md` (D-29, ADR-029).*
 
 ---
 
@@ -768,6 +770,7 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 | Date | 2026-08-16 |
 | Spec ref | D-23 |
 | Supersedes | — |
+| Amended | 2026-09-03 — SPEC v2.20: the §5 palettes ship as terminal-scheme data files under `palettes/` (D-29); the runner rejection below is untouched |
 
 **Context.** §5 states that `aura` "ships as statusline scripts with ANSI palettes", but §3's per-plugin layout offered only `commands/`, `agents/`, `skills/`, and `hooks/`. `aura` therefore could not be scaffolded without violating one section or the other: place the scripts anywhere and §3 is contradicted, omit them and §5 is. The synthesis pass recorded this as A-GAP-006 and escalated it as HD-6 — advisory rather than blocking, because `CLAUDE.md` §5.5 already permitted the script pairs and validator check N5 already read preset IDs from a `statuslines/` directory. No §3 amendment was made at that time and, unlike the other decisions ratified in v2.2, no provisional marker was ever emitted for it.
 
@@ -778,7 +781,7 @@ Everything else ships as skills and commands. Every hook must pass C-1 in full a
 | Option | Verdict | Why |
 |---|---|---|
 | Place them under `plugins/aura/scripts/` | Rejected | Invents a second general-purpose directory in the per-plugin layout for one plugin's need, and collides conceptually with repo-root `scripts/` |
-| Ship presets as data files consumed by a shared runner | Rejected | The statusline contract takes an executable; a runner adds indirection and the kind of dependency P-5 resists |
+| Ship presets as data files consumed by a shared runner | Rejected | The statusline contract takes an executable; a runner adds indirection and the kind of dependency P-5 resists. *Note 2026-09-03 (SPEC v2.20, D-29): the palette files under `plugins/aura/palettes/` are not this option — no runner exists; each file is a colour scheme the terminal emulator itself reads, and `/aura:equip palette` only displays it.* |
 | Leave the layout silent and rely on `CLAUDE.md` §5.5 | Rejected | A subordinate document would again be amending §3, which D-16 forbids, and the §3/§5 contradiction stays live |
 | Add `statuslines/`, aura-scoped, as `.sh`/`.ps1` pairs | **Accepted** | Closes the contradiction in the normative text, matches what the validators already do, and reuses the pairing rule already in force |
 
@@ -1209,6 +1212,85 @@ for no disambiguation gain.
 output. Check N5 intersects preset IDs from both `plugins/aura/statuslines/` and
 `plugins/aura/palettes/` (when present) against the nine Tier-1 plugin names and fails (exit
 class 1) on any collision — no grandfathered entries remain.
+
+---
+
+## ADR-029 — Visual Identity: the Redline System in `brand/`; Palettes as Terminal-Scheme Files
+
+| Field | Value |
+|---|---|
+| Status | Accepted |
+| Date | 2026-09-03 |
+| Spec ref | D-29 |
+| Supersedes | — |
+
+**Context.** `SPEC.md` §2 has carried a "Brand style" row — sci-fi, power-up, transformation, anime-inspired —
+since v2.1, and nothing in the tree expressed it: the repository shipped with zero images, a README with no
+header, and six §5 palette identifiers that had never become files. §7 prohibited *franchise* artwork and §3's
+closed tree (check S4) gave an original mark nowhere to live. On 2026-09-03 the owner directed the brand work
+and, under the standing delegation, left every design and governance decision to the executing agent. The
+input was an internal tournament of thirty-five brand-kit concepts with a scored evaluation; the instruction
+was explicit that no single concept be adopted wholesale but that the strongest components be curated into
+one system, or something new be made with the concepts as reference.
+
+**Decision.** Awakened's visual identity is the system specified in `brand/BRAND.md` and shipped as the
+assets beside it, all original work with no upstream component lineage:
+
+- **Idea.** Redline — the editor's red pen and the tachometer's last zone: edited down, pushed to the limit.
+  Awakening is a system becoming legible, not an explosion.
+- **Colour.** Warm ink (`#100E0C`) and paper (`#F4F0E8`) with crimson (`#FF544E`) used the way a proofreader
+  uses it — a mark, never a paint — and a complete "proof paper" light set. Every text pairing is computed
+  ≥ 4.5:1 (WCAG 2.1); the minimum is 6.08:1.
+- **Mark.** The Meter: five ascending bars beneath a hairline threshold rule, the fifth crossing it, the part
+  above the line in crimson. It maps to what `aura` already ships (`power-level` renders context as a rising
+  meter; `transformation` prints threshold states) and holds at 16 px as three bars, a rule, and one crossing.
+  Mono variant: geometry carries the story, weight replaces colour.
+- **Wordmark and type.** `awakened`, lowercase, Instrument Serif, with a 2-unit rule beneath it whose end
+  kicks up 45° in crimson; Public Sans for body, Space Mono for code and the proof strip. All OFL.
+- **Voice.** Receipts, not adjectives: real numbers from `eval/`, deletion stated as deletion, and the
+  furnace line — ten repositories went in, nine plugins came out, nothing extra survived.
+- **Surfaces.** `brand/` (kit, mark, mono mark, app icon, favicon, two lockups, two README banners, social
+  preview as SVG plus the one PNG GitHub's setting needs) and the README, which embeds the banners in a
+  theme-aware `<picture>`. No website: D-02 stands.
+- **Terminal.** The six §5 palettes ship as `plugins/aura/palettes/<id>.json`, each exactly a Windows
+  Terminal colour scheme — twenty six-digit hex colours behind `name` — usable unchanged and mapping 1:1 onto
+  any emulator's sixteen ANSI slots. `getsuga-tensho` is the brand ink verbatim; the other five are hue
+  transformations on the same discipline; `gear-fifth` is the light set. Text slots ≥ 4.5:1, `brightBlack`
+  ≥ 3:1, computed and tabled in `brand/BRAND.md` §2.7. Check C5 enforces the shape, N5 the names,
+  `schemas/palette.schema.json` the contract. `/aura:equip palette <id>` displays one and writes nothing.
+
+**Alternatives Considered.**
+
+| Option | Verdict | Why |
+|---|---|---|
+| Adopt the tournament winner wholesale | Rejected | The owner asked for curation across concepts; the winner's mark was also the quietest on the power-up half of §2's brand row, and a sibling concept's meter geometry ties to shipped product truth |
+| No images; typographic README only | Rejected | Leaves §2's brand row unrealized on the one surface every user sees first; a GitHub social preview cannot be set without a raster |
+| Raster-only assets (PNG banners, PNG logo) | Rejected | Not inspectable, not diff-able, and fonts would be baked in; SVG with outlined text is reviewable the way every other file here is, and one PNG suffices for the setting that needs it |
+| Docs site on GitHub Pages | Rejected | ADR-002 rejected a website and `ROADMAP.md` §13 declined discovery expansion; the kit documents UI doctrine for any future surface without building one |
+| Palettes as data consumed by a shared runner script | Rejected | ADR-023 rejected this shape; no runner is written — the terminal is the consumer |
+| Generative-image prompts in the kit | Rejected | The assets are deterministic vectors; prompts would be bloat (§9 axis) and a second, unverifiable source of truth |
+| The Redline system, `brand/`, palettes as scheme files | **Accepted** | One system across README, assets and terminal; every value computed; nothing executable added; N-5 and D-18 untouched |
+
+**Consequences.**
+
+- (+) The brand exists in the tree, reviewable like code: HEX is the source of truth, contrast is computed,
+  the mark is specified to the grid unit.
+- (+) The six palette identifiers ratified since v2.0 finally do work; N5's `palettes/` walk is load-bearing.
+- (+) The README carries a header, a proof strip and the furnace line without a single badge or an external
+  image host.
+- (−) `brand/` is a second home for non-component files and must stay original: any image outside it, or
+  any asset that departs from `brand/BRAND.md`, is rejected at review (ADR-008 amended).
+- (−) One binary file now lives in the repository; `.gitattributes` marks `*.png` binary so it is never
+  normalized, and it is regenerated from `brand/social-preview.svg`, never edited.
+- (−) Palette files must track `brand/BRAND.md` §2.7; a hex changed in one place and not the other is a
+  defect check C5 cannot see.
+
+**Enforcement.** `scripts/validate.*` check D1 asserts the v2.20 version line and check D2 exactly 29
+`## ADR-` headings covering D-01…D-29, in both twins; check S4 admits `brand` at the root; check C1 expects
+five schemas; check C5 fails (exit class 1) on any palette file that is not the twenty-key scheme shape in
+six-digit uppercase hex with `name` equal to its file stem; check N5 fails on any palette ID that collides
+with a Tier-1 name; check L1 holds every `.svg` to LF and no BOM. Review holds the rest: no image outside
+`brand/`, no departure from the kit, no franchise imagery (§7, ADR-008).
 
 ---
 

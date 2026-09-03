@@ -1,0 +1,23 @@
+{
+  "name": "final-flash",
+  "background": "#0E0B05",
+  "foreground": "#FFF4DE",
+  "cursorColor": "#FFC531",
+  "selectionBackground": "#33280E",
+  "black": "#2A2110",
+  "red": "#FF6E62",
+  "green": "#5BCB8E",
+  "yellow": "#FFC531",
+  "blue": "#6FA8E8",
+  "purple": "#CC8FBE",
+  "cyan": "#67C4B8",
+  "white": "#EDE3CF",
+  "brightBlack": "#7A6A4A",
+  "brightRed": "#FF9A90",
+  "brightGreen": "#96E1B8",
+  "brightYellow": "#FFE08A",
+  "brightBlue": "#A3CCF3",
+  "brightPurple": "#E2B8D8",
+  "brightCyan": "#A0DFD6",
+  "brightWhite": "#FFF9EE"
+}

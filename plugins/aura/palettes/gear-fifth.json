@@ -1,0 +1,23 @@
+{
+  "name": "gear-fifth",
+  "background": "#F8F4EC",
+  "foreground": "#171310",
+  "cursorColor": "#C21F2C",
+  "selectionBackground": "#E6DCC8",
+  "black": "#171310",
+  "red": "#C21F2C",
+  "green": "#14804A",
+  "yellow": "#8A6100",
+  "blue": "#1F63C4",
+  "purple": "#8A3FB0",
+  "cyan": "#0D7570",
+  "white": "#DFD6C6",
+  "brightBlack": "#5A5344",
+  "brightRed": "#A8172B",
+  "brightGreen": "#0F6B3E",
+  "brightYellow": "#7C5A00",
+  "brightBlue": "#1A54A8",
+  "brightPurple": "#73338F",
+  "brightCyan": "#0B6B67",
+  "brightWhite": "#FFFDF8"
+}

@@ -40,7 +40,7 @@ set -euo pipefail
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
-#   D2  DECISIONS.md has exactly 28 ADR headings covering D-01..D-28, no dupes
+#   D2  DECISIONS.md has exactly 29 ADR headings covering D-01..D-29, no dupes
 #   N1  Plugin directory names are drawn from the nine Tier-1 names
 #   N3  Machine-facing names match ^[a-z0-9]+(-[a-z0-9]+)*$ (case-sensitive)
 #   N4  No plugin, and no command namespace, named for the marketplace
@@ -54,6 +54,7 @@ set -euo pipefail
 #   C2  Agent tool allowlists carry no bare or wildcard-equivalent grant (C-2)
 #   C3  Skill frontmatter: name matches its directory, description >= 40 chars
 #   C4  plugin.json and marketplace.json cross-field rules
+#   C5  aura palette files carry the twenty scheme keys as six-digit hex, name equals file stem (D-29)
 #   H1  At most one hook file per plugin (D-15)
 #   H2  Hooks appear only in super-saiyan and rinnegan (D-15)
 #   H3  Every hook entry declares a timeout (C-1)
@@ -72,7 +73,7 @@ NINE_PLUGINS="super-saiyan sharingan rinnegan kaioken bankai domain instinct pon
 HOOK_PLUGINS="super-saiyan rinnegan"
 MARKETPLACE_NAME="awakened"
 KEBAB='^[a-z0-9]+(-[a-z0-9]+)*$'
-SPEC_VERSION_LINE='**Version:** 2.19'
+SPEC_VERSION_LINE='**Version:** 2.20'
 MATRIX_HEADER='id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 usage() {
@@ -203,7 +204,7 @@ fi
 # -----------------------------------------------------------------------------
 # S4  No unexpected top-level entries
 # -----------------------------------------------------------------------------
-S4_ALLOWED=".git .github .claude-plugin plugins schemas scripts eval templates tests .gitattributes CLAUDE.md CONTEXT.md DECISIONS.md ROADMAP.md SPEC.md upstream.json SOURCES.md CONTRIBUTING.md README.md LICENSE NOTICE"
+S4_ALLOWED=".git .github .claude-plugin plugins schemas scripts eval templates tests brand .gitattributes CLAUDE.md CONTEXT.md DECISIONS.md ROADMAP.md SPEC.md upstream.json SOURCES.md CONTRIBUTING.md README.md LICENSE NOTICE"
 for entry in * .[!.]*; do
   [ -e "$entry" ] || continue
   case " $S4_ALLOWED " in
@@ -233,12 +234,12 @@ import re, sys
 text = open(sys.argv[1], encoding='utf-8').read()
 heads = re.findall(r'^## ADR-(\d{3})\b', text, re.M)
 refs  = re.findall(r'^\|\s*Spec ref\s*\|\s*(D-\d{2})\s*\|', text, re.M)
-if len(heads) != 28:
-    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 28 (D-16)")
-expected_adr = [f"{n:03d}" for n in range(1, 29)]
+if len(heads) != 29:
+    print(f"ERROR\tD2\tDECISIONS.md has {len(heads)} ADR headings, expected exactly 29 (D-16)")
+expected_adr = [f"{n:03d}" for n in range(1, 30)]
 if sorted(heads) != expected_adr:
-    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-028")
-expected_ref = [f"D-{n:02d}" for n in range(1, 29)]
+    print("ERROR\tD2\tADR headings are not exactly ADR-001..ADR-029")
+expected_ref = [f"D-{n:02d}" for n in range(1, 30)]
 if sorted(refs) != expected_ref:
     missing = sorted(set(expected_ref) - set(refs))
     dupes = sorted({r for r in refs if refs.count(r) > 1})
@@ -247,9 +248,9 @@ if sorted(refs) != expected_ref:
     if dupes:
         print("ERROR\tD2\tSpec ref fields are duplicated: " + ", ".join(dupes))
     if not missing and not dupes:
-        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-28")
-if len(heads) == 28 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
-    print("OK\tD2\t28 ADRs mapping 1:1 onto D-01..D-28")
+        print("ERROR\tD2\tSpec ref fields do not map 1:1 onto D-01..D-29")
+if len(heads) == 29 and sorted(heads) == expected_adr and sorted(refs) == expected_ref:
+    print("OK\tD2\t29 ADRs mapping 1:1 onto D-01..D-29")
 PY
 )
 fi
@@ -503,8 +504,8 @@ tally < <(python3 - schemas <<'PY'
 import glob, json, os, sys
 bad = 0
 files = sorted(glob.glob(os.path.join(sys.argv[1], '*.schema.json')))
-if len(files) != 4:
-    print(f"ERROR\tC1\tschemas/ holds {len(files)} schema files, expected 4")
+if len(files) != 5:
+    print(f"ERROR\tC1\tschemas/ holds {len(files)} schema files, expected 5")
     bad += 1
 for f in files:
     try:
@@ -518,7 +519,7 @@ for f in files:
             print(f"ERROR\tC1\t{f} does not declare {key}")
             bad += 1
 if not bad:
-    print("OK\tC1\tall four schemas parse and declare $schema and $id")
+    print("OK\tC1\tall five schemas parse and declare $schema and $id")
 PY
 )
 
@@ -693,6 +694,62 @@ else:
     print("INFO\tC4\tno marketplace catalog present; catalog cross-checks not exercised (Phase 6)")
 PY
 )
+
+# -----------------------------------------------------------------------------
+# C5  aura palette files: twenty scheme keys, six-digit uppercase hex, name = file stem (D-29)
+# -----------------------------------------------------------------------------
+if [ -d plugins/aura/palettes ]; then
+  tally < <(python3 - plugins/aura/palettes <<'PY'
+import glob, json, os, re, sys
+KEYS = ["name", "background", "foreground", "cursorColor", "selectionBackground",
+        "black", "red", "green", "yellow", "blue", "purple", "cyan", "white",
+        "brightBlack", "brightRed", "brightGreen", "brightYellow", "brightBlue",
+        "brightPurple", "brightCyan", "brightWhite"]
+HEX = re.compile(r'^#[0-9A-F]{6}$')
+files = sorted(glob.glob(os.path.join(sys.argv[1], '*.json')))
+bad = 0
+for f in files:
+    rel = f.replace(os.sep, '/')
+    stem = os.path.splitext(os.path.basename(f))[0]
+    try:
+        p = json.load(open(f, encoding='utf-8'))
+    except Exception as exc:
+        print(f"ERROR\tC5\t{rel} does not parse: {exc}")
+        bad += 1
+        continue
+    if not isinstance(p, dict):
+        print(f"ERROR\tC5\t{rel} is not a JSON object")
+        bad += 1
+        continue
+    missing = [k for k in KEYS if k not in p]
+    extra = sorted(k for k in p if k not in KEYS)
+    if missing:
+        print(f"ERROR\tC5\t{rel} is missing scheme keys: " + ", ".join(missing))
+        bad += 1
+    if extra:
+        print(f"ERROR\tC5\t{rel} carries keys outside the scheme shape: " + ", ".join(extra))
+        bad += 1
+    name = p.get("name")
+    if name != stem:
+        shown = "None" if name is None else "'" + str(name) + "'"
+        print(f"ERROR\tC5\t{rel} name {shown} does not equal the file stem '{stem}'")
+        bad += 1
+    for k in KEYS[1:]:
+        if k in p:
+            v = p[k]
+            if not (isinstance(v, str) and HEX.match(v)):
+                shown = "None" if v is None else "'" + str(v) + "'"
+                print(f"ERROR\tC5\t{rel} {k} is not a six-digit uppercase hex colour: {shown}")
+                bad += 1
+if not files:
+    print("INFO\tC5\tno palette files present under plugins/aura/palettes")
+elif not bad:
+    print(f"OK\tC5\t{len(files)} aura palette file(s) carry the scheme shape with six-digit hex colours")
+PY
+)
+else
+  info "C5" "plugins/aura/palettes absent; palette shape check not exercised"
+fi
 
 # -----------------------------------------------------------------------------
 # H1  Hook budget per plugin

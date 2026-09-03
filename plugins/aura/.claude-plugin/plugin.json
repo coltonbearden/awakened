@@ -2,7 +2,7 @@
   "$schema": "../../../schemas/plugin.schema.json",
   "name": "aura",
   "displayName": "Aura",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Optional personalization: statusline presets as cross-platform script twins, colour palettes, and output styles. Original Awakened work with zero dependencies; a satellite, never a core dependency (B-8).",
   "license": "MIT",
   "repository": "https://github.com/coltonbearden/awakened",

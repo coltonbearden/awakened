@@ -1,0 +1,23 @@
+{
+  "name": "domain-expansion",
+  "background": "#0A0714",
+  "foreground": "#EEE9FA",
+  "cursorColor": "#A07CFF",
+  "selectionBackground": "#2A2050",
+  "black": "#1B1530",
+  "red": "#FF5C7C",
+  "green": "#43E5A0",
+  "yellow": "#FFC24B",
+  "blue": "#6FA8FF",
+  "purple": "#A07CFF",
+  "cyan": "#5CD6E8",
+  "white": "#DDD6EE",
+  "brightBlack": "#6E6299",
+  "brightRed": "#FF93A9",
+  "brightGreen": "#8CF1C6",
+  "brightYellow": "#FFDA93",
+  "brightBlue": "#A6C9FF",
+  "brightPurple": "#C9B3FF",
+  "brightCyan": "#9AE7F1",
+  "brightWhite": "#F4F1FB"
+}

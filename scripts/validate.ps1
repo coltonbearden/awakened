@@ -37,7 +37,7 @@
 #   S3  Phase-6 tree entries: expected-absent at scaffold, required at release
 #   S4  No unexpected top-level entries against SPEC section 3
 #   D1  SPEC.md present at root and carrying the governing version string
-#   D2  DECISIONS.md has exactly 28 ADR headings covering D-01..D-28, no dupes
+#   D2  DECISIONS.md has exactly 29 ADR headings covering D-01..D-29, no dupes
 #   N1  Plugin directory names are drawn from the nine Tier-1 names
 #   N3  Machine-facing names match ^[a-z0-9]+(-[a-z0-9]+)*$ (case-sensitive)
 #   N4  No plugin, and no command namespace, named for the marketplace
@@ -51,6 +51,7 @@
 #   C2  Agent tool allowlists carry no bare or wildcard-equivalent grant (C-2)
 #   C3  Skill frontmatter: name matches its directory, description >= 40 chars
 #   C4  plugin.json and marketplace.json cross-field rules
+#   C5  aura palette files carry the twenty scheme keys as six-digit hex, name equals file stem (D-29)
 #   H1  At most one hook file per plugin (D-15)
 #   H2  Hooks appear only in super-saiyan and rinnegan (D-15)
 #   H3  Every hook entry declares a timeout (C-1)
@@ -79,7 +80,7 @@ $NinePlugins = @('super-saiyan', 'sharingan', 'rinnegan', 'kaioken', 'bankai',
 $HookPlugins = @('super-saiyan', 'rinnegan')
 $MarketplaceName = 'awakened'
 $Kebab = '^[a-z0-9]+(-[a-z0-9]+)*$'
-$SpecVersionLine = '**Version:** 2.19'
+$SpecVersionLine = '**Version:** 2.20'
 $MatrixHeader = 'id,source_repo,component_path,component_type,target_plugin,value,bloat,risk,dependencies,user_scope_fit,hard_reject,verdict,rationale'
 
 function Write-Usage {
@@ -222,7 +223,7 @@ if (Test-Path -LiteralPath 'plugins' -PathType Container) {
 # S4  No unexpected top-level entries
 # -----------------------------------------------------------------------------
 $S4Allowed = @('.git', '.github', '.claude-plugin', 'plugins', 'schemas', 'scripts', 'eval',
-               'templates', 'tests', '.gitattributes', 'CLAUDE.md', 'CONTEXT.md', 'DECISIONS.md',
+               'templates', 'tests', 'brand', '.gitattributes', 'CLAUDE.md', 'CONTEXT.md', 'DECISIONS.md',
                'ROADMAP.md', 'SPEC.md', 'upstream.json', 'SOURCES.md', 'CONTRIBUTING.md',
                'README.md', 'LICENSE', 'NOTICE')
 foreach ($item in (Get-ChildItem -Force | Sort-Object Name)) {
@@ -251,15 +252,15 @@ if (Test-Path -LiteralPath 'DECISIONS.md' -PathType Leaf) {
     $decisions = Get-Content -LiteralPath 'DECISIONS.md' -Raw -Encoding utf8
     $heads = @([regex]::Matches($decisions, '(?m)^## ADR-(\d{3})\b') | ForEach-Object { $_.Groups[1].Value })
     $refs  = @([regex]::Matches($decisions, '(?m)^\|\s*Spec ref\s*\|\s*(D-\d{2})\s*\|') | ForEach-Object { $_.Groups[1].Value })
-    $expectedAdr = @(1..28 | ForEach-Object { '{0:d3}' -f $_ })
-    $expectedRef = @(1..28 | ForEach-Object { 'D-{0:d2}' -f $_ })
+    $expectedAdr = @(1..29 | ForEach-Object { '{0:d3}' -f $_ })
+    $expectedRef = @(1..29 | ForEach-Object { 'D-{0:d2}' -f $_ })
     $d2Bad = $false
-    if ($heads.Count -ne 28) {
-        Add-Err 'D2' ("DECISIONS.md has " + $heads.Count + " ADR headings, expected exactly 28 (D-16)")
+    if ($heads.Count -ne 29) {
+        Add-Err 'D2' ("DECISIONS.md has " + $heads.Count + " ADR headings, expected exactly 29 (D-16)")
         $d2Bad = $true
     }
     if ((($heads | Sort-Object) -join ',') -cne ($expectedAdr -join ',')) {
-        Add-Err 'D2' 'ADR headings are not exactly ADR-001..ADR-028'
+        Add-Err 'D2' 'ADR headings are not exactly ADR-001..ADR-029'
         $d2Bad = $true
     }
     if ((($refs | Sort-Object) -join ',') -cne ($expectedRef -join ',')) {
@@ -268,11 +269,11 @@ if (Test-Path -LiteralPath 'DECISIONS.md' -PathType Leaf) {
         if ($missing.Count -gt 0) { Add-Err 'D2' ("Spec ref fields do not cover: " + ($missing -join ', ')) }
         if ($dupes.Count -gt 0) { Add-Err 'D2' ("Spec ref fields are duplicated: " + ($dupes -join ', ')) }
         if ($missing.Count -eq 0 -and $dupes.Count -eq 0) {
-            Add-Err 'D2' 'Spec ref fields do not map 1:1 onto D-01..D-28'
+            Add-Err 'D2' 'Spec ref fields do not map 1:1 onto D-01..D-29'
         }
         $d2Bad = $true
     }
-    if (-not $d2Bad) { Add-Ok 'D2' '28 ADRs mapping 1:1 onto D-01..D-28' }
+    if (-not $d2Bad) { Add-Ok 'D2' '29 ADRs mapping 1:1 onto D-01..D-29' }
 }
 
 # -----------------------------------------------------------------------------
@@ -540,8 +541,8 @@ if (Test-Path -LiteralPath 'eval/matrix.csv' -PathType Leaf) {
 # -----------------------------------------------------------------------------
 $c1Bad = 0
 $schemaFiles = @(Get-ChildItem -LiteralPath 'schemas' -Filter '*.schema.json' -File | Sort-Object Name)
-if ($schemaFiles.Count -ne 4) {
-    Add-Err 'C1' ("schemas/ holds " + $schemaFiles.Count + " schema files, expected 4")
+if ($schemaFiles.Count -ne 5) {
+    Add-Err 'C1' ("schemas/ holds " + $schemaFiles.Count + " schema files, expected 5")
     $c1Bad++
 }
 foreach ($f in $schemaFiles) {
@@ -555,7 +556,7 @@ foreach ($f in $schemaFiles) {
         }
     }
 }
-if ($c1Bad -eq 0) { Add-Ok 'C1' 'all four schemas parse and declare $schema and $id' }
+if ($c1Bad -eq 0) { Add-Ok 'C1' 'all five schemas parse and declare $schema and $id' }
 
 # -----------------------------------------------------------------------------
 # C2 / C3 / C4  Components and manifests
@@ -692,6 +693,54 @@ if (Test-Path -LiteralPath $catalog -PathType Leaf) {
     if ($c4Bad -eq 0) { Add-Ok 'C4' 'marketplace catalog and plugin manifests are internally consistent' }
 } else {
     Add-Info 'C4' 'no marketplace catalog present; catalog cross-checks not exercised (Phase 6)'
+}
+
+# -----------------------------------------------------------------------------
+# C5  aura palette files: twenty scheme keys, six-digit uppercase hex, name = file stem (D-29)
+# -----------------------------------------------------------------------------
+if (Test-Path -LiteralPath (Join-Path 'plugins' 'aura' 'palettes') -PathType Container) {
+    $paletteKeys = @('name', 'background', 'foreground', 'cursorColor', 'selectionBackground',
+                     'black', 'red', 'green', 'yellow', 'blue', 'purple', 'cyan', 'white',
+                     'brightBlack', 'brightRed', 'brightGreen', 'brightYellow', 'brightBlue',
+                     'brightPurple', 'brightCyan', 'brightWhite')
+    $paletteFiles = @(Get-ChildItem -LiteralPath (Join-Path 'plugins' 'aura' 'palettes') -Filter '*.json' -File | Sort-Object Name)
+    $c5Bad = 0
+    foreach ($f in $paletteFiles) {
+        $rel = 'plugins/aura/palettes/' + $f.Name
+        $stem = [System.IO.Path]::GetFileNameWithoutExtension($f.Name)
+        $pal = $null
+        try { $pal = Get-Content -LiteralPath $f.FullName -Raw -Encoding utf8 | ConvertFrom-Json }
+        catch { Add-Err 'C5' ($rel + " does not parse: " + $_.Exception.Message); $c5Bad++; continue }
+        if ($null -eq $pal -or $pal -isnot [System.Management.Automation.PSCustomObject]) {
+            Add-Err 'C5' ($rel + " is not a JSON object"); $c5Bad++; continue
+        }
+        $present = @($pal.PSObject.Properties.Name)
+        $missing = @($paletteKeys | Where-Object { $_ -cnotin $present })
+        $extra = @($present | Where-Object { $_ -cnotin $paletteKeys } | Sort-Object)
+        if ($missing.Count -gt 0) { Add-Err 'C5' ($rel + " is missing scheme keys: " + ($missing -join ', ')); $c5Bad++ }
+        if ($extra.Count -gt 0) { Add-Err 'C5' ($rel + " carries keys outside the scheme shape: " + ($extra -join ', ')); $c5Bad++ }
+        $nameVal = if ('name' -cin $present) { $pal.name } else { $null }
+        if ($nameVal -cne $stem) {
+            $shown = if ($null -eq $nameVal) { 'None' } else { "'" + $nameVal + "'" }
+            Add-Err 'C5' ($rel + " name " + $shown + " does not equal the file stem '" + $stem + "'"); $c5Bad++
+        }
+        foreach ($k in $paletteKeys[1..($paletteKeys.Count - 1)]) {
+            if ($k -cin $present) {
+                $v = $pal.$k
+                if (-not ($v -is [string] -and $v -cmatch '^#[0-9A-F]{6}$')) {
+                    $shown = if ($null -eq $v) { 'None' } else { "'" + [string]$v + "'" }
+                    Add-Err 'C5' ($rel + " " + $k + " is not a six-digit uppercase hex colour: " + $shown); $c5Bad++
+                }
+            }
+        }
+    }
+    if ($paletteFiles.Count -eq 0) {
+        Add-Info 'C5' 'no palette files present under plugins/aura/palettes'
+    } elseif ($c5Bad -eq 0) {
+        Add-Ok 'C5' ("" + $paletteFiles.Count + " aura palette file(s) carry the scheme shape with six-digit hex colours")
+    }
+} else {
+    Add-Info 'C5' 'plugins/aura/palettes absent; palette shape check not exercised'
 }
 
 # -----------------------------------------------------------------------------

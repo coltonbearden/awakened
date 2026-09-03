@@ -1,0 +1,23 @@
+{
+  "name": "bad-palette-short-hex",
+  "background": "#05080C",
+  "foreground": "#E8F2F7",
+  "cursorColor": "#35E1FF",
+  "selectionBackground": "#143544",
+  "black": "#131C24",
+  "red": "#FF5C5C",
+  "green": "#3DDC97",
+  "yellow": "#FFC145",
+  "blue": "#57A6FF",
+  "purple": "#B48CFF",
+  "cyan": "#3EF",
+  "white": "#D7E5EC",
+  "brightBlack": "#5A7089",
+  "brightRed": "#FF9090",
+  "brightGreen": "#86EDC2",
+  "brightYellow": "#FFD98A",
+  "brightBlue": "#93C7FF",
+  "brightPurple": "#D2BAFF",
+  "brightCyan": "#8DEFFF",
+  "magenta": "#B48CFF"
+}

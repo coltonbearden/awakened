@@ -20,6 +20,11 @@
 *.csv  text eol=lf
 *.py   text eol=lf
 
+# Brand assets under brand/ (SPEC.md Section 3, D-29): vector sources are text, the one
+# raster is binary and never normalized.
+*.svg  text eol=lf
+*.png  binary
+
 # Files with no extension that must stay LF.
 LICENSE text eol=lf
 NOTICE  text eol=lf

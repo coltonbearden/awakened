@@ -1,0 +1,23 @@
+{
+  "name": "ultra-instinct",
+  "background": "#0B0C0F",
+  "foreground": "#E4E7EC",
+  "cursorColor": "#4D8DFF",
+  "selectionBackground": "#1E2A3D",
+  "black": "#1C1F26",
+  "red": "#FF6B6B",
+  "green": "#5CC49A",
+  "yellow": "#E3B95A",
+  "blue": "#4D8DFF",
+  "purple": "#B39DDB",
+  "cyan": "#7DD3E8",
+  "white": "#C9CED6",
+  "brightBlack": "#737A87",
+  "brightRed": "#FF9B9B",
+  "brightGreen": "#94DDBF",
+  "brightYellow": "#F0D394",
+  "brightBlue": "#8AB6FF",
+  "brightPurple": "#D2C3EE",
+  "brightCyan": "#AEE5F2",
+  "brightWhite": "#F5F7FA"
+}

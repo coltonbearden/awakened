@@ -1,6 +1,6 @@
 # CONTEXT.md — Awakened System Overview
 
-**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.19 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
+**Purpose of this file:** orient a new session or contributor in under five minutes. This file is **descriptive**; `SPEC.md` v2.20 is normative and wins every conflict. Nothing here restates a spec rule — rules are referenced by ID (D-16).
 
 ---
 
@@ -83,18 +83,18 @@ Awakened is deliberately **not**:
 - A package manager — no auto-installed packages, no runtime dependency fetching, no npm CLI installer (HR-7).
 - A mirror — not a fork or re-host of the ten upstream repos; components are synthesized (P-6) and upstreams are pinned in `upstream.json` for evaluation only.
 - A catch-all — no plugin named for the marketplace and no marketplace-level command namespace (N-4); every component has exactly one owning plugin.
-- A fan-art project — anime names only; franchise artwork and logos never enter the repo or README (§7).
+- A fan-art project — anime names only; franchise artwork and logos never enter the repo or README (§7). The repository's own identity — the Meter mark, wordmark and banners under `brand/` — is original, abstract work and the one graphic it carries (D-29).
 
 ## 9. Current State
 
-- **Spec:** v2.19 governing (`SPEC.md`), dated 2026-09-02. It ships verbatim at repository root and is never regenerated (D-16).
+- **Spec:** v2.20 governing (`SPEC.md`), dated 2026-09-03. It ships verbatim at repository root and is never regenerated (D-16).
 - **Phase 1 (structural inventory):** complete per `SPEC.md` §10 — all ten source repos crawled, structure, counts, and licenses mapped into §8.
 - **Phase 2 (Tier-1 deep audit):** complete 2026-08-18 — 55 scored `eval/matrix.csv` rows, 27 shortlist / 25 reject / 3 merge, triage T-001…T-028; gate G2 approved.
 - **Foundation suite:** governance, evaluation harness, schemas, validation scripts, templates, the legal framework, and the CI workflow (`.github/workflows/validate.yml`, v2.5) are committed. See `ROADMAP.md` §2.
 - **Upstream pins:** resolved 2026-08-18 by `scripts/pin-upstream.sh` — ten non-null commits, non-null `pinned_at` (§8).
 - **Phases 3–5:** complete 2026-08-22 … 2026-08-27 — 322 matrix rows, G5 approved by the owner after two reviewer rounds (ADR-027), 96 shortlist / 211 reject / 15 merge / 0 defer after T-287.
 - **Phase 6:** complete 2026-08-27 — full §3 tree, 114 component files across nine plugins, zero hooks (the harness rejects the shell-free handler types on the budgeted events, SPEC v2.13); G6 review passed under D11.
-- **Released:** v0.1.0 on 2026-08-30 (`ROADMAP.md` §11); v0.1.1 on 2026-09-02 (first §11 maintenance release, `ROADMAP.md` §13). **Marketplace live:** repository public since 2026-09-02. **Next:** the §11 loop repeats monthly — upstream-watch, re-pin, dogfooded review (first: `eval/triage-log.md` T-289, T-290), tagged releases.
+- **Released:** v0.1.0 on 2026-08-30 (`ROADMAP.md` §11); v0.1.1 on 2026-09-02 (first §11 maintenance release, `ROADMAP.md` §13). **Marketplace live:** repository public since 2026-09-02. **v0.2.0** on 2026-09-03: the visual identity lands in `brand/` (D-29, ADR-029) and `aura` 0.2.0 ships the six §5 palettes as terminal-scheme files. **Next:** the §11 loop repeats monthly — upstream-watch, re-pin, dogfooded review (first: `eval/triage-log.md` T-289, T-290), tagged releases.
 
 ## 10. Reading Order
 
@@ -102,4 +102,4 @@ Awakened is deliberately **not**:
 2. `SPEC.md` — the governing specification (§0–§14).
 3. `CLAUDE.md` — operating rules for sessions working in this repo.
 4. `ROADMAP.md` — current phase, deliverables, verification gates.
-5. `DECISIONS.md` — ADR-001…ADR-028 when rationale or enforcement detail is needed.
+5. `DECISIONS.md` — ADR-001…ADR-029 when rationale or enforcement detail is needed.

@@ -2,7 +2,7 @@
   "$schema": "../schemas/marketplace.schema.json",
   "name": "awakened",
   "description": "Awakened - a curated, synthesized Claude Code plugin marketplace: nine plugins rebuilt from the strongest open-source Claude Code repositories with the bloat, risk, and friction engineered out.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "owner": {
     "name": "coltonbearden",
     "url": "https://github.com/coltonbearden"
@@ -144,7 +144,7 @@
       "source": "./plugins/aura",
       "displayName": "Aura",
       "description": "Optional personalization: statusline presets as cross-platform script twins, colour palettes, and output styles. Original Awakened work with zero dependencies; a satellite, never a core dependency (B-8).",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "satellite",
       "license": "MIT",
       "repository": "https://github.com/coltonbearden/awakened",
